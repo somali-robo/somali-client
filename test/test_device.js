@@ -1,8 +1,8 @@
 
 var App = function(){};
-App.prototype.config = require('./config.js');
 App.prototype.wpi    = require('wiring-pi');
-App.prototype.aplay  = require('./aplay.js');
+App.prototype.config = require('./config.js');
+App.prototype.aplay  = require('../aplay.js');
 
 //初期化
 App.prototype.init = function(){
@@ -14,7 +14,7 @@ App.prototype.init = function(){
   this.wpi.pinMode(this.config.SPEAKER_AMP_POWER,this.wpi.OUTPUT);
   this.wpi.digitalWrite(this.config.SPEAKER_AMP_POWER,this.wpi.LOW);
 
-  //WPS ボタン INT_EDGE_RISING 立ち上がる時
+  //WPS ボタン（青） INT_EDGE_RISING 立ち上がる時
   this.wpi.pinMode(this.config.WPS_BUTTON,this.wpi.INPUT);
   this.wpi.wiringPiISR(this.config.WPS_BUTTON, this.wpi.INT_EDGE_RISING, function(delta) {
     console.log("WPS_BUTTON " + delta);
@@ -22,7 +22,7 @@ App.prototype.init = function(){
     _this.speakerAmpPower(true);
   });
 
-  //REC ボタン INT_EDGE_RISING 立ち上がる時
+  //REC ボタン(赤) INT_EDGE_RISING 立ち上がる時
   this.wpi.pinMode(this.config.REC_BUTTON,this.wpi.INPUT);
   this.wpi.wiringPiISR(this.config.REC_BUTTON, this.wpi.INT_EDGE_RISING, function(delta) {
     console.log("REC_BUTTON " + delta);
