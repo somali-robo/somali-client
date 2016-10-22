@@ -15,14 +15,14 @@ App.prototype.init = function(){
 
   //スピーカー・アンプ
   this.wpi.pinMode(this.config.SPEAKER_AMP_POWER,this.wpi.OUTPUT);
-  this.wpi.digitalWrite(this.config.SPEAKER_AMP_POWER,this.wpi.LOW);
+  this.speakerAmpPower(false);
 
   //WPS ボタン（青） INT_EDGE_RISING 立ち上がる時
   this.wpi.pinMode(this.config.WPS_BUTTON,this.wpi.INPUT);
   this.wpi.wiringPiISR(this.config.WPS_BUTTON, this.wpi.INT_EDGE_RISING, function(delta) {
     console.log("WPS_BUTTON " + delta);
     //アンプをOFFにする
-    _this.speakerAmpPower(true);
+    _this.speakerAmpPower(false);
   });
 
   //REC ボタン(赤) INT_EDGE_RISING 立ち上がる時
@@ -31,7 +31,7 @@ App.prototype.init = function(){
     console.log("REC_BUTTON " + delta);
 
     //アンプをONにする
-    _this.speakerAmpPower(false);
+    _this.speakerAmpPower(true);
 
     //再生テスト
     var path = '/usr/share/sounds/alsa/Front_Left.wav';
