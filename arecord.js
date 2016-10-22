@@ -2,19 +2,27 @@
 */
 var Arecord = function(){};
 Arecord.prototype.exec = require('child_process').exec;
+Arecord.prototype.child = null;
 
 // 録音
 Arecord.prototype.record = function(path,sec,callback){
+  var _this = this;
+  if(this.child != null){
+    console.log("child is not null");
+    return;
+  }
+
   var cmd = 'arecord -D plughw:1,0 -f U8 -c 1 '+path;
   console.log('arecord '+cmd);
-  var child = this.exec(cmd, function(err, stdout, stderr){
+  this.child = this.exec(cmd, function(err, stdout, stderr){
     if(callback){
       callback(err, stdout, stderr);
     }
   });
+
   setTimeout(function(){
     console.log('arecord kill');
-    child.kill();
+    _this.child.kill();
   },sec*1000);
 };
 
