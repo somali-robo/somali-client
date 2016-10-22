@@ -1,11 +1,14 @@
 
 var App = function(){};
 App.prototype.wpi    = require('wiring-pi');
-App.prototype.config = require('./config.js');
+App.prototype.config = require('../config.js');
 App.prototype.aplay  = require('../aplay.js');
+App.prototype.voiceMagic  = require('../voice_magic.js');
 
 //初期化
 App.prototype.init = function(){
+  console.log("init");
+
   var _this = this;
   //GPIO初期化
   this.wpi.wiringPiSetupGpio();
