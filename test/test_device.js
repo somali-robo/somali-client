@@ -44,11 +44,12 @@ App.prototype.init = function(){
 
     //アンプをONにする
     _this.speakerAmpPower(true);
+    
     //音量変更
     _this.amixer.pcmVolume(100);
+
     //再生テスト
-    var path = '/usr/share/sounds/alsa/Front_Left.wav';
-    _this.aplay.play(path,function(err, stdout, stderr){
+    _this.aplay.play(_this.wavFilePath,function(err, stdout, stderr){
       if (err != null){
         console.log("err");
         return;
