@@ -22,7 +22,7 @@ App.prototype.init = function(){
 
   //voiceMagic 初期化
   this.voiceMagic.init(this.configDevice,this.wpi);
-  
+
   //スピーカー・アンプ
   this.wpi.pinMode(this.configDevice.SPEAKER_AMP_POWER,this.wpi.OUTPUT);
   this.speakerAmpPower(this.SPEAKER_POWER_ON);
@@ -66,7 +66,7 @@ App.prototype.init = function(){
   this.wpi.pinMode(this.configDevice.REC_BUTTON,this.wpi.INPUT);
   this.wpi.wiringPiISR(this.configDevice.REC_BUTTON, this.wpi.INT_EDGE_RISING, function(delta) {
     console.log("REC_BUTTON " + delta);
-
+    _this.voiceMagic.power(_this.voiceMagic.POWER_ON);
   });
 
   //モード スイッチ INT_EDGE_BOTH 両方
