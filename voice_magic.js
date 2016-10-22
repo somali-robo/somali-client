@@ -49,6 +49,8 @@ VoiceMagic.prototype.power = function(isOn){
 //音声認識
 //ハードウェア仕様 P35
 VoiceMagic.prototype.recognition = function(callback){
+  console.log("recognition");
+  
   //TODO: レジスター SRREG RCG_EN = 1
   if((this.wpi.wiringPiI2CWriteReg8(this.fd,this.REGISTER_SRREG_ADDR,0x08))<0){
     console.log("write error register "+this.REGISTER_SRREG_ADDR);
