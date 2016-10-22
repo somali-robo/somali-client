@@ -12,7 +12,7 @@ VoiceMagic.prototype.POWER_OFF = false;
 //初期化
 VoiceMagic.prototype.init = function(config,wpi){
   this.config = config;
-  thi.wpi = wpi;
+  this.wpi = wpi;
 
   //パワーセーブ機能の制御端子
   this.wpi.pinMode(this.config.VOICE_MAGIC_PSV_N,this.wpi.OUTPUT);
