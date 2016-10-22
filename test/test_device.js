@@ -20,7 +20,7 @@ App.prototype.init = function(){
     console.log("WPS_BUTTON " + delta);
     //アンプをOFFにする
     _this.speakerAmpPower(true);
-  };
+  });
 
   //REC ボタン INT_EDGE_RISING 立ち上がる時
   this.wpi.pinMode(this.config.REC_BUTTON,this.wpi.INPUT);
@@ -39,14 +39,13 @@ App.prototype.init = function(){
       }
       console.log("success");
     });
-  };
+  });
 
   //モード スイッチ INT_EDGE_BOTH 両方
   this.wpi.pinMode(this.config.MODE_SWITCH,this.wpi.INPUT);
   this.wpi.wiringPiISR(this.config.MODE_SWITCH, this.wpi.INT_EDGE_BOTH, function(delta) {
     console.log("MODE_SWITCH " + delta);
-  };
-
+  });
 };
 
 //スピーカー・アンプ ON,OFF
