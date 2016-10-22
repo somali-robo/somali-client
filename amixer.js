@@ -8,7 +8,10 @@ Amixer.prototype.pcmVolume = function(volume,callback){
   var cmd = 'amixer set PCM '+volume+'%';
   console.log('pcmVolume '+cmd);
   this.exec(cmd, function(err, stdout, stderr){
-    callback(err, stdout, stderr);
+    console.log("callback "+callback);
+    if(callback){
+      callback(err, stdout, stderr);
+    }
   });
 };
 
@@ -17,7 +20,10 @@ Amixer.prototype.micVolume = function(volume,callback){
   var cmd = 'amixer sset Mic '+volume+'%';
   console.log('micVolume '+cmd);
   this.exec(cmd, function(err, stdout, stderr){
-    callback(err, stdout, stderr);
+    console.log("callback "+callback);
+    if(callback){
+      callback(err, stdout, stderr);
+    }
   });
 };
 
