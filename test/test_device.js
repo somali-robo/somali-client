@@ -22,11 +22,15 @@ App.prototype.init = function(){
   this.wpi.pinMode(this.configDevice.SPEAKER_AMP_POWER,this.wpi.OUTPUT);
   this.speakerAmpPower(false);
 
+  //音量変更
+  this.amixer.pcmVolume(100);
+
   //WPS ボタン（青） INT_EDGE_RISING 立ち上がる時
   this.wpi.pinMode(this.configDevice.WPS_BUTTON,this.wpi.INPUT);
   this.wpi.wiringPiISR(this.configDevice.WPS_BUTTON, this.wpi.INT_EDGE_RISING, function(delta) {
     console.log("WPS_BUTTON " + delta);
 
+    //録音テスト
     _this.arecord.record(_this.wavFilePath,3,function(err, stdout, stderr){
       if (err != null){
         console.log("err");
@@ -44,9 +48,6 @@ App.prototype.init = function(){
 
     //アンプをONにする
     _this.speakerAmpPower(true);
-    
-    //音量変更
-    _this.amixer.pcmVolume(100);
 
     //再生テスト
     _this.aplay.play(_this.wavFilePath,function(err, stdout, stderr){
