@@ -51,7 +51,7 @@ VoiceMagic.prototype.recognition = function(callback){
   this.fd = this.wpi.wiringPiI2CSetup(this.config.VOICE_MAGIC_I2C_ADDR);
   console.log('fb');
   console.log(this.fb);
-  if(this.fd == null){
+  if(this.fd === void 0){
     console.log('fb is null');
     return;
   }
