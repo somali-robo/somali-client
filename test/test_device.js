@@ -67,6 +67,9 @@ App.prototype.init = function(){
   this.wpi.wiringPiISR(this.configDevice.REC_BUTTON, this.wpi.INT_EDGE_RISING, function(delta) {
     console.log("REC_BUTTON " + delta);
     _this.voiceMagic.power(_this.voiceMagic.POWER_ON);
+    _this.voiceMagic.recognition(function(){
+
+    });
   });
 
   //モード スイッチ INT_EDGE_BOTH 両方

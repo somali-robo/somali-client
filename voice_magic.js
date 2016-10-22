@@ -1,18 +1,27 @@
 /** Voice Magic
-* DIP SW を i2c,2Bh
+* DIP SW を i2c(ホストモード),2Bh
 * 1 OFF,2 ON,3 OFF,4 OFF
 */
 var VoiceMagic = function(){};
 VoiceMagic.prototype.config = null;
 VoiceMagic.prototype.wpi    = null;
+VoiceMagic.prototype.fd    = null;
 
 VoiceMagic.prototype.POWER_ON = true;
 VoiceMagic.prototype.POWER_OFF = false;
+
+//レジスター SRREG 0x0d
+VoiceMagic.prototype.REGISTER_SRREG_ADDR = 0x0d;
 
 //初期化
 VoiceMagic.prototype.init = function(config,wpi){
   this.config = config;
   this.wpi = wpi;
+
+  //i2c アドレス 0x2B
+  this.fd = this.wpi.wiringPiI2CSetup(this.config.VOICE_MAGIC_I2C_ADDR);
+  console.log('fb');
+  console.log(this.fb);
 
   //パワーセーブ機能の制御端子
   this.wpi.pinMode(this.config.VOICE_MAGIC_PSV_N,this.wpi.OUTPUT);
@@ -35,6 +44,21 @@ VoiceMagic.prototype.power = function(isOn){
     //電源 OFF
     this.wpi.digitalWrite(this.config.VOICE_MAGIC_PSV_N,this.wpi.LOW);
   }
-}
+};
+
+//音声認識
+//ハードウェア仕様 P35
+VoiceMagic.prototype.recognition = function(callback){
+  //TODO: レジスター SRREG RCG_EN = 1
+  if((this.wpi.wiringPiI2CWriteReg8(this.fd,this.REGISTER_SRREG_ADDR,0x08))<0){
+    console.log("write error register "+this.REGISTER_SRREG_ADDR);
+  }
+  //音声入力
+  //TODO: RCG_EN = 0になるまで監視
+  //TODO: 判定結果の確認 RJFLG 読み出し
+  //TODO: 判定結果の読み出し
+  //TODO: 結果をコールバック
+  //callback();
+};
 
 module.exports = new VoiceMagic();
