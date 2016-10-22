@@ -13,6 +13,7 @@ Arecord.prototype.record = function(path,sec,callback){
     }
   });
   setTimeout(function(){
+    console.log('arecord kill');
     child.kill();
   },sec*1000);
 };

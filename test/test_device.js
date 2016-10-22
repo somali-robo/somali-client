@@ -27,14 +27,14 @@ App.prototype.init = function(){
   this.wpi.wiringPiISR(this.configDevice.WPS_BUTTON, this.wpi.INT_EDGE_RISING, function(delta) {
     console.log("WPS_BUTTON " + delta);
 
-    _this.arecord.record(_this.wavFilePath,30,function(err, stdout, stderr){
+    _this.arecord.record(_this.wavFilePath,3,function(err, stdout, stderr){
       if (err != null){
         console.log("err");
         return;
       }
       console.log("success");
     });
-    
+
   });
 
   //REC ボタン(赤) INT_EDGE_RISING 立ち上がる時
