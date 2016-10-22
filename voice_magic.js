@@ -5,6 +5,7 @@
 var VoiceMagic = function(){};
 VoiceMagic.prototype.config = null;
 VoiceMagic.prototype.wpi    = null;
+
 VoiceMagic.prototype.POWER_ON = true;
 VoiceMagic.prototype.POWER_OFF = false;
 

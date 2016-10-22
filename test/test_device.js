@@ -20,6 +20,9 @@ App.prototype.init = function(){
   //GPIO初期化
   this.wpi.wiringPiSetupGpio();
 
+  //voiceMagic 初期化
+  this.voiceMagic.init(this.configDevice,this.wpi);
+  
   //スピーカー・アンプ
   this.wpi.pinMode(this.configDevice.SPEAKER_AMP_POWER,this.wpi.OUTPUT);
   this.speakerAmpPower(this.SPEAKER_POWER_ON);
@@ -50,7 +53,7 @@ App.prototype.init = function(){
           return;
         }
         console.log("success");
-        
+
         //アンプをOFFにする
         _this.speakerAmpPower(_this.SPEAKER_POWER_OFF);
       });
