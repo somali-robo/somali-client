@@ -33,7 +33,8 @@ App.prototype.init = function(){
 
     //アンプをONにする
     _this.speakerAmpPower(true);
-
+    //音量変更
+    _this.aplay.volume(100);
     //再生テスト
     var path = '/usr/share/sounds/alsa/Front_Left.wav';
     _this.aplay.play(path,function(err, stdout, stderr){
