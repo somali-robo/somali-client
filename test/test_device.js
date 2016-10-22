@@ -7,6 +7,8 @@ App.prototype.aplay  = require('../aplay.js');
 App.prototype.arecord  = require('../arecord.js');
 App.prototype.voiceMagic  = require('../voice_magic.js');
 
+App.prototype.SPEAKER_POWER_ON = true;
+App.prototype.SPEAKER_POWER_OFF = false;
 App.prototype.wavFilePath = "../tmp/test.wav";
 
 //初期化
@@ -20,7 +22,7 @@ App.prototype.init = function(){
 
   //スピーカー・アンプ
   this.wpi.pinMode(this.configDevice.SPEAKER_AMP_POWER,this.wpi.OUTPUT);
-  this.speakerAmpPower(false);
+  this.speakerAmpPower(this.SPEAKER_POWER_ON);
 
   //音量変更
   this.amixer.pcmVolume(100);
@@ -37,6 +39,22 @@ App.prototype.init = function(){
         return;
       }
       console.log("success");
+
+      //スピーカーアンプをONにする
+      _this.speakerAmpPower(_this.SPEAKER_POWER_ON);
+
+      //再生テスト
+      _this.aplay.play(_this.wavFilePath,function(err, stdout, stderr){
+        if (err != null){
+          console.log("err");
+          return;
+        }
+        console.log("success");
+        
+        //アンプをOFFにする
+        _this.speakerAmpPower(_this.SPEAKER_POWER_OFF);
+      });
+
     });
 
   });
@@ -46,19 +64,6 @@ App.prototype.init = function(){
   this.wpi.wiringPiISR(this.configDevice.REC_BUTTON, this.wpi.INT_EDGE_RISING, function(delta) {
     console.log("REC_BUTTON " + delta);
 
-    //アンプをONにする
-    _this.speakerAmpPower(true);
-
-    //再生テスト
-    _this.aplay.play(_this.wavFilePath,function(err, stdout, stderr){
-      if (err != null){
-        console.log("err");
-        return;
-      }
-      console.log("success");
-      //アンプをOFFにする
-      _this.speakerAmpPower(false);
-    });
   });
 
   //モード スイッチ INT_EDGE_BOTH 両方
