@@ -19,6 +19,8 @@ Arecord.prototype.record = function(path,sec,callback){
       callback(err, stdout, stderr);
     }
   });
+  console.log('record child ----');
+  console.log(this.child);
 
   setTimeout(function(){
     console.log('arecord kill');
