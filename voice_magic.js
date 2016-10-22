@@ -18,20 +18,16 @@ VoiceMagic.prototype.init = function(config,wpi){
   this.config = config;
   this.wpi = wpi;
 
-  //i2c アドレス 0x2B
-  this.fd = this.wpi.wiringPiI2CSetup(this.config.VOICE_MAGIC_I2C_ADDR);
-  console.log('fb');
-  console.log(this.fb);
-
   //パワーセーブ機能の制御端子
   this.wpi.pinMode(this.config.VOICE_MAGIC_PSV_N,this.wpi.OUTPUT);
+
+  //初期は電源OFF
+  this.power(this.POWER_OFF);
+
   //音声区間検出回路の制御端子
   this.wpi.pinMode(this.config.VOICE_MAGIC_VCST,this.wpi.OUTPUT);
   //レジスターSTATUSのINT出力
   this.wpi.pinMode(this.config.VOICE_MAGIC_INT,this.wpi.INPUT);
-
-  //初期は電源OFF
-  this.power(this.POWER_OFF);
 };
 
 //電源 ON,OFF
@@ -50,7 +46,16 @@ VoiceMagic.prototype.power = function(isOn){
 //ハードウェア仕様 P35
 VoiceMagic.prototype.recognition = function(callback){
   console.log("recognition");
-  
+
+  //i2c アドレス 0x2B
+  this.fd = this.wpi.wiringPiI2CSetup(this.config.VOICE_MAGIC_I2C_ADDR);
+  console.log('fb');
+  console.log(this.fb);
+  if(this.fd == null){
+    console.log('fb is null');
+    return;
+  }
+
   //TODO: レジスター SRREG RCG_EN = 1
   if((this.wpi.wiringPiI2CWriteReg8(this.fd,this.REGISTER_SRREG_ADDR,0x08))<0){
     console.log("write error register "+this.REGISTER_SRREG_ADDR);
