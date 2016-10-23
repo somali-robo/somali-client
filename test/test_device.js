@@ -68,23 +68,22 @@ App.prototype.init = function(){
   this.wpi.pinMode(this.configDevice.REC_BUTTON,this.wpi.INPUT);
   this.wpi.wiringPiISR(this.configDevice.REC_BUTTON, this.wpi.INT_EDGE_RISING, function(delta) {
     console.log("REC_BUTTON " + delta);
-    //MPU-6050 初期化
-    var data = _this.MPU6050.read();
-    console.log("MPU6050 read");
-    console.dir(data);
-
-
-    /*
     _this.voiceMagic.power(_this.voiceMagic.POWER_ON);
     _this.voiceMagic.recognition(function(){
 
-    });*/
+    });
   });
 
   //モード スイッチ INT_EDGE_BOTH 両方
   this.wpi.pinMode(this.configDevice.MODE_SWITCH,this.wpi.INPUT);
   this.wpi.wiringPiISR(this.configDevice.MODE_SWITCH, this.wpi.INT_EDGE_BOTH, function(delta) {
     console.log("MODE_SWITCH " + delta);
+  });
+
+  //MPU6050のデータを監視
+  this.subscribeMpu6050(1,function(data){
+      console.log("MPU6050");
+      console.dir(data);
   });
 };
 
@@ -98,6 +97,14 @@ App.prototype.speakerAmpPower = function(isOn){
     //OFF
     this.wpi.digitalWrite(this.configDevice.SPEAKER_AMP_POWER,this.wpi.LOW);
   }
+};
+
+//MPU-6050 データ購読
+App.prototype.subscribeMpu6050 = function(sec,callback){
+  setInterval(function(){
+    var data = _this.MPU6050.read();
+    callback(data);
+  },sec*1000);
 };
 
 var app = new App();
