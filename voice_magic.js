@@ -64,14 +64,15 @@ VoiceMagic.prototype.recognition = function(callback){
   }
 
   //音声入力
-  for(i=0;i<100;i++){
+  var rcgEn = 0x02;
+  while (rcgEn != 0) {
     //TODO: RCG_EN = 0になるまで監視
-    var srreg = this.wpi.wiringPiI2CReadReg8(this.fd,this.REGISTER_SRREG_ADDR);
+    rcgEn = this.wpi.wiringPiI2CReadReg8(this.fd,this.REGISTER_SRREG_ADDR);
     console.log("READ SRREG RCG_EN");
     console.log("srreg");
     console.dir(srreg);
   }
-  
+
   //TODO: 判定結果の確認 RJFLG 読み出し
   //TODO: 判定結果の読み出し
   //TODO: 結果をコールバック
