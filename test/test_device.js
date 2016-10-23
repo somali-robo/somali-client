@@ -1,13 +1,13 @@
 
 var App = function(){};
-App.prototype.wpi    = require('wiring-pi');
+App.prototype.wpi          = require('wiring-pi');
 App.prototype.configDevice = require('../config_device.js');
-App.prototype.amixer  = require('../amixer.js');
-App.prototype.aplay  = require('../aplay.js');
-App.prototype.arecord  = require('../arecord.js');
-App.prototype.voiceMagic  = require('../voice_magic.js');
+App.prototype.amixer       = require('../amixer.js');
+App.prototype.aplay        = require('../aplay.js');
+App.prototype.arecord      = require('../arecord.js');
+App.prototype.voiceMagic   = require('../voice_magic.js');
+App.prototype.mpu6050      = require('../mpu6050.js');
 
-App.prototype.mpu6050  = require('../mpu6050.js');
 App.prototype.SPEAKER_POWER_ON = true;
 App.prototype.SPEAKER_POWER_OFF = false;
 App.prototype.wavFilePath = "../tmp/test.wav";
@@ -22,7 +22,7 @@ App.prototype.init = function(){
   this.wpi.wiringPiSetupGpio();
 
   //voiceMagic 初期化
-  this.voiceMagic.init(this.configDevice,this.wpi);
+  this.voiceMagic.init(this.configDevice);
 
   //スピーカー・アンプ
   this.wpi.pinMode(this.configDevice.SPEAKER_AMP_POWER,this.wpi.OUTPUT);
@@ -67,6 +67,7 @@ App.prototype.init = function(){
   this.wpi.pinMode(this.configDevice.REC_BUTTON,this.wpi.INPUT);
   this.wpi.wiringPiISR(this.configDevice.REC_BUTTON, this.wpi.INT_EDGE_RISING, function(delta) {
     console.log("REC_BUTTON " + delta);
+    //VoiceMagic テスト
     _this.voiceMagic.power(_this.voiceMagic.POWER_ON);
     _this.voiceMagic.recognition(function(){
 
