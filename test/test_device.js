@@ -6,6 +6,8 @@ App.prototype.amixer  = require('../amixer.js');
 App.prototype.aplay  = require('../aplay.js');
 App.prototype.arecord  = require('../arecord.js');
 App.prototype.voiceMagic  = require('../voice_magic.js');
+App.prototype.MPU6050 = require('mpu6050');
+App.prototype.mpu6050 = null;
 
 App.prototype.SPEAKER_POWER_ON = true;
 App.prototype.SPEAKER_POWER_OFF = false;
@@ -19,6 +21,15 @@ App.prototype.init = function(){
 
   //GPIO初期化
   this.wpi.wiringPiSetupGpio();
+
+  //MPU-6050 初期化
+  this.mpu6050 = new this.MPU6050();
+  this.mpu6050.initialize();
+  if (this.mpu6050.testConnection()) {
+    console.log('mpu6050.testConnection()');
+    console.log(this.mpu6050.getMotion6());
+  }
+  this.mpu6050.setSleepEnabled(1)
 
   //voiceMagic 初期化
   this.voiceMagic.init(this.configDevice,this.wpi);
