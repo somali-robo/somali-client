@@ -51,19 +51,27 @@ VoiceMagic.prototype.recognition = function(callback){
 
   //i2c アドレス 0x2b
   this.fd = this.wpi.wiringPiI2CSetup(this.config.VOICE_MAGIC_I2C_ADDR);
-  console.log('fd '+this.fd);
+  //console.log('fd '+this.fd);
   if(!this.fd){
     console.log('fb is null');
     return;
   }
 
   //TODO: レジスター SRREG RCG_EN = 1
+  console.log("SRREG RCG_EN = 1");
   if((this.wpi.wiringPiI2CWriteReg8(this.fd,this.REGISTER_SRREG_ADDR,0x02))<0){
     console.log("write error register "+this.REGISTER_SRREG_ADDR);
   }
 
   //音声入力
-  //TODO: RCG_EN = 0になるまで監視
+  for(i=0;i<100;i++){
+    //TODO: RCG_EN = 0になるまで監視
+    var srreg = this.wpi.wiringPiI2CReadReg8(this.fd,this.REGISTER_SRREG_ADDR);
+    console.log("READ SRREG RCG_EN");
+    console.log("srreg");
+    console.dir(srreg);
+  }
+  
   //TODO: 判定結果の確認 RJFLG 読み出し
   //TODO: 判定結果の読み出し
   //TODO: 結果をコールバック
