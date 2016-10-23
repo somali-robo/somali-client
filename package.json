@@ -7,5 +7,9 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "wiring-pi": "^2.2.0",
+    "mpu6050-wiringpi": "^0.0.2"
+  }
 }

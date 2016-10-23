@@ -4,8 +4,8 @@
 */
 var VoiceMagic = function(){};
 VoiceMagic.prototype.config = null;
-VoiceMagic.prototype.wpi    = null;
-VoiceMagic.prototype.fd    = null;
+VoiceMagic.prototype.wpi    = require('wiring-pi');
+VoiceMagic.prototype.fd     = null;
 
 VoiceMagic.prototype.POWER_ON = true;
 VoiceMagic.prototype.POWER_OFF = false;
@@ -14,9 +14,13 @@ VoiceMagic.prototype.POWER_OFF = false;
 VoiceMagic.prototype.REGISTER_SRREG_ADDR = 0x0d;
 
 //初期化
-VoiceMagic.prototype.init = function(config,wpi){
+VoiceMagic.prototype.init = function(config){
   this.config = config;
-  this.wpi = wpi;
+
+  //GPIO初期化
+  this.wpi.wiringPiSetupGpio();
+  console.log('wpi');
+  console.log(this.wpi);
 
   //パワーセーブ機能の制御端子
   this.wpi.pinMode(this.config.VOICE_MAGIC_PSV_N,this.wpi.OUTPUT);
@@ -47,7 +51,7 @@ VoiceMagic.prototype.power = function(isOn){
 VoiceMagic.prototype.recognition = function(callback){
   console.log("recognition");
 
-  //i2c アドレス 0x2B
+  //i2c アドレス 0x2b
   this.fd = this.wpi.wiringPiI2CSetup(this.config.VOICE_MAGIC_I2C_ADDR);
   console.log('fb');
   console.log(this.fb);
