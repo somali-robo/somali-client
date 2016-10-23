@@ -6,9 +6,8 @@ App.prototype.amixer  = require('../amixer.js');
 App.prototype.aplay  = require('../aplay.js');
 App.prototype.arecord  = require('../arecord.js');
 App.prototype.voiceMagic  = require('../voice_magic.js');
-App.prototype.MPU6050 = require('mpu6050-wiringpi');
-App.prototype.mpu6050 = null;
 
+App.prototype.mpu6050  = require('../mpu6050.js');
 App.prototype.SPEAKER_POWER_ON = true;
 App.prototype.SPEAKER_POWER_OFF = false;
 App.prototype.wavFilePath = "../tmp/test.wav";
@@ -81,7 +80,7 @@ App.prototype.init = function(){
   });
 
   //MPU6050のデータを監視
-  this.subscribeMpu6050(1,function(data){
+  this.mpu6050.subscribe(1,function(data){
       console.log("MPU6050");
       console.dir(data);
   });
@@ -97,14 +96,6 @@ App.prototype.speakerAmpPower = function(isOn){
     //OFF
     this.wpi.digitalWrite(this.configDevice.SPEAKER_AMP_POWER,this.wpi.LOW);
   }
-};
-
-//MPU-6050 データ購読
-App.prototype.subscribeMpu6050 = function(sec,callback){
-  setInterval(function(){
-    var data = _this.MPU6050.read();
-    callback(data);
-  },sec*1000);
 };
 
 var app = new App();
