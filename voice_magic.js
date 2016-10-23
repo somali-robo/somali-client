@@ -19,8 +19,6 @@ VoiceMagic.prototype.init = function(config){
 
   //GPIO初期化
   this.wpi.wiringPiSetupGpio();
-  console.log('wpi');
-  console.log(this.wpi);
 
   //パワーセーブ機能の制御端子
   this.wpi.pinMode(this.config.VOICE_MAGIC_PSV_N,this.wpi.OUTPUT);
@@ -49,13 +47,13 @@ VoiceMagic.prototype.power = function(isOn){
 //音声認識
 //ハードウェア仕様 P35
 VoiceMagic.prototype.recognition = function(callback){
-  console.log("recognition");
+  console.log("recognition ADDR:"+this.config.VOICE_MAGIC_I2C_ADDR);
 
   //i2c アドレス 0x2b
   this.fd = this.wpi.wiringPiI2CSetup(this.config.VOICE_MAGIC_I2C_ADDR);
   console.log('fb');
   console.log(this.fb);
-  if(this.fd === void 0){
+  if(!this.fd){
     console.log('fb is null');
     return;
   }
