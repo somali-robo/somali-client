@@ -12,6 +12,8 @@ VoiceMagic.prototype.POWER_OFF = false;
 
 //レジスター SRREG 0x0d
 VoiceMagic.prototype.REGISTER_SRREG_ADDR = 0x0d;
+//レジスター STATUS 0x0e
+VoiceMagic.prototype.REGISTER_STATUS_ADDR = 0x0e;
 
 //初期化
 VoiceMagic.prototype.init = function(config){
@@ -68,11 +70,15 @@ VoiceMagic.prototype.recognition = function(callback){
   while (rcgEn == 0x02) {
     //TODO: RCG_EN = 0になるまで監視
     rcgEn = this.wpi.wiringPiI2CReadReg8(this.fd,this.REGISTER_SRREG_ADDR);
-    console.log("READ SRREG RCG_EN");
-    console.dir(rcgEn);
+    //console.log("READ SRREG RCG_EN");
+    //console.dir(rcgEn);
   }
 
   //TODO: 判定結果の確認 RJFLG 読み出し
+  var status = this.wpi.wiringPiI2CReadReg8(this.fd,this.REGISTER_STATUS_ADDR);
+  console.log("READ STATUS");
+  console.dir(status);
+
   //TODO: 判定結果の読み出し
   //TODO: 結果をコールバック
   //callback();
