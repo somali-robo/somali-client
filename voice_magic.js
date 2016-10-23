@@ -65,7 +65,7 @@ VoiceMagic.prototype.recognition = function(callback){
 
   //音声入力
   var rcgEn = 0x02;
-  while (rcgEn != 0) {
+  while (rcgEn == 0x02) {
     //TODO: RCG_EN = 0になるまで監視
     rcgEn = this.wpi.wiringPiI2CReadReg8(this.fd,this.REGISTER_SRREG_ADDR);
     console.log("READ SRREG RCG_EN");
