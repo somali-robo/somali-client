@@ -3,8 +3,8 @@
 * 1 OFF,2 ON,3 OFF,4 OFF
 */
 var VoiceMagic = function(){};
-VoiceMagic.prototype.config = null;
 VoiceMagic.prototype.wpi    = require('wiring-pi');
+VoiceMagic.prototype.config = null;
 VoiceMagic.prototype.fd     = null;
 
 VoiceMagic.prototype.POWER_ON = true;
@@ -51,17 +51,17 @@ VoiceMagic.prototype.recognition = function(callback){
 
   //i2c アドレス 0x2b
   this.fd = this.wpi.wiringPiI2CSetup(this.config.VOICE_MAGIC_I2C_ADDR);
-  console.log('fb');
-  console.log(this.fb);
+  console.log('fd '+this.fd);
   if(!this.fd){
     console.log('fb is null');
     return;
   }
 
   //TODO: レジスター SRREG RCG_EN = 1
-  if((this.wpi.wiringPiI2CWriteReg8(this.fd,this.REGISTER_SRREG_ADDR,0x08))<0){
+  if((this.wpi.wiringPiI2CWriteReg8(this.fd,this.REGISTER_SRREG_ADDR,0x02))<0){
     console.log("write error register "+this.REGISTER_SRREG_ADDR);
   }
+
   //音声入力
   //TODO: RCG_EN = 0になるまで監視
   //TODO: 判定結果の確認 RJFLG 読み出し
