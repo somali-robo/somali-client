@@ -11,6 +11,8 @@
   "dependencies": {
     "mpu6050-wiringpi": "^0.0.2",
     "socket.io-client": "^1.5.1",
-    "wiring-pi": "^2.2.0"
+    "wiring-pi": "^2.2.0",
+    "request":"*",
+    "fs":"*"
   }
 }

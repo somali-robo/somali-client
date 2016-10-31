@@ -45,7 +45,7 @@ App.prototype.textToSpeech = function(text,speaker,callback){
   var callbackTextToSpeech = function( err, resp, body ){
     if(!err && resp.statusCode === 200){
       //ファイル書き出し
-      var path = './tmp/textToSpeech.wav';
+      var path = '../tmp/textToSpeech.wav';
       var fs = require('fs');
       fs.writeFile(path, body, 'binary', function(err){
           callback(path, err);
