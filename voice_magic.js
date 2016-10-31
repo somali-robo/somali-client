@@ -59,7 +59,7 @@ VoiceMagic.prototype.recognition = function(callback){
     return;
   }
 
-  //TODO: レジスター SRREG RCG_EN = 1
+  //レジスター SRREG RCG_EN = 1
   console.log("SRREG RCG_EN = 1");
   if((this.wpi.wiringPiI2CWriteReg8(this.fd,this.REGISTER_SRREG_ADDR,0x02))<0){
     console.log("write error register "+this.REGISTER_SRREG_ADDR);
@@ -68,10 +68,8 @@ VoiceMagic.prototype.recognition = function(callback){
   //音声入力
   var rcgEn = 0x02;
   while (rcgEn == 0x02) {
-    //TODO: RCG_EN = 0になるまで監視
+    //RCG_EN = 0になるまで監視
     rcgEn = this.wpi.wiringPiI2CReadReg8(this.fd,this.REGISTER_SRREG_ADDR);
-    //console.log("READ SRREG RCG_EN");
-    //console.dir(rcgEn);
   }
 
   //TODO: 判定結果の確認 RJFLG 読み出し
