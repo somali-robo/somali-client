@@ -2,14 +2,28 @@
 *
 */
 var App = function(){};
-App.prototype.config = require('../config.js');
+App.prototype.wpi          = require('wiring-pi');
+App.prototype.config       = require('../config.js');
+App.prototype.configDevice = require('../config_device.js');
 App.prototype.somaliSocket = require('../somali_socket.js');
-App.prototype.hoya = require('../hoya.js');
-App.prototype.aplay = require('../aplay.js');
+App.prototype.hoya         = require('../hoya.js');
+App.prototype.aplay        = require('../aplay.js');
+
+App.prototype.SPEAKER_POWER_ON = true;
+App.prototype.SPEAKER_POWER_OFF = false;
+App.prototype.wavFilePath = "../tmp/test.wav";
 
 //初期化
 App.prototype.init = function(){
   console.log("init");
+
+  //GPIO初期化
+  this.wpi.wiringPiSetupGpio();
+
+  //スピーカー・アンプ
+  this.wpi.pinMode(this.configDevice.SPEAKER_AMP_POWER,this.wpi.OUTPUT);
+  this.speakerAmpPower(this.SPEAKER_POWER_ON);
+
   var _this = this;
   this.somaliSocket.init(this.config,function(data){
     console.log('publish');
@@ -39,6 +53,19 @@ App.prototype.init = function(){
   }, 5000);
 };
 
+//スピーカー・アンプ ON,OFF
+App.prototype.speakerAmpPower = function(isOn){
+  if(isOn == true){
+    //ON
+    this.wpi.digitalWrite(this.configDevice.SPEAKER_AMP_POWER,this.wpi.HIGH);
+  }
+  else{
+    //OFF
+    this.wpi.digitalWrite(this.configDevice.SPEAKER_AMP_POWER,this.wpi.LOW);
+  }
+};
+
+//音声合成
 App.prototype.textToSpeech = function(text,speaker,callback){
   var apiKey = this.config.DOCOMO_API_KEY;
   var params = {};
