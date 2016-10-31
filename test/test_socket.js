@@ -30,7 +30,7 @@ App.prototype.init = function(){
     console.log(data);
     if(data.userId != _this.config.DEVICE_ID){
       //スマートフォンからのメッセージなので音声合成
-      _this.textToSpeech(data.value,"bear",function(path, err){
+      _this.textToSpeech(data.value,_this.hoya.SPEAKER_HIKARI,function(path, err){
         if (err != null){
           console.log("err");
           return;
