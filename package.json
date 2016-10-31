@@ -9,8 +9,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "wiring-pi": "^2.2.0",
     "mpu6050-wiringpi": "^0.0.2",
-    "socket.io-client": "*"
+    "socket.io-client": "^1.5.1",
+    "wiring-pi": "^2.2.0"
   }
 }

@@ -18,7 +18,7 @@ App.prototype.init = function(){
     var value = "デバイスからのメッセージ "+Math.floor(Math.random()*100);
     console.log(value);
     //メッセージ送信
-    _this.somaliSocket.publish(msg);
+    _this.somaliSocket.publish(value);
   }, 5000);
 };
 
