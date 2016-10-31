@@ -50,7 +50,7 @@ App.prototype.init = function(){
     console.log(value);
     //メッセージ送信
     _this.somaliSocket.publish(value);
-  }, 5000);
+  }, 10*1000);
 };
 
 //スピーカー・アンプ ON,OFF
@@ -67,15 +67,15 @@ App.prototype.speakerAmpPower = function(isOn){
 
 //音声合成
 App.prototype.textToSpeech = function(text,speaker,callback){
+  var _this = this;
   var apiKey = this.config.DOCOMO_API_KEY;
   var params = {};
   var callbackTextToSpeech = function( err, resp, body ){
     if(!err && resp.statusCode === 200){
       //ファイル書き出し
-      var path = '../tmp/textToSpeech.wav';
       var fs = require('fs');
-      fs.writeFile(path, body, 'binary', function(err){
-          callback(path, err);
+      fs.writeFile(_this.wavFilePath, body, 'binary', function(err){
+          callback(_this.wavFilePath, err);
       });
     }
   };
