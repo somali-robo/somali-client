@@ -6,34 +6,40 @@ WpaCli.prototype.exec = require('child_process').exec;
 
 /** WPS クライアントを実行
 */
-WpaCli.prototype.execute = function(){
+WpaCli.prototype.execute = function(callback){
   var cmd = 'sudo wpa_cli wps_pbc';
   console.log('execute '+cmd);
   this.exec(cmd, function(err, stdout, stderr){
+    callback(err, stdout, stderr);
+    /*
     if (err) {
-      console.log(err);
+        //console.log(err);
     }
     if (stderr) {
         console.log('stderr '+stderr);
     }
     console.log('stdout '+stdout);
+    */
   });
 };
 
 /** WPS クライアントを実行
 * パスワード 12345678
 */
-WpaCli.prototype.executeAny = function(){
+WpaCli.prototype.executeAny = function(callback){
   var cmd = 'sudo wpa_cli wps_pin any 12345678';
   console.log('executeAny '+cmd);
   this.exec(cmd, function(err, stdout, stderr){
+    callback(err, stdout, stderr);
+    /*
     if (err) {
-      console.log(err);
+        //console.log(err);
     }
     if (stderr) {
         console.log('stderr '+stderr);
     }
     console.log('stdout '+stdout);
+    */
   });
 };
 

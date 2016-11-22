@@ -64,10 +64,27 @@ App.prototype.init = function(){
   this.wpi.wiringPiISR(this.configDevice.WPS_BUTTON, this.wpi.INT_EDGE_RISING, function(v) {
     console.log("WPS_BUTTON " + v);
     _this.setStatusLed(true);
-    //TODO: ネットワークに接続
-    //_this.wpa_cli.execute();
-    //接続されたら、App.STATUS.CONNECTED の処理をする
-    //this.status(App.STATUS.CONNECTED);
+    //WPSしてからネットワークに接続
+    _this.wpa_cli.execute(function(err, stdout, stderr){
+      if (err) {
+          console.log("err wpa_cli");
+          _this.lastErr = err;
+          _this.status(App.STATUS.ERROR);
+          return;
+      }
+      if (stderr) {
+          _this.lastErr = stderr;
+          _this.status(App.STATUS.ERROR);
+          return;
+      }
+      console.log('stdout '+stdout);
+      _this.setStatusLed(true);
+      //TODO: 接続されたら、App.STATUS.CONNECTED の処理をする
+      //this.status(App.STATUS.CONNECTED);
+      //TODO: モードスイッチ状態 グループモードの場合
+      //      同じルータにあるロボットにシリアルコードを通知する
+      //_this.mode == App.MODE.GROUP
+    });
   });
 
   //REC ボタン (赤色)
@@ -89,8 +106,8 @@ App.prototype.init = function(){
       _this.mode = App.MODE.DEFAULT;
     }
     else{
-      //ペアモード
-      _this.mode = App.MODE.DEFAULT;
+      //グループモード
+      _this.mode = App.MODE.GROUP;
     }
   });
 
@@ -112,8 +129,8 @@ App.prototype.connected = function(){
       return;
     }
     _this.intonations = response.data;
-    console.log("getIntonations");
-    console.log(_this.intonations);
+    //console.log("getIntonations");
+    //console.log(_this.intonations);
   });
 
   //デバイス登録処理
