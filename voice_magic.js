@@ -103,8 +103,7 @@ VoiceMagic.prototype.recognition = function(callback){
     //レジスター RCGRSLTH 読み出し
     var th = this.wpi.wiringPiI2CReadReg8(this.fd,this.REGISTER_RCGRSLTH_ADDR);
     console.log("READ REGISTER_RCGRSLTH_ADDR");
-    console.log(th & 0x01);
-    console.log(th & 0x10);
+    console.log(th);
     //レジスター RCGRSLTL 読み出し
     var tl = this.wpi.wiringPiI2CReadReg8(this.fd,this.REGISTER_RCGRSLTL_ADDR);
     console.log("READ REGISTER_RCGRSLTL_ADDR");
