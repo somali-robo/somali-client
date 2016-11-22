@@ -70,8 +70,8 @@ App.prototype.register = function(){
 
       //未登録なら追加する
       if(exists == false){
-        var name = this.uuid.v4();
-        this.somaliApi.postDevice(this.config.SERIAL_CODE,name,function(err,response){
+        var name = _this.uuid.v4();
+        _this.somaliApi.postDevice(_this.config.SERIAL_CODE,name,function(err,response){
           if(err){
             console.log("err postDevice");
             console.log(err);
