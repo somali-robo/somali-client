@@ -92,14 +92,14 @@ VoiceMagic.prototype.recognition = function(callback){
     //      レジスター RCGRSLTH
     var th = this.wpi.wiringPiI2CReadReg8(this.fd,this.REGISTER_RCGRSLTH_ADDR);
     console.log("READ REGISTER_RCGRSLTH_ADDR");
-    var tmpth = new Buffer(8);
-    tmpLth.writeUInt8(th);
+    var tmpTh = new Buffer(8);
+    tmpTh.writeUInt8(th);
     console.log(tmpTh);
     //      レジスター RCGRSLTL
     var tl = this.wpi.wiringPiI2CReadReg8(this.fd,this.REGISTER_RCGRSLTL_ADDR);
     console.log("READ REGISTER_RCGRSLTL_ADDR");
     var tmpTl = new Buffer(8);
-    tmpLTl.writeUInt8(tl);
+    tmpTl.writeUInt8(tl);
     console.log(tmpTl);
     //      RCGRSL
     var rcgrsl = new Buffer(10);
