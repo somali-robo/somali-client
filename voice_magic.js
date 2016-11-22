@@ -76,7 +76,7 @@ VoiceMagic.prototype.recognition = function(callback){
   var status = this.wpi.wiringPiI2CReadReg8(this.fd,this.REGISTER_STATUS_ADDR);
   console.log("READ STATUS");
   console.dir(status);
-  var buf = new Buffer(status,'binary');
+  var buf = new Buffer(status);
   console.dir(buf);
 
   //TODO: 認識結果の読み出し
