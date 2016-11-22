@@ -67,6 +67,7 @@ App.prototype.init = function(){
   this.wpi.pinMode(this.configDevice.WPS_BUTTON,this.wpi.INPUT);
   this.wpi.wiringPiISR(this.configDevice.WPS_BUTTON, this.wpi.INT_EDGE_RISING, function(v) {
     console.log("WPS_BUTTON " + v);
+    console.log("_this " + _this);
     if(v > 300){
       _this.status(App.STATUS.WPS_INIT);
     }
