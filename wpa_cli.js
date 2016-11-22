@@ -29,7 +29,7 @@ WpaCli.prototype.execute = function(callback){
     //ネット接続されるまで監視する
     setInterval(function(){
       var cmd = 'sudo wpa_cli status';
-      this.exec(cmd, function(err, stdout, stderr){
+      _this.exec(cmd, function(err, stdout, stderr){
         if(err){
             callback(err, null, null);
             return;
