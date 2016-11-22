@@ -11,7 +11,8 @@ App.prototype.aplay = require('./aplay.js');
 App.prototype.somaliApi = require('./somali_api.js');
 
 App.STATUS = {
-  INIT:0
+  INIT:0,
+  REGISTER:1,
 };
 
 //各ステータス遷移
@@ -19,11 +20,15 @@ App.prototype.status = function(status){
   if(status == App.STATUS.INIT){
     this.init();
   }
+  else if(status == App.STATUS.REGISTER){
+    this.register();
+  }
   this.status = status;
 };
 
 //初期化
 App.prototype.init = function(){
+  console.log("init");
   var _this = this;
 
   //GPIO初期化
@@ -39,40 +44,25 @@ App.prototype.init = function(){
     console.log("Hit ! " + delta);
     _this.setStatusLed(true);
     //_this.wpa_cli.execute();
-
-    _this.somaliApi.getMessages(function(err,response){
-          var data = response.data;
-          //最終メッセージを取得
-          var i = data.length-1;
-          var body = data[i].body;
-          console.log(body);
-
-          //ここで再生
-          _this.textToSpeech(body,"bear",function(path, err){
-            if (err != null){
-              console.log("err");
-              return;
-            }
-            console.log("success");
-
-            //ここで再生
-            _this.aplay.play(path,function(err, stdout, stderr){
-
-            });
-          });
-      });
   });
 
-  /*
-  //感情解析
-  var wavPath = "./tmp/sample1.wav";
-  this.empath.analyzeWav(this.config.EMPATH_API_KEY, wavPath, function(json,err){
-    if(err != null){
-      console.log({'err':err});
-    }
-    console.log({'json':json});
-  });
-  */
+  //登録処理
+  this.status(App.STATUS.REGISTER);
+};
+
+//デバイス IDをサーバに登録する
+App.prototype.register = function(){
+    console.log("register");
+    //this.config.SERIAL_CODE
+    this.somaliApi.postDevice(this.config.SERIAL_CODE,"name",function(err,response){
+      if(err){
+        console.log("err");
+        console.log(err);
+        return;
+      }
+      console.log(response);
+      var data = response.data;
+    });
 };
 
 /** ステータスLEDを操作
