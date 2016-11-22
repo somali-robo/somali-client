@@ -15,6 +15,11 @@ VoiceMagic.prototype.REGISTER_SRREG_ADDR = 0x0d;
 //レジスター STATUS 0x0e
 VoiceMagic.prototype.REGISTER_STATUS_ADDR = 0x0e;
 
+//レジスター RCGRSLTH 0x20
+VoiceMagic.prototype.REGISTER_RCGRSLTH_ADDR = 0x20;
+//レジスター RCGRSLTL 0x21
+VoiceMagic.prototype.REGISTER_RCGRSLTL_ADDR = 0x21;
+
 //初期化
 VoiceMagic.prototype.init = function(config){
   this.config = config;
@@ -85,7 +90,13 @@ VoiceMagic.prototype.recognition = function(callback){
 
     //TODO: 認識結果の読み出し
     //      レジスター RCGRSLTH
+    var th = this.wpi.wiringPiI2CReadReg8(this.fd,this.REGISTER_RCGRSLTH_ADDR);
+    console.log("READ REGISTER_RCGRSLTH_ADDR");
+    console.dir(th);
     //      レジスター RCGRSLTL
+    var tl = this.wpi.wiringPiI2CReadReg8(this.fd,this.REGISTER_RCGRSLTL_ADDR);
+    console.log("READ REGISTER_RCGRSLTL_ADDR");
+    console.dir(tl);
     //      RCGRSL
 
     //TODO: 結果をコールバック
