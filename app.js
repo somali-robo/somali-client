@@ -17,19 +17,21 @@ App.MODE = {
 };
 
 App.STATUS = {
-  ERROR:0,
-  INIT:1,
-  WPS_INIT:2,
-  CONNECTED:3,
-  REGISTER:4,
+  DEFAULT:0,
+  ERROR:1,
+  INIT:2,
+  WPS_INIT:3,
+  CONNECTED:4,
+  REGISTER:5,
 };
 
+App.prototype.status = App.STATUS.DEFAULT;
 App.prototype.mode = App.MODE.DEFAULT;
 App.prototype.lastErr = null;
 App.prototype.intonations = null;
 
 //各ステータス遷移
-App.prototype.status = function(status){
+App.prototype.setStatus = function(status){
   switch(status){
     case App.STATUS.ERROR:
       //TODO: エラーの時の処理
@@ -69,7 +71,7 @@ App.prototype.init = function(){
     console.log("WPS_BUTTON " + v);
     console.log("_this " + _this);
     if(v > 300){
-      _this.status(App.STATUS.WPS_INIT);
+      _this.setStatus(App.STATUS.WPS_INIT);
     }
   });
 
@@ -99,7 +101,7 @@ App.prototype.init = function(){
 
   //TODO: ネットワークが繋がっているか確認する
   //接続されていたら、App.STATUS.CONNECTED の処理をする
-  this.status(App.STATUS.CONNECTED);
+  this.setStatus(App.STATUS.CONNECTED);
 };
 
 //WPS処理
@@ -111,18 +113,18 @@ App.prototype.wps = function(){
     if (err) {
         console.log("err wpa_cli");
         _this.lastErr = err;
-        _this.status(App.STATUS.ERROR);
+        _this.setStatus(App.STATUS.ERROR);
         return;
     }
     if (stderr) {
         _this.lastErr = stderr;
-        _this.status(App.STATUS.ERROR);
+        _this.setStatus(App.STATUS.ERROR);
         return;
     }
     console.log('stdout '+stdout);
     _this.setStatusLed(true);
     //TODO: 接続されたら、App.STATUS.CONNECTED の処理をする
-    //this.status(App.STATUS.CONNECTED);
+    //this.setStatus(App.STATUS.CONNECTED);
     //TODO: モードスイッチ状態 グループモードの場合
     //      同じルータにあるロボットにシリアルコードを通知する
     //_this.mode == App.MODE.GROUP
@@ -138,7 +140,7 @@ App.prototype.connected = function(){
     if(err){
       console.log("err getIntonations");
       _this.lastErr = err;
-      _this.status(App.STATUS.ERROR);
+      _this.setStatus(App.STATUS.ERROR);
       return;
     }
     _this.intonations = response.data;
@@ -147,7 +149,7 @@ App.prototype.connected = function(){
   });
 
   //デバイス登録処理
-  this.status(App.STATUS.REGISTER);
+  this.setStatus(App.STATUS.REGISTER);
 };
 
 //デバイス IDをサーバに登録する
@@ -159,7 +161,7 @@ App.prototype.register = function(){
       if(err){
         console.log("err getDevices");
         _this.lastErr = err;
-        _this.status(App.STATUS.ERROR);
+        _this.setStatus(App.STATUS.ERROR);
         return;
       }
       var data = response.data;
@@ -174,7 +176,7 @@ App.prototype.register = function(){
           if(err){
             console.log("err postDevice");
             _this.lastErr = err;
-            _this.status(App.STATUS.ERROR);
+            _this.setStatus(App.STATUS.ERROR);
             return;
           }
           //console.log(response);
@@ -221,4 +223,4 @@ App.prototype.textToSpeech = function(text,speaker,callback){
 };
 
 var app = new App();
-app.status(App.STATUS.INIT);
+app.setStatus(App.STATUS.INIT);
