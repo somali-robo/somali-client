@@ -11,18 +11,28 @@ App.prototype.aplay = require('./aplay.js');
 App.prototype.somaliApi = require('./somali_api.js');
 App.prototype.uuid = require('node-uuid');
 
+App.prototype.lastErr = null;
+App.prototype.intonations = null;
+
 App.STATUS = {
-  INIT:0,
-  REGISTER:1,
+  ERROR:0,
+  INIT:1,
+  REGISTER:2,
 };
 
 //各ステータス遷移
 App.prototype.status = function(status){
-  if(status == App.STATUS.INIT){
-    this.init();
-  }
-  else if(status == App.STATUS.REGISTER){
-    this.register();
+  switch(){
+    case App.STATUS.ERROR:
+      //TODO: エラーの時の処理
+      console.log(this.lastErr);
+      break;
+    case App.STATUS.INIT:
+      this.init();
+      break;
+    case App.STATUS.REGISTER:
+      this.register();
+      break;
   }
   this.status = status;
 };
@@ -47,6 +57,16 @@ App.prototype.init = function(){
     //_this.wpa_cli.execute();
   });
 
+  //抑揚認識発話 データ取得
+  this.somaliApi.getIntonations(function(err,response){
+    if(err){
+      console.log("err getDevices");
+      _this.lastErr = err;
+      _this.status(App.STATUS.ERROR);
+      return;
+    }
+    _this.intonations = response.data;
+  });
   //登録処理
   this.status(App.STATUS.REGISTER);
 };
@@ -59,14 +79,14 @@ App.prototype.register = function(){
     this.somaliApi.getDevices(function(err,response){
       if(err){
         console.log("err getDevices");
-        console.log(err);
+        _this.lastErr = err;
+        _this.status(App.STATUS.ERROR);
         return;
       }
       var data = response.data;
       var exists = data.some(function(d){
           return (_this.config.SERIAL_CODE == d["serialCode"]);
       });
-      console.log("exists "+exists);
 
       //未登録なら追加する
       if(exists == false){
@@ -74,7 +94,8 @@ App.prototype.register = function(){
         _this.somaliApi.postDevice(_this.config.SERIAL_CODE,name,function(err,response){
           if(err){
             console.log("err postDevice");
-            console.log(err);
+            _this.lastErr = err;
+            _this.status(App.STATUS.ERROR);
             return;
           }
           //console.log(response);
@@ -118,11 +139,6 @@ App.prototype.textToSpeech = function(text,speaker,callback){
   };
 
   this.hoya.textToSpeech(apiKey,text,speaker,params,callbackTextToSpeech);
-};
-
-//メッセージ一覧を取得
-App.prototype.getMessages = function(callback){
-
 };
 
 var app = new App();

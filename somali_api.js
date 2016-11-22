@@ -5,7 +5,21 @@ var SomaliApi = function(){};
 //HTTPリクエスト
 SomaliApi.prototype.request = require('request');
 SomaliApi.prototype.API_HOST = "https://somali-server.herokuapp.com";
+SomaliApi.prototype.API_INTONATIONS = "/api/intonations";
 SomaliApi.prototype.API_DEVICES = "/api/devices";
+
+//抑揚認識発話 データ取得
+SomaliApi.prototype.getIntonations = function(callback){
+  var options = {url: this.API_HOST+this.API_INTONATIONS};
+  this.request.get(options,function(err,response){
+    if(err){
+      callback(err);
+      return;
+    }
+    var result = JSON.parse(response.body);
+    callback(null,result);
+  });
+};
 
 //デバイス一覧を取得
 SomaliApi.prototype.getDevices = function(callback){
