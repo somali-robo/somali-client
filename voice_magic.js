@@ -70,7 +70,7 @@ VoiceMagic.prototype.recognition = function(callback){
   }
 
   //レジスター SCENE
-  var scene = 0x01;
+  var scene = 0x00000001;
   if((this.wpi.wiringPiI2CWriteReg8(this.fd,this.REGISTER_SCENE_ADDR,scene))<0){
     console.log("write error register "+this.REGISTER_SCENE_ADDR);
   }
