@@ -78,7 +78,7 @@ VoiceMagic.prototype.recognition = function(callback){
   console.log("SCENE");
   tmp = new Buffer(8);
   tmp.writeUInt8(scene);
-  console.dir(tmp);
+  console.log(tmp);
 return;
 
   //レジスター SRREG RCG_EN = 1
