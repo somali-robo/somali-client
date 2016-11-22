@@ -9,10 +9,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "fs": "*",
     "mpu6050-wiringpi": "^0.0.2",
+    "node-uuid": "^1.4.7",
+    "request": "*",
     "socket.io-client": "^1.5.1",
-    "wiring-pi": "^2.2.0",
-    "request":"*",
-    "fs":"*"
+    "wiring-pi": "^2.2.0"
   }
 }

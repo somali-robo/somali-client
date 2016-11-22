@@ -9,6 +9,7 @@ App.prototype.empath = require('./empath.js');
 App.prototype.hoya = require('./hoya.js');
 App.prototype.aplay = require('./aplay.js');
 App.prototype.somaliApi = require('./somali_api.js');
+App.prototype.uuid = require('node-uuid');
 
 App.STATUS = {
   INIT:0,
@@ -53,8 +54,10 @@ App.prototype.init = function(){
 //デバイス IDをサーバに登録する
 App.prototype.register = function(){
     console.log("register");
-    //this.config.SERIAL_CODE
-    this.somaliApi.postDevice(this.config.SERIAL_CODE,"name",function(err,response){
+    //シリアルコードが登録済みか確認する
+    //未登録なら追加する
+    var name = this.uuid.v4();
+    this.somaliApi.postDevice(this.config.SERIAL_CODE,name,function(err,response){
       if(err){
         console.log("err");
         console.log(err);
