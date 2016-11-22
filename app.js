@@ -62,14 +62,11 @@ App.prototype.register = function(){
         console.log(err);
         return;
       }
-      var exists = false;
       var data = response.data;
-      data.forEach(function(d){
-          if(_this.config.SERIAL_CODE == d["serialCode"]){
-            exists = true;
-            console.log("exists true "+_this.config.SERIAL_CODE);
-          }
+      var exists = data.some(function(d){
+          return (_this.config.SERIAL_CODE == d["serialCode"]);
       });
+      console.log("exists "+exists);
 
       //未登録なら追加する
       if(exists == false){
