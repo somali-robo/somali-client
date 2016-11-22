@@ -20,7 +20,7 @@ SomaliApi.prototype.getMessages = function(callback){
   });
 };
 */
-SomaliApi.prototype.postDevice(serialCode,name){
+SomaliApi.prototype.postDevice = function(serialCode,name,callback){
   var createdAt = (new Date()).toISOString();
   var options = {url: this.API_HOST+this.API_DEVICES,form: {"serialCode":serialCode,"name":name,"createdAt":createdAt}};
   this.request.post(options,function(err,response){
