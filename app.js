@@ -19,8 +19,9 @@ App.MODE = {
 App.STATUS = {
   ERROR:0,
   INIT:1,
-  CONNECTED:2,
-  REGISTER:3,
+  WPS_INIT:2
+  CONNECTED:3,
+  REGISTER:4,
 };
 
 App.prototype.mode = App.MODE.DEFAULT;
@@ -36,6 +37,9 @@ App.prototype.status = function(status){
       break;
     case App.STATUS.INIT:
       this.init();
+      break;
+    case App.STATUS.WPS_INIT:
+      this.wps();
       break;
     case App.STATUS.CONNECTED:
       this.connected();
@@ -63,28 +67,9 @@ App.prototype.init = function(){
   this.wpi.pinMode(this.configDevice.WPS_BUTTON,this.wpi.INPUT);
   this.wpi.wiringPiISR(this.configDevice.WPS_BUTTON, this.wpi.INT_EDGE_RISING, function(v) {
     console.log("WPS_BUTTON " + v);
-    _this.setStatusLed(true);
-    //WPSしてからネットワークに接続
-    _this.wpa_cli.execute(function(err, stdout, stderr){
-      if (err) {
-          console.log("err wpa_cli");
-          _this.lastErr = err;
-          _this.status(App.STATUS.ERROR);
-          return;
-      }
-      if (stderr) {
-          _this.lastErr = stderr;
-          _this.status(App.STATUS.ERROR);
-          return;
-      }
-      console.log('stdout '+stdout);
-      _this.setStatusLed(true);
-      //TODO: 接続されたら、App.STATUS.CONNECTED の処理をする
-      //this.status(App.STATUS.CONNECTED);
-      //TODO: モードスイッチ状態 グループモードの場合
-      //      同じルータにあるロボットにシリアルコードを通知する
-      //_this.mode == App.MODE.GROUP
-    });
+    if(v > 300){
+      _this.status(App.STATUS.WPS_INIT);
+    }
   });
 
   //REC ボタン (赤色)
@@ -114,6 +99,33 @@ App.prototype.init = function(){
   //TODO: ネットワークが繋がっているか確認する
   //接続されていたら、App.STATUS.CONNECTED の処理をする
   this.status(App.STATUS.CONNECTED);
+};
+
+//WPS処理
+App.prototype.wps = function(){
+  var _this = this;
+  this.setStatusLed(true);
+  //WPSしてからネットワークに接続
+  this.wpa_cli.execute(function(err, stdout, stderr){
+    if (err) {
+        console.log("err wpa_cli");
+        _this.lastErr = err;
+        _this.status(App.STATUS.ERROR);
+        return;
+    }
+    if (stderr) {
+        _this.lastErr = stderr;
+        _this.status(App.STATUS.ERROR);
+        return;
+    }
+    console.log('stdout '+stdout);
+    _this.setStatusLed(true);
+    //TODO: 接続されたら、App.STATUS.CONNECTED の処理をする
+    //this.status(App.STATUS.CONNECTED);
+    //TODO: モードスイッチ状態 グループモードの場合
+    //      同じルータにあるロボットにシリアルコードを通知する
+    //_this.mode == App.MODE.GROUP
+  });
 };
 
 //ネット接続の確認ができた
