@@ -61,6 +61,7 @@ WpaCli.prototype.cmdExec = function(cmd,callback){
         var i = stdout.indexOf("wpa_state=COMPLETED");
         console.log('i '+i);
         if(i > -1){
+          console.log("_this "+this);
           clearInterval(_this.monitoringTimer);
           callback(err, stdout, stderr);
         }
