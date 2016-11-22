@@ -83,7 +83,7 @@ VoiceMagic.prototype.recognition = function(callback){
   console.dir(status);
   //TODO: RJFLG 読み出し
   var tmp = new Buffer(status);
-  console.dir(tmp);
+  console.log(tmp);
   console.log("RJFLG "+tmp[1]);
   if(tmp[1] == 0){
     //認識結果受理
@@ -93,12 +93,12 @@ VoiceMagic.prototype.recognition = function(callback){
     var th = this.wpi.wiringPiI2CReadReg8(this.fd,this.REGISTER_RCGRSLTH_ADDR);
     console.log("READ REGISTER_RCGRSLTH_ADDR");
     tmp = new Buffer(th);
-    console.dir(tmp);
+    console.log(tmp);
     //      レジスター RCGRSLTL
     var tl = this.wpi.wiringPiI2CReadReg8(this.fd,this.REGISTER_RCGRSLTL_ADDR);
     console.log("READ REGISTER_RCGRSLTL_ADDR");
     tmp = new Buffer(tl);
-    console.dir(tmp);
+    console.log(tmp);
     //      RCGRSL
 
     //TODO: 結果をコールバック
