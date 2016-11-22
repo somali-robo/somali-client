@@ -70,7 +70,7 @@ App.prototype.init = function(){
   this.wpi.wiringPiISR(this.configDevice.WPS_BUTTON, this.wpi.INT_EDGE_RISING, function(v) {
     console.log("WPS_BUTTON " + v);
     console.log("_this " + _this);
-    if(v > 300){
+    if(v > 1000){
       _this.setStatus(App.STATUS.WPS_INIT);
     }
   });
@@ -123,6 +123,7 @@ App.prototype.wps = function(){
     }
     console.log('stdout '+stdout);
     _this.setStatusLed(true);
+    
     //TODO: 接続されたら、App.STATUS.CONNECTED の処理をする
     //this.setStatus(App.STATUS.CONNECTED);
     //TODO: モードスイッチ状態 グループモードの場合
