@@ -54,17 +54,37 @@ App.prototype.init = function(){
 //デバイス IDをサーバに登録する
 App.prototype.register = function(){
     console.log("register");
+    var _this = this;
     //シリアルコードが登録済みか確認する
-    //未登録なら追加する
-    var name = this.uuid.v4();
-    this.somaliApi.postDevice(this.config.SERIAL_CODE,name,function(err,response){
+    this.somaliApi.getDevices(function(err,response){
       if(err){
-        console.log("err");
+        console.log("err getDevices");
         console.log(err);
         return;
       }
-      console.log(response);
+      var exists = false;
       var data = response.data;
+      data.forEach(function(d){
+          if(_this.config.SERIAL_CODE == d["serialCode"]){
+            exists = true;
+            console.log("exists true "+_this.config.SERIAL_CODE);
+          }
+      });
+
+      //未登録なら追加する
+      if(exists == false){
+        var name = this.uuid.v4();
+        this.somaliApi.postDevice(this.config.SERIAL_CODE,name,function(err,response){
+          if(err){
+            console.log("err postDevice");
+            console.log(err);
+            return;
+          }
+          //console.log(response);
+          //var data = response.data;
+        });
+      }
+
     });
 };
 
