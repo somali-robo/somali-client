@@ -11,7 +11,7 @@ App.prototype.aplay = require('./aplay.js');
 App.prototype.somaliApi = require('./somali_api.js');
 
 App.STATUS = {
-  INIT
+  INIT:0
 };
 
 //各ステータス遷移
