@@ -115,7 +115,7 @@ VoiceMagic.prototype.recognition = function(callback){
     rcgrsl.writeUInt8(tmpTl[1],1);
     rcgrsl.writeUInt8(tmpTl[0],0);
     console.log("RCGRSL");
-    console.log(rcgrsl);
+    console.dir(rcgrsl);
 
     //TODO: 結果をコールバック
     //callback();
