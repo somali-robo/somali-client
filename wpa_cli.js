@@ -44,7 +44,7 @@ WpaCli.prototype.execute = function(callback){
         if(stdout.indexOf("wpa_state=COMPLETED") != 0){
           callback(err, stdout, stderr);
         }
-      }
+      });
     },this.MONITORING_INTERVAL_SEC*1000);
   });
 };
