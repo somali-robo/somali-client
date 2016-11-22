@@ -19,7 +19,7 @@ App.MODE = {
 App.STATUS = {
   ERROR:0,
   INIT:1,
-  WPS_INIT:2
+  WPS_INIT:2,
   CONNECTED:3,
   REGISTER:4,
 };
