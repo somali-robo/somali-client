@@ -58,6 +58,7 @@ VoiceMagic.prototype.power = function(isOn){
 //音声認識
 //ハードウェア仕様 P35
 VoiceMagic.prototype.recognition = function(callback){
+  var tmp = null;
   console.log("recognition ADDR:"+this.config.VOICE_MAGIC_I2C_ADDR);
 
   //i2c アドレス 0x2b
@@ -73,12 +74,13 @@ VoiceMagic.prototype.recognition = function(callback){
   if((this.wpi.wiringPiI2CWriteReg8(this.fd,this.REGISTER_SCENE_ADDR,scene))<0){
     console.log("write error register "+this.REGISTER_SCENE_ADDR);
   }
-  /*
-    var scene = this.wpi.wiringPiI2CReadReg8(this.fd,this.REGISTER_SCENE_ADDR);
-    console.log("SCENE");
-    console.dir(scene);
-  */
-  
+  scene = this.wpi.wiringPiI2CReadReg8(this.fd,this.REGISTER_SCENE_ADDR);
+  console.log("SCENE");
+  tmp = new Buffer(8);
+  tmp.writeUInt8(scene);
+  console.dir(tmp);
+return;
+
   //レジスター SRREG RCG_EN = 1
   console.log("SRREG RCG_EN = 1");
   if((this.wpi.wiringPiI2CWriteReg8(this.fd,this.REGISTER_SRREG_ADDR,0x02))<0){
@@ -97,7 +99,7 @@ VoiceMagic.prototype.recognition = function(callback){
   console.log("READ STATUS");
   console.dir(status);
   //TODO: RJFLG 読み出し
-  var tmp = new Buffer(status);
+  tmp = new Buffer(status);
   console.log(tmp);
   console.log("RJFLG "+tmp[1]);
   if(tmp[1] == 0){
