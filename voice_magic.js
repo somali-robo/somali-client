@@ -103,7 +103,7 @@ VoiceMagic.prototype.recognition = function(callback){
     console.log(tmpTl);
 
     //      RCGRSL
-    var rcgrsl = new Buffer(3);
+    var rcgrsl = new Buffer(10);
     rcgrsl.writeUInt8(tmpTh[1],9);
     rcgrsl.writeUInt8(tmpTh[0],8);
     rcgrsl.writeUInt8(tmpTl[7],7);
