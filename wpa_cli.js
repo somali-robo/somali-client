@@ -4,7 +4,10 @@
 var WpaCli = function(){};
 WpaCli.prototype.exec = require('child_process').exec;
 
-//STATUSを監視するタイマー間隔
+//接続状態を監視するタイマー
+WpaCli.prototype.monitoringTimer = null;
+
+//接続状態を監視するタイマー間隔
 WpaCli.prototype.MONITORING_INTERVAL_SEC = 30;
 
 /** WPS クライアントを実行
@@ -27,7 +30,7 @@ WpaCli.prototype.execute = function(callback){
     */
 
     //ネット接続されるまで監視する
-    setInterval(function(){
+    this.monitoringTimer = setInterval(function(){
       var cmd = 'sudo wpa_cli status';
       _this.exec(cmd, function(err, stdout, stderr){
         if(err){
@@ -41,7 +44,8 @@ WpaCli.prototype.execute = function(callback){
         console.log(" wpa_cli status ---------");
         console.log('stdout '+stdout);
         //wpa_state=COMPLETED
-        if(stdout.indexOf("wpa_state=COMPLETED") != 0){
+        if(stdout.indexOf("wpa_state=COMPLETED") != -1){
+          clearInterval(_this.monitoringTimer);
           callback(err, stdout, stderr);
         }
       });
