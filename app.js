@@ -11,14 +11,21 @@ App.prototype.aplay = require('./aplay.js');
 App.prototype.somaliApi = require('./somali_api.js');
 App.prototype.uuid = require('node-uuid');
 
-App.prototype.lastErr = null;
-App.prototype.intonations = null;
+App.MODE = {
+  DEFAULT:0,
+  GROUP:1
+};
 
 App.STATUS = {
   ERROR:0,
   INIT:1,
-  REGISTER:2,
+  CONNECTED:2,
+  REGISTER:3,
 };
+
+App.prototype.mode = App.MODE.DEFAULT;
+App.prototype.lastErr = null;
+App.prototype.intonations = null;
 
 //各ステータス遷移
 App.prototype.status = function(status){
@@ -29,6 +36,9 @@ App.prototype.status = function(status){
       break;
     case App.STATUS.INIT:
       this.init();
+      break;
+    case App.STATUS.CONNECTED:
+      this.connected();
       break;
     case App.STATUS.REGISTER:
       this.register();
@@ -49,25 +59,62 @@ App.prototype.init = function(){
   this.wpi.pinMode(this.configDevice.STATUS_LED,this.wpi.OUTPUT);
   this.setStatusLed(true);
 
-  //WPS ボタン
+  //WPS ボタン (青色)
   this.wpi.pinMode(this.configDevice.WPS_BUTTON,this.wpi.INPUT);
-  this.wpi.wiringPiISR(this.configDevice.WPS_BUTTON, this.wpi.INT_EDGE_RISING, function(delta) {
-    console.log("Hit ! " + delta);
+  this.wpi.wiringPiISR(this.configDevice.WPS_BUTTON, this.wpi.INT_EDGE_RISING, function(v) {
+    console.log("WPS_BUTTON " + v);
     _this.setStatusLed(true);
+    //TODO: ネットワークに接続
     //_this.wpa_cli.execute();
+    //接続されたら、App.STATUS.CONNECTED の処理をする
+    //this.status(App.STATUS.CONNECTED);
   });
 
+  //REC ボタン (赤色)
+  this.wpi.pinMode(this.configDevice.REC_BUTTON,this.wpi.INPUT);
+  this.wpi.wiringPiISR(this.configDevice.REC_BUTTON, this.wpi.INT_EDGE_RISING, function(v) {
+    console.log("REC_BUTTON " + v);
+    _this.setStatusLed(true);
+    //TODO: モードスイッチ状態によって送信パラメータを変更
+    //_this.mode
+    //TODO: 録音して内容をサーバに送信
+  });
+
+  //モード スイッチ INT_EDGE_BOTH 両方
+  this.wpi.pinMode(this.configDevice.MODE_SWITCH,this.wpi.INPUT);
+  this.wpi.wiringPiISR(this.configDevice.MODE_SWITCH, this.wpi.INT_EDGE_BOTH, function(v) {
+    console.log("MODE_SWITCH " + v);
+    if(v < 300){
+      //通常モード
+      _this.mode = App.MODE.DEFAULT;
+    }
+    else{
+      //ペアモード
+      _this.mode = App.MODE.DEFAULT;
+    }
+  });
+
+  //TODO: ネットワークが繋がっているか確認する
+  //接続されていたら、App.STATUS.CONNECTED の処理をする
+  this.status(App.STATUS.CONNECTED);
+};
+
+//ネット接続の確認ができた
+App.prototype.connected = function(){
   //抑揚認識発話 データ取得
   this.somaliApi.getIntonations(function(err,response){
     if(err){
-      console.log("err getDevices");
+      console.log("err getIntonations");
       _this.lastErr = err;
       _this.status(App.STATUS.ERROR);
       return;
     }
     _this.intonations = response.data;
+    console.log("getIntonations");
+    console.log(_this.intonations);
   });
-  //登録処理
+
+  //デバイス登録処理
   this.status(App.STATUS.REGISTER);
 };
 
