@@ -79,12 +79,14 @@ App.prototype.init = function(){
   this.wpi.wiringPiISR(this.configDevice.MODE_SWITCH, this.wpi.INT_EDGE_BOTH, function(delta) {
     console.log("MODE_SWITCH " + delta);
   });
-
+  
+/*
   //MPU6050のデータを監視
   this.mpu6050.subscribe(30,function(data){
       console.log("MPU6050");
       console.dir(data);
   });
+*/
 };
 
 //スピーカー・アンプ ON,OFF

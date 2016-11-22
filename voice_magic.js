@@ -76,10 +76,28 @@ VoiceMagic.prototype.recognition = function(callback){
   var status = this.wpi.wiringPiI2CReadReg8(this.fd,this.REGISTER_STATUS_ADDR);
   console.log("READ STATUS");
   console.dir(status);
+  var buf = new Buffer(status,'binary');
+  console.dir(buf);
 
-  //TODO: 判定結果の読み出し
+  //TODO: 認識結果の読み出し
+  //      レジスター RCGRSLTH
+  //      レジスター RCGRSLTL
+  //      RCGRSL
+
   //TODO: 結果をコールバック
   //callback();
+
+  //TODO: 再起する？
+  this.recognition(callback);
+};
+
+VoiceMagic.prototype.toHexStr = function(s){
+  var result="";
+  for(var i=0;i<s.length;++i){
+    var h = ("0"+s.charCodeAt(i).toString(16)).substr(-2);
+    result += h;
+  }
+  return result;
 };
 
 module.exports = new VoiceMagic();
