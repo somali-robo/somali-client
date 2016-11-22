@@ -10,8 +10,12 @@ VoiceMagic.prototype.fd     = null;
 VoiceMagic.prototype.POWER_ON = true;
 VoiceMagic.prototype.POWER_OFF = false;
 
+//レジスター SCENE 0x0c
+VoiceMagic.prototype.REGISTER_SCENE_ADDR = 0x0c;
+
 //レジスター SRREG 0x0d
 VoiceMagic.prototype.REGISTER_SRREG_ADDR = 0x0d;
+
 //レジスター STATUS 0x0e
 VoiceMagic.prototype.REGISTER_STATUS_ADDR = 0x0e;
 
@@ -63,6 +67,18 @@ VoiceMagic.prototype.recognition = function(callback){
     console.log('fb is null');
     return;
   }
+
+  //レジスター SCENE
+  var scene = this.wpi.wiringPiI2CReadReg8(this.fd,this.REGISTER_SCENE_ADDR);
+  console.log("SCENE");
+  console.log(scene);
+  return;
+  
+  /*
+  var scene = 0x00000000;
+  if((this.wpi.wiringPiI2CWriteReg8(this.fd,this.REGISTER_SCENE_ADDR,0x02))<0){
+    console.log("write error register "+this.REGISTER_SRREG_ADDR);
+  }*/
 
   //レジスター SRREG RCG_EN = 1
   console.log("SRREG RCG_EN = 1");
