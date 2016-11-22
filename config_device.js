@@ -3,6 +3,9 @@
 */
 var ConfigDevice = function(){};
 
+//ステータス LED
+ConfigDevice.prototype.STATUS_LED = 4;
+
 //WPS ボタン (水色)
 ConfigDevice.prototype.WPS_BUTTON = 22;
 

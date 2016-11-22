@@ -9,18 +9,6 @@ App.prototype.hoya = require('./hoya.js');
 App.prototype.aplay = require('./aplay.js');
 App.prototype.somaliApi = require('./somali_api.js');
 
-App.STATUS = {
-  INIT
-};
-
-//各ステータス遷移
-App.prototype.status = function(status){
-  if(status == App.STATUS.INIT){
-    this.init();
-  }
-  this.status = status;
-};
-
 //初期化
 App.prototype.init = function(){
   var _this = this;
@@ -112,7 +100,7 @@ App.prototype.textToSpeech = function(text,speaker,callback){
 //メッセージ一覧を取得
 App.prototype.getMessages = function(callback){
 
-};
+}
 
 var app = new App();
-app.status(App.STATUS.INIT);
+app.init();
