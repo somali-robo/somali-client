@@ -2,6 +2,7 @@
 */
 var App = function(){};
 App.prototype.config = require('./config.js');
+App.prototype.configDevice = require('./config_device.js');
 App.prototype.wpi    = require('wiring-pi');
 App.prototype.wpa_cli= require('./wpa_cli.js');
 App.prototype.empath = require('./empath.js');
@@ -29,12 +30,12 @@ App.prototype.init = function(){
   this.wpi.wiringPiSetupGpio();
 
   //ステータス用の LED 設定
-  this.wpi.pinMode(this.config.STATUS_LED,this.wpi.OUTPUT);
+  this.wpi.pinMode(this.configDevice.STATUS_LED,this.wpi.OUTPUT);
   this.setStatusLed(true);
 
   //WPS ボタン
-  this.wpi.pinMode(this.config.WPS_BUTTON,this.wpi.INPUT);
-  this.wpi.wiringPiISR(this.config.WPS_BUTTON, this.wpi.INT_EDGE_RISING, function(delta) {
+  this.wpi.pinMode(this.configDevice.WPS_BUTTON,this.wpi.INPUT);
+  this.wpi.wiringPiISR(this.configDevice.WPS_BUTTON, this.wpi.INT_EDGE_RISING, function(delta) {
     console.log("Hit ! " + delta);
     _this.setStatusLed(true);
     //_this.wpa_cli.execute();
@@ -79,16 +80,16 @@ App.prototype.init = function(){
 App.prototype.setStatusLed = function(isOn){
   if(isOn == true){
     //ON
-    this.wpi.digitalWrite(this.config.STATUS_LED,this.wpi.HIGH);
+    this.wpi.digitalWrite(this.configDevice.STATUS_LED,this.wpi.HIGH);
     //一定時間経過後に LEDをOFF
     var _this = this;
     setTimeout(function(){
-      _this.wpi.digitalWrite(_this.config.STATUS_LED,_this.wpi.LOW);
+      _this.wpi.digitalWrite(_this.configDevice.STATUS_LED,_this.wpi.LOW);
     },this.config.STATUS_LED_OFF_SEC);
   }
   else{
     //OFF
-    this.wpi.digitalWrite(this.config.STATUS_LED,this.wpi.LOW);
+    this.wpi.digitalWrite(this.configDevice.STATUS_LED,this.wpi.LOW);
   }
 };
 
