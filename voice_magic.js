@@ -70,18 +70,10 @@ VoiceMagic.prototype.recognition = function(callback){
   }
 
   //レジスター SCENE
-  var scene = 0x00000001;
+  var scene = 0x00;
   if((this.wpi.wiringPiI2CWriteReg8(this.fd,this.REGISTER_SCENE_ADDR,scene))<0){
     console.log("write error register "+this.REGISTER_SCENE_ADDR);
   }
-  scene = this.wpi.wiringPiI2CReadReg8(this.fd,this.REGISTER_SCENE_ADDR);
-  console.log("SCENE");
-  tmp = new Buffer(8);
-  tmp.writeUInt8(scene);
-  for(var i=0;i<8;i++){
-    console.log(tmp[i]);
-  }
-return;
 
   //レジスター SRREG RCG_EN = 1
   console.log("SRREG RCG_EN = 1");
