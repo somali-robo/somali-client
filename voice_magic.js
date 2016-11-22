@@ -72,20 +72,25 @@ VoiceMagic.prototype.recognition = function(callback){
     rcgEn = this.wpi.wiringPiI2CReadReg8(this.fd,this.REGISTER_SRREG_ADDR);
   }
 
-  //TODO: 判定結果の確認 RJFLG 読み出し
+  //TODO: 判定結果の確認 レジスターSTATUS
   var status = this.wpi.wiringPiI2CReadReg8(this.fd,this.REGISTER_STATUS_ADDR);
   console.log("READ STATUS");
   console.dir(status);
-  var buf = new Buffer(status);
-  console.dir(buf);
+  //TODO: RJFLG 読み出し
+  var tmp = new Buffer(status);
+  console.dir(tmp);
+  console.log("RJFLG "+tmp[1]);
+  if(tmp[1] == 0){
+    //認識結果受理
 
-  //TODO: 認識結果の読み出し
-  //      レジスター RCGRSLTH
-  //      レジスター RCGRSLTL
-  //      RCGRSL
+    //TODO: 認識結果の読み出し
+    //      レジスター RCGRSLTH
+    //      レジスター RCGRSLTL
+    //      RCGRSL
 
-  //TODO: 結果をコールバック
-  //callback();
+    //TODO: 結果をコールバック
+    //callback();
+  }
 
   //TODO: 再起する？
   this.recognition(callback);
