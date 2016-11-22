@@ -22,7 +22,7 @@ App.STATUS = {
 
 //各ステータス遷移
 App.prototype.status = function(status){
-  switch(){
+  switch(status){
     case App.STATUS.ERROR:
       //TODO: エラーの時の処理
       console.log(this.lastErr);
