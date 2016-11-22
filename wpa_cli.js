@@ -9,13 +9,27 @@ WpaCli.prototype.monitoringTimer = null;
 
 //接続状態を監視するタイマー間隔
 WpaCli.prototype.MONITORING_INTERVAL_SEC = 30;
+//監視タイマーのタイムアウト
+WpaCli.prototype.MONITORING_TIMEOUT_SEC = 3*60;
 
 /** WPS クライアントを実行
 */
 WpaCli.prototype.execute = function(callback){
+  this.cmdExec('sudo wpa_cli wps_pbc',callback);
+};
+
+/** WPS クライアントを実行
+* パスワード 12345678
+*/
+WpaCli.prototype.executeAny = function(callback){
+  this.cmdExec('sudo wpa_cli wps_pin any 12345678',callback);
+};
+
+/** WPS クライアントを実行
+*/
+WpaCli.prototype.cmdExec = function(cmd,callback){
   var _this = this;
-  var cmd = 'sudo wpa_cli wps_pbc';
-  console.log('execute '+cmd);
+  console.log('cmdExec '+cmd);
   this.exec(cmd, function(err, stdout, stderr){
     if(err){
         callback(err, null, null);
@@ -50,27 +64,15 @@ WpaCli.prototype.execute = function(callback){
         }
       });
     },this.MONITORING_INTERVAL_SEC*1000);
+
+    //監視タイムアウト
+    setTimeout(function(){
+        //タイムアウト
+        clearInterval(_this.monitoringTimer);
+        callback("timeout", null, null);
+    },this.MONITORING_TIMEOUT_SEC*1000);
   });
 };
 
-/** WPS クライアントを実行
-* パスワード 12345678
-*/
-WpaCli.prototype.executeAny = function(callback){
-  var cmd = 'sudo wpa_cli wps_pin any 12345678';
-  console.log('executeAny '+cmd);
-  this.exec(cmd, function(err, stdout, stderr){
-    callback(err, stdout, stderr);
-    /*
-    if (err) {
-        //console.log(err);
-    }
-    if (stderr) {
-        console.log('stderr '+stderr);
-    }
-    console.log('stdout '+stdout);
-    */
-  });
-};
 
 module.exports = new WpaCli();
