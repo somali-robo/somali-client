@@ -101,6 +101,8 @@ App.prototype.init = function(){
 
 //ネット接続の確認ができた
 App.prototype.connected = function(){
+  console.log("connected");
+  var _this = this;
   //抑揚認識発話 データ取得
   this.somaliApi.getIntonations(function(err,response){
     if(err){
