@@ -71,9 +71,10 @@ WpaCli.prototype.cmdExec = function(cmd,callback){
 
     //監視タイムアウト
     setTimeout(function(){
-        console.log("timeoutFire");
         if(_this.monitoringTimer != null){
+          console.log("timeoutFire");
           //タイムアウト
+          console.log("clearInterval");
           clearInterval(_this.monitoringTimer);
           callback("timeout", null, null);
         }
