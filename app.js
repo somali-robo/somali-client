@@ -261,7 +261,7 @@ App.prototype.recStart = function(){
 
     //録音内容をサーバに送信
     var localPath = _this.realpath.realpathSync(_this.wavFilePath);
-    var remotePath = "/Apps/Somali"+_this.uuid.v4()+".wav";
+    var remotePath = "/"+_this.uuid.v4()+".wav";
     console.log("localPath "+localPath);
     console.log("remotePath "+remotePath);
     _this.dropboxApi.upload(remotePath, localPath, function(err, resp, body) {
