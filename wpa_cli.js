@@ -12,6 +12,9 @@ WpaCli.prototype.MONITORING_INTERVAL_SEC = 10;
 //監視タイマーのタイムアウト
 WpaCli.prototype.MONITORING_TIMEOUT_SEC = 60;
 
+//接続完了後インターネットに接続できるまで待つ時間
+WpaCli.prototype.SUCCESS_DELAY_SEC = 30;
+
 /** WPS クライアントを実行
 */
 WpaCli.prototype.execute = function(callback){
@@ -64,7 +67,11 @@ WpaCli.prototype.cmdExec = function(cmd,callback){
           console.log("clearInterval");
           clearInterval(_this.monitoringTimer);
           _this.monitoringTimer = null;
-          callback(err, stdout, stderr);
+
+          //IP割り振られてから インターネットにアクセスできるまでdelayがある
+          setTimeout(function(){
+            callback(err, stdout, stderr);
+          },_this.SUCCESS_DELAY_SEC*1000);
         }
       });
     },_this.MONITORING_INTERVAL_SEC*1000);
