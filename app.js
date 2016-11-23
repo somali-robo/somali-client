@@ -260,7 +260,7 @@ App.prototype.recStart = function(){
     console.log("success");
 
     //録音内容をサーバに送信
-    var localPath = _this.realpath.realpathSync(_this.wavFilePath);
+    var localPath = _this.wavFilePath; //_this.realpath.realpathSync(_this.wavFilePath);
     var remotePath = "/"+_this.uuid.v4()+".wav";
     console.log("localPath "+localPath);
     console.log("remotePath "+remotePath);
@@ -272,10 +272,10 @@ App.prototype.recStart = function(){
       }
       //console.log(resp);
       console.log(body);
-    });
 
-    //TODO: モードスイッチ状態によって送信パラメータを変更
-    //_this.mode
+      //TODO: モードスイッチ状態によって送信パラメータを変更
+      //_this.mode
+    });
 /*
     //スピーカーアンプをONにする
     _this.speakerAmpPower(_this.wpi.HIGH);
