@@ -10,7 +10,7 @@ WpaCli.prototype.monitoringTimer = null;
 //接続状態を監視するタイマー間隔
 WpaCli.prototype.MONITORING_INTERVAL_SEC = 10;
 //監視タイマーのタイムアウト
-WpaCli.prototype.MONITORING_TIMEOUT_SEC = 180;
+WpaCli.prototype.MONITORING_TIMEOUT_SEC = 60;
 
 /** WPS クライアントを実行
 */
