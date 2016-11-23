@@ -81,7 +81,7 @@ App.prototype.init = function(){
 
   //スピーカー・アンプ
   this.wpi.pinMode(this.configDevice.SPEAKER_AMP_POWER,this.wpi.OUTPUT);
-  //this.speakerAmpPower(this.SPEAKER_POWER_ON);
+  //this.speakerAmpPower(this.wpi.HIGH);
 
   //音量変更
   this.amixer.pcmVolume(100);
@@ -244,7 +244,7 @@ App.prototype.recStart = function(){
   var _this = this;
   console.log("recStart");
   //録音する
-  this.arecord.record(_this.wavFilePath,3,function(err, stdout, stderr){
+  this.arecord.record(this.wavFilePath,3,function(err, stdout, stderr){
     if (err != null){
       console.log("err");
       return;
@@ -256,7 +256,7 @@ App.prototype.recStart = function(){
     //_this.mode
 
     //スピーカーアンプをONにする
-    _this.speakerAmpPower(_this.SPEAKER_POWER_ON);
+    _this.speakerAmpPower(this.wpi.HIGH);
 
     //再生テスト
     _this.aplay.play(_this.wavFilePath,function(err, stdout, stderr){
@@ -267,22 +267,15 @@ App.prototype.recStart = function(){
       console.log("success");
 
       //アンプをOFFにする
-      _this.speakerAmpPower(_this.SPEAKER_POWER_OFF);
+      _this.speakerAmpPower(this.wpi.LOW);
     });
 
   });
 };
 
 //スピーカー・アンプ ON,OFF
-App.prototype.speakerAmpPower = function(isOn){
-  if(isOn == true){
-    //ON
-    this.wpi.digitalWrite(this.configDevice.SPEAKER_AMP_POWER,this.wpi.HIGH);
-  }
-  else{
-    //OFF
-    this.wpi.digitalWrite(this.configDevice.SPEAKER_AMP_POWER,this.wpi.LOW);
-  }
+App.prototype.speakerAmpPower = function(v){
+  this.wpi.digitalWrite(this.configDevice.SPEAKER_AMP_POWER,v);
 };
 
 //ステータスLEDを点灯 一定時間後に消灯
