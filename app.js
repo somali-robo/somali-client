@@ -30,6 +30,7 @@ App.prototype.status = App.STATUS.DEFAULT;
 App.prototype.mode = App.MODE.DEFAULT;
 App.prototype.lastErr = null;
 App.prototype.intonations = null;
+App.prototype.serviceInfo = null;
 
 //各ステータス遷移
 App.prototype.setStatus = function(status){
@@ -103,9 +104,15 @@ App.prototype.init = function(){
     console.log("mode "+(_this.mode == App.MODE.GROUP)?"GROUP":"DEFAULT");
   });
 
-  //TODO: ネットワークが繋がっているか確認する
-  //接続されていたら、App.STATUS.CONNECTED の処理をする
-  this.setStatus(App.STATUS.CONNECTED);
+  //ネットワークが繋がっているか確認する
+  this.somaliApi.getServiceInfos(function(err,response){
+      if(err){
+        //未接続
+        return;
+      }
+      //接続されていたので App.STATUS.CONNECTED の処理をする
+      this.setStatus(App.STATUS.CONNECTED);
+  });
 };
 
 //WPS処理
@@ -137,6 +144,18 @@ App.prototype.wps = function(){
 App.prototype.connected = function(){
   console.log("connected");
   var _this = this;
+
+  //サービス情報を取得
+  this.somaliApi.getServiceInfos(function(err,response){
+    if(err){
+      console.log("err getIntonations");
+      _this.lastErr = err;
+      _this.setStatus(App.STATUS.ERROR);
+      return;
+    }
+    _this.serviceInfo = response.data[0];
+  });
+
   //抑揚認識発話 データ取得
   this.somaliApi.getIntonations(function(err,response){
     if(err){
