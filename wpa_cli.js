@@ -13,7 +13,7 @@ WpaCli.prototype.MONITORING_INTERVAL_SEC = 10;
 WpaCli.prototype.MONITORING_TIMEOUT_SEC = 60;
 
 //接続完了後インターネットに接続できるまで待つ時間
-WpaCli.prototype.SUCCESS_DELAY_SEC = 30;
+WpaCli.prototype.SUCCESS_DELAY_SEC = 15;
 
 /** WPS クライアントを実行
 */
