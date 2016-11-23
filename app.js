@@ -93,7 +93,7 @@ App.prototype.init = function(){
   this.wpi.pinMode(this.configDevice.MODE_SWITCH,this.wpi.INPUT);
   this.wpi.wiringPiISR(this.configDevice.MODE_SWITCH, this.wpi.INT_EDGE_BOTH, function(v) {
     console.log("MODE_SWITCH " + v);
-    if(v < 300){
+    if(v < 100){
       //通常モード
       _this.mode = App.MODE.DEFAULT;
     }
