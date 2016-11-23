@@ -111,7 +111,7 @@ App.prototype.init = function(){
         return;
       }
       //接続されていたので App.STATUS.CONNECTED の処理をする
-      this.setStatus(App.STATUS.CONNECTED);
+      _this.setStatus(App.STATUS.CONNECTED);
   });
 };
 
