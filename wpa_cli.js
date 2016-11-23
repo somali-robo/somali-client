@@ -10,7 +10,7 @@ WpaCli.prototype.monitoringTimer = null;
 //接続状態を監視するタイマー間隔
 WpaCli.prototype.MONITORING_INTERVAL_SEC = 30;
 //監視タイマーのタイムアウト
-WpaCli.prototype.MONITORING_TIMEOUT_SEC = 3*60;
+WpaCli.prototype.MONITORING_TIMEOUT_SEC = 180;
 
 /** WPS クライアントを実行
 */
@@ -44,7 +44,7 @@ WpaCli.prototype.cmdExec = function(cmd,callback){
     */
 
     //ネット接続されるまで監視する
-    this.monitoringTimer = setInterval(function(){
+    _this.monitoringTimer = setInterval(function(){
       var cmd = 'sudo wpa_cli status';
       _this.exec(cmd, function(err, stdout, stderr){
         if(err){
@@ -61,12 +61,12 @@ WpaCli.prototype.cmdExec = function(cmd,callback){
         var i = stdout.indexOf("wpa_state=COMPLETED");
         console.log('i '+i);
         if(i > -1){
-          console.log("_this "+this);
-          clearInterval(this);
+          console.log("_this "+_this);
+          clearInterval(_this.monitoringTimer);
           callback(err, stdout, stderr);
         }
       });
-    },this.MONITORING_INTERVAL_SEC*1000);
+    },_this.MONITORING_INTERVAL_SEC*1000);
 
     //監視タイムアウト
     setTimeout(function(){
@@ -74,7 +74,7 @@ WpaCli.prototype.cmdExec = function(cmd,callback){
         //タイムアウト
         clearInterval(_this.monitoringTimer);
         callback("timeout", null, null);
-    },this.MONITORING_TIMEOUT_SEC*1000);
+    },_this.MONITORING_TIMEOUT_SEC*1000);
   });
 };
 
