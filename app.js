@@ -256,7 +256,7 @@ App.prototype.recStart = function(){
     //_this.mode
 
     //スピーカーアンプをONにする
-    _this.speakerAmpPower(this.wpi.HIGH);
+    _this.speakerAmpPower(_this.wpi.HIGH);
 
     //再生テスト
     _this.aplay.play(_this.wavFilePath,function(err, stdout, stderr){
@@ -267,7 +267,7 @@ App.prototype.recStart = function(){
       console.log("success");
 
       //アンプをOFFにする
-      _this.speakerAmpPower(this.wpi.LOW);
+      _this.speakerAmpPower(_this.wpi.LOW);
     });
 
   });
