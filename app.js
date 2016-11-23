@@ -264,14 +264,14 @@ App.prototype.recStart = function(){
     var remotePath = _this.uuid.v4()+".wav";
     console.log("localPath "+localPath);
     console.log("remotePath "+remotePath);
-    _this.dropboxApi.upload(remotePath, localPath, function(err, httpResponse, bodymsg) {
+    _this.dropboxApi.upload(remotePath, localPath, function(err, resp, body) {
       if(err){
         _this.lastErr = err;
         _this.setStatus(App.STATUS.ERROR);
         return;
       }
-      //console.log(httpResponse);
-      //console.log(bodymsg);
+      console.log(resp);
+      console.log(body);
     });
 
     //TODO: モードスイッチ状態によって送信パラメータを変更
