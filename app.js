@@ -259,9 +259,16 @@ App.prototype.recStart = function(){
     console.log("success");
 
     //録音内容をサーバに送信
+    var localPath = _this.wavFilePath;
     var remotePath = _this.uuid.v4()+".wav";
-    _this.dropboxApi.upload(remotePath, _this.wavFilePath, function(err, httpResponse, bodymsg) {
-      console.log(err);
+    console.log("localPath "+localPath);
+    console.log("remotePath "+remotePath);
+    _this.dropboxApi.upload(remotePath, localPath, function(err, httpResponse, bodymsg) {
+      if(err){
+        _this.lastErr = err;
+        _this.setStatus(App.STATUS.ERROR);
+        return;
+      }
       console.log(httpResponse);
       console.log(bodymsg);
     });
