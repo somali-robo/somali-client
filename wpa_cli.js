@@ -62,7 +62,7 @@ WpaCli.prototype.cmdExec = function(cmd,callback){
         console.log('i '+i);
         if(i > -1){
           console.log("_this "+this);
-          clearInterval(_this.monitoringTimer);
+          clearInterval(this);
           callback(err, stdout, stderr);
         }
       });
