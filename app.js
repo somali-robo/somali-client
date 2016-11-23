@@ -2,7 +2,6 @@
 */
 var App = function(){};
 App.prototype.uuid = require('node-uuid');
-App.prototype.realpath = require('fs.realpath')
 App.prototype.dropbox = require("node-dropbox");
 App.prototype.wpi = require('wiring-pi');
 
@@ -260,7 +259,7 @@ App.prototype.recStart = function(){
     console.log("success");
 
     //録音内容をサーバに送信
-    var localPath = _this.wavFilePath; //_this.realpath.realpathSync(_this.wavFilePath);
+    var localPath = _this.wavFilePath;
     var remotePath = "/"+_this.uuid.v4()+".wav";
     console.log("localPath "+localPath);
     console.log("remotePath "+remotePath);
