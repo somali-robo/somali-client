@@ -1,6 +1,7 @@
 /** Somali App
 */
 var App = function(){};
+App.prototype.uuid = require('node-uuid');
 App.prototype.config = require('./config.js');
 App.prototype.configDevice = require('./config_device.js');
 App.prototype.wpi    = require('wiring-pi');
@@ -9,7 +10,8 @@ App.prototype.empath = require('./empath.js');
 App.prototype.hoya = require('./hoya.js');
 App.prototype.aplay = require('./aplay.js');
 App.prototype.somaliApi = require('./somali_api.js');
-App.prototype.uuid = require('node-uuid');
+App.prototype.arecord　= require('./arecord.js');
+App.prototype.amixer = require('./amixer.js');
 
 App.MODE = {
   DEFAULT:0,
@@ -24,6 +26,7 @@ App.STATUS = {
   CONNECTED:4,
   REGISTER:5,
   MODE_GROUP:6,
+  REC_START:7
 };
 
 App.prototype.status = App.STATUS.DEFAULT;
@@ -31,6 +34,9 @@ App.prototype.mode = App.MODE.DEFAULT;
 App.prototype.lastErr = null;
 App.prototype.intonations = null;
 App.prototype.serviceInfo = null;
+
+//録音したファイル
+App.prototype.wavFilePath = "./tmp/rec.wav";
 
 //各ステータス遷移
 App.prototype.setStatus = function(status){
@@ -52,8 +58,11 @@ App.prototype.setStatus = function(status){
       this.register();
       break;
     case App.STATUS.MODE_GROUP:
-        this.modeGroup();
-        break;
+      this.modeGroup();
+      break;
+    case App.STATUS.REC_START:
+      this.recStart();
+      break;
   }
   this.status = status;
 };
@@ -70,6 +79,13 @@ App.prototype.init = function(){
   this.wpi.pinMode(this.configDevice.STATUS_LED,this.wpi.OUTPUT);
   this.setStatusLed(true);
 
+  //スピーカー・アンプ
+  this.wpi.pinMode(this.configDevice.SPEAKER_AMP_POWER,this.wpi.OUTPUT);
+  //this.speakerAmpPower(this.SPEAKER_POWER_ON);
+
+  //音量変更
+  this.amixer.pcmVolume(100);
+
   //WPS ボタン (青色)
   this.wpi.pinMode(this.configDevice.WPS_BUTTON,this.wpi.INPUT);
   this.wpi.wiringPiISR(this.configDevice.WPS_BUTTON, this.wpi.INT_EDGE_RISING, function(v) {
@@ -84,16 +100,15 @@ App.prototype.init = function(){
   this.wpi.wiringPiISR(this.configDevice.REC_BUTTON, this.wpi.INT_EDGE_RISING, function(v) {
     console.log("REC_BUTTON " + v);
     _this.setStatusLed(true);
-    //TODO: モードスイッチ状態によって送信パラメータを変更
-    //_this.mode
-    //TODO: 録音して内容をサーバに送信
+    //録音開始
+    _this.setStatus(App.STATUS.REC_START);
   });
 
   //モード スイッチ INT_EDGE_BOTH 両方
   this.wpi.pinMode(this.configDevice.MODE_SWITCH,this.wpi.INPUT);
   this.wpi.wiringPiISR(this.configDevice.MODE_SWITCH, this.wpi.INT_EDGE_BOTH, function(v) {
     var value = _this.wpi.digitalRead(_this.configDevice.MODE_SWITCH);
-    console.log("MODE_SWITCH " + value);
+    //console.log("MODE_SWITCH " + value);
     //通常モード,グループモード トグル切り替え
     _this.mode = (value == _this.wpi.HIGH)?App.MODE.DEFAULT:App.MODE.GROUP;
     console.log((_this.mode == App.MODE.GROUP)?"GROUP":"DEFAULT");
@@ -222,8 +237,53 @@ App.prototype.modeGroup = function(){
   //TODO: UDPからシリアルコードを受け取る
   //TODO: 共通のチャットルーム作成
 };
-/** ステータスLEDを操作
-*/
+
+//録音開始
+App.prototype.recStart = function(){
+  console.log("recStart");
+  //録音する
+  this.arecord.record(_this.wavFilePath,3,function(err, stdout, stderr){
+    if (err != null){
+      console.log("err");
+      return;
+    }
+    console.log("success");
+
+    //TODO: 録音内容をサーバに送信
+    //TODO: モードスイッチ状態によって送信パラメータを変更
+    //_this.mode
+
+    //スピーカーアンプをONにする
+    _this.speakerAmpPower(_this.SPEAKER_POWER_ON);
+
+    //再生テスト
+    _this.aplay.play(_this.wavFilePath,function(err, stdout, stderr){
+      if (err != null){
+        console.log("err");
+        return;
+      }
+      console.log("success");
+
+      //アンプをOFFにする
+      _this.speakerAmpPower(_this.SPEAKER_POWER_OFF);
+    });
+
+  });
+};
+
+//スピーカー・アンプ ON,OFF
+App.prototype.speakerAmpPower = function(isOn){
+  if(isOn == true){
+    //ON
+    this.wpi.digitalWrite(this.configDevice.SPEAKER_AMP_POWER,this.wpi.HIGH);
+  }
+  else{
+    //OFF
+    this.wpi.digitalWrite(this.configDevice.SPEAKER_AMP_POWER,this.wpi.LOW);
+  }
+};
+
+//ステータスLEDを点灯 一定時間後に消灯
 App.prototype.setStatusLed = function(isOn){
   if(isOn == true){
     //ON
@@ -240,6 +300,7 @@ App.prototype.setStatusLed = function(isOn){
   }
 };
 
+//テキスト音声合成
 App.prototype.textToSpeech = function(text,speaker,callback){
   var apiKey = this.config.DOCOMO_API_KEY;
   var params = {};
