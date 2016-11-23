@@ -100,7 +100,7 @@ App.prototype.init = function(){
       //グループモード
       _this.mode = App.MODE.GROUP;
     }
-    console.log("mode "+(_this.mode==_this.mode = App.MODE.GROUP)?"GROUP":"DEFAULT");
+    console.log("mode "+(_this.mode == App.MODE.GROUP)?"GROUP":"DEFAULT");
   });
 
   //TODO: ネットワークが繋がっているか確認する
