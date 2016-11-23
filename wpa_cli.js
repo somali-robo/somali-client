@@ -8,7 +8,7 @@ WpaCli.prototype.exec = require('child_process').exec;
 WpaCli.prototype.monitoringTimer = null;
 
 //接続状態を監視するタイマー間隔
-WpaCli.prototype.MONITORING_INTERVAL_SEC = 30;
+WpaCli.prototype.MONITORING_INTERVAL_SEC = 10;
 //監視タイマーのタイムアウト
 WpaCli.prototype.MONITORING_TIMEOUT_SEC = 180;
 
@@ -59,10 +59,11 @@ WpaCli.prototype.cmdExec = function(cmd,callback){
         //console.log('stdout '+stdout);
         //wpa_state=COMPLETED
         var i = stdout.indexOf("wpa_state=COMPLETED");
-        console.log('i '+i);
+        //console.log('i '+i);
         if(i > -1){
-          console.log("_this "+_this);
+          console.log("clearInterval");
           clearInterval(_this.monitoringTimer);
+          _this.monitoringTimer = null;
           callback(err, stdout, stderr);
         }
       });
@@ -71,9 +72,11 @@ WpaCli.prototype.cmdExec = function(cmd,callback){
     //監視タイムアウト
     setTimeout(function(){
         console.log("timeoutFire");
-        //タイムアウト
-        clearInterval(_this.monitoringTimer);
-        callback("timeout", null, null);
+        if(_this.monitoringTimer != null){
+          //タイムアウト
+          clearInterval(_this.monitoringTimer);
+          callback("timeout", null, null);
+        }
     },_this.MONITORING_TIMEOUT_SEC*1000);
   });
 };
