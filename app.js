@@ -254,7 +254,7 @@ App.prototype.recStart = function(){
     //TODO: 録音内容をサーバに送信
     //TODO: モードスイッチ状態によって送信パラメータを変更
     //_this.mode
-
+/*
     //スピーカーアンプをONにする
     _this.speakerAmpPower(_this.wpi.HIGH);
 
@@ -269,7 +269,7 @@ App.prototype.recStart = function(){
       //アンプをOFFにする
       _this.speakerAmpPower(_this.wpi.LOW);
     });
-
+*/
   });
 };
 
