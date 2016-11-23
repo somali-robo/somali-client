@@ -232,6 +232,7 @@ App.prototype.register = function(){
 
 //同じルータにあるロボットにシリアルコードを通知する
 App.prototype.modeGroup = function(){
+  var _this = this;
   console.log("modeGroup");
   //TODO: シリアルコードをUDPブロードキャストする
   //TODO: UDPからシリアルコードを受け取る
@@ -240,6 +241,7 @@ App.prototype.modeGroup = function(){
 
 //録音開始
 App.prototype.recStart = function(){
+  var _this = this;
   console.log("recStart");
   //録音する
   this.arecord.record(_this.wavFilePath,3,function(err, stdout, stderr){
