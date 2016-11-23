@@ -23,6 +23,7 @@ App.STATUS = {
   WPS_INIT:3,
   CONNECTED:4,
   REGISTER:5,
+  MODE_GROUP:6,
 };
 
 App.prototype.status = App.STATUS.DEFAULT;
@@ -49,6 +50,9 @@ App.prototype.setStatus = function(status){
     case App.STATUS.REGISTER:
       this.register();
       break;
+    case App.STATUS.MODE_GROUP:
+        this.modeGroup();
+        break;
   }
   this.status = status;
 };
@@ -96,6 +100,7 @@ App.prototype.init = function(){
       //グループモード
       _this.mode = App.MODE.GROUP;
     }
+    console.log("mode "+(_this.mode==_this.mode = App.MODE.GROUP)?"GROUP":"DEFAULT");
   });
 
   //TODO: ネットワークが繋がっているか確認する
@@ -120,14 +125,11 @@ App.prototype.wps = function(){
         _this.setStatus(App.STATUS.ERROR);
         return;
     }
-    console.log('stdout '+stdout);
+    //console.log('stdout '+stdout);
     _this.setStatusLed(true);
 
-    //TODO: 接続されたら、App.STATUS.CONNECTED の処理をする
-    //this.setStatus(App.STATUS.CONNECTED);
-    //TODO: モードスイッチ状態 グループモードの場合
-    //      同じルータにあるロボットにシリアルコードを通知する
-    //_this.mode == App.MODE.GROUP
+    //接続されたら、App.STATUS.CONNECTED の処理をする
+    _this.setStatus(App.STATUS.CONNECTED);
   });
 };
 
@@ -181,12 +183,31 @@ App.prototype.register = function(){
           }
           //console.log(response);
           //var data = response.data;
+
+          //モードスイッチ状態 グループモードの場合
+          //同じルータにあるロボットにシリアルコードを通知する
+          if(_this.mode == App.MODE.GROUP){
+            _this.setStatus(App.STATUS.MODE_GROUP);
+          }
         });
       }
-
+      else{
+          //モードスイッチ状態 グループモードの場合
+          //同じルータにあるロボットにシリアルコードを通知する
+          if(_this.mode == App.MODE.GROUP){
+            _this.setStatus(App.STATUS.MODE_GROUP);
+          }
+      }
     });
 };
 
+//同じルータにあるロボットにシリアルコードを通知する
+App.prototype.modeGroup = function(){
+  console.log("modeGroup");
+  //TODO: シリアルコードをUDPブロードキャストする
+  //TODO: UDPからシリアルコードを受け取る
+  //TODO: 共通のチャットルーム作成
+};
 /** ステータスLEDを操作
 */
 App.prototype.setStatusLed = function(isOn){
