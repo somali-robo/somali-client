@@ -96,7 +96,7 @@ App.prototype.init = function(){
     //通常モード,グループモード切り替え
     _this.mode = (v < 100)?App.MODE.DEFAULT:App.MODE.GROUP;
     console.log("mode "+_this.mode);
-    console.log(" "+(_this.mode === App.MODE.GROUP)?"GROUP":"DEFAULT");
+    console.log((_this.mode == App.MODE.GROUP)?"GROUP":"DEFAULT");
   });
 
   //ネットワークが繋がっているか確認する
