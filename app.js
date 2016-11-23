@@ -93,14 +93,8 @@ App.prototype.init = function(){
   this.wpi.pinMode(this.configDevice.MODE_SWITCH,this.wpi.INPUT);
   this.wpi.wiringPiISR(this.configDevice.MODE_SWITCH, this.wpi.INT_EDGE_BOTH, function(v) {
     console.log("MODE_SWITCH " + v);
-    if(v < 100){
-      //通常モード
-      _this.mode = App.MODE.DEFAULT;
-    }
-    else{
-      //グループモード
-      _this.mode = App.MODE.GROUP;
-    }
+    //通常モード,グループモード切り替え
+    _this.mode = (v < 100):App.MODE.DEFAULT:App.MODE.GROUP;
     console.log("mode "+(_this.mode == App.MODE.GROUP)?"GROUP":"DEFAULT");
   });
 
