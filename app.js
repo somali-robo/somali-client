@@ -92,7 +92,7 @@ App.prototype.init = function(){
   //モード スイッチ INT_EDGE_BOTH 両方
   this.wpi.pinMode(this.configDevice.MODE_SWITCH,this.wpi.INPUT);
   this.wpi.wiringPiISR(this.configDevice.MODE_SWITCH, this.wpi.INT_EDGE_BOTH, function(v) {
-    console.log("MODE_SWITCH " + v);
+    //console.log("MODE_SWITCH " + v);
     if((v < 100)||(v > 8000)){
       //通常モード,グループモード トグル切り替え
       _this.mode = (_this.mode == App.MODE.GROUP)?App.MODE.DEFAULT:App.MODE.GROUP;
