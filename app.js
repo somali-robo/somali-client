@@ -92,12 +92,11 @@ App.prototype.init = function(){
   //モード スイッチ INT_EDGE_BOTH 両方
   this.wpi.pinMode(this.configDevice.MODE_SWITCH,this.wpi.INPUT);
   this.wpi.wiringPiISR(this.configDevice.MODE_SWITCH, this.wpi.INT_EDGE_BOTH, function(v) {
-    console.log("MODE_SWITCH " + v);
-    if((v < 100)||(v > 8000)){
-      //通常モード,グループモード トグル切り替え
-      _this.mode = (_this.mode == App.MODE.GROUP)?App.MODE.DEFAULT:App.MODE.GROUP;
-      console.log((_this.mode == App.MODE.GROUP)?"GROUP":"DEFAULT");
-    }
+    var value = _this.wpi.digitalRead(_this.configDevice.MODE_SWITCH);
+    console.log("MODE_SWITCH " + value);
+    //通常モード,グループモード トグル切り替え
+    _this.mode = (value == _this.wpi.HIGH)?App.MODE.DEFAULT:App.MODE.GROUP;
+    console.log((_this.mode == App.MODE.GROUP)?"GROUP":"DEFAULT");
   });
 
   //ネットワークが繋がっているか確認する
