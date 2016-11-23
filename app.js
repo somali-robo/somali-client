@@ -270,8 +270,8 @@ App.prototype.recStart = function(){
         _this.setStatus(App.STATUS.ERROR);
         return;
       }
-      console.log(resp);
-      //console.log(body);
+      //console.log(resp);
+      console.log(body);
     });
 
     //TODO: モードスイッチ状態によって送信パラメータを変更
