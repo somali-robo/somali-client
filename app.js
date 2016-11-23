@@ -2,7 +2,7 @@
 */
 var App = function(){};
 App.prototype.uuid = require('node-uuid');
-App.prototype.dropbox = require('node-dropbox');
+App.prototype.dropbox = require("node-dropbox");
 App.prototype.wpi = require('wiring-pi');
 
 App.prototype.config = require('./config.js');
@@ -184,7 +184,7 @@ App.prototype.connected = function(){
   });
 
   //Dropbox APIへのアクセスの為 初期化
-  this.dropboxApi = this.dropbox.api(this.config.DROPBOX_ACCESS_TOKEN);
+  this.dropboxApi = new dropbox({token:this.config.DROPBOX_ACCESS_TOKEN});
 
   //デバイス登録処理
   this.setStatus(App.STATUS.REGISTER);
@@ -258,10 +258,14 @@ App.prototype.recStart = function(){
     }
     console.log("success");
 
-    //TODO: 録音内容をサーバに送信
-    _this.dropboxApi.createFile(_this.wavFilePath, contents, function(err, res, body) {
-      
+    //録音内容をサーバに送信
+    var remotePath = _this.uuid.v4()+".wav";
+    _this.dropboxApi.upload(remotePath, _this.wavFilePath, function(err, httpResponse, bodymsg) {
+      console.log(err);
+      console.log(httpResponse);
+      console.log(bodymsg);
     });
+
     //TODO: モードスイッチ状態によって送信パラメータを変更
     //_this.mode
 /*
