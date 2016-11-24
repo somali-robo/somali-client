@@ -515,8 +515,9 @@ App.prototype.accelerationStart = function(){
 
       //平均を計算
       if(accelSum.cnt > 10){
-        console.log("isShaken");
-        console.log((accelSum.isShaken())?"true":"false");
+        const avg = this.average();
+        console.log("avg");
+        console.log(avg);
         accelSum.clear();
       }
 
