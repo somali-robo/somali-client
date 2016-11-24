@@ -241,7 +241,7 @@ App.prototype.register = function(){
           _this.device = response.data;
 
           //device.idを保存する
-          _this.jsonDB.push(_this.KEY_DEVICE_ID,this.device._id);
+          _this.jsonDB.push(_this.KEY_DEVICE_ID,_this.device._id);
 
           //チャットルーム作成
           _this.somaliApi.postChatRoom(_this.config.SERIAL_CODE,function(err,response){
