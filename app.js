@@ -85,7 +85,7 @@ App.prototype.init = function(){
   var _this = this;
 
   //ローカルストレージ初期化
-  this.localStorage = new this.LocalStorage();
+  this.localStorage = new this.LocalStorage("./storage/storage.json");
 
   //GPIO初期化
   this.wpi.wiringPiSetupGpio();
