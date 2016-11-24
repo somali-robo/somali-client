@@ -82,8 +82,6 @@ App.prototype.init = function(){
   console.log("init");
   var _this = this;
   
-  this.store(false);
-
   //GPIO初期化
   this.wpi.wiringPiSetupGpio();
 
