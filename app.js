@@ -1,12 +1,11 @@
 /** Somali App
 */
-global.localStorage = require('localStorage')
-
 var App = function(){};
 App.prototype.uuid = require('node-uuid');
 App.prototype.dropbox = require("node-dropbox");
 App.prototype.wpi = require('wiring-pi');
-App.prototype.store = require('store.js')
+App.prototype.JsonDB = require('node-json-db');
+App.prototype.jsonDB = null;
 
 App.prototype.config = require('./config.js');
 App.prototype.configDevice = require('./config_device.js');
@@ -49,7 +48,7 @@ App.prototype.wavFilePath = "./tmp/rec.wav";
 //デフォルトのチャット ルーム
 App.prototype.defaultChatRoom = null;
 App.prototype.KEY_STORE = "SOMALI";
-App.prototype.KEY_DEFAULT_CHAT_ROOM_ID = "DEFAULT_CHAT_ROOM_ID";
+App.prototype.KEY_DEFAULT_CHAT_ROOM_ID = "/default_chat_room_id";
 
 //各ステータス遷移
 App.prototype.setStatus = function(status){
@@ -84,6 +83,8 @@ App.prototype.setStatus = function(status){
 App.prototype.init = function(){
   console.log("init");
   var _this = this;
+
+  this.jsonDB = new this.JsonDB(KEY_STORE,true,false);
 
   //GPIO初期化
   this.wpi.wiringPiSetupGpio();
@@ -243,7 +244,7 @@ App.prototype.register = function(){
             _this.defaultChatRoom = response.data;
             const defaultChatRoomId = _this.defaultChatRoom._id;
             //ローカルストア に デフォルトルームIDを保存
-            _this.store.set(_this.KEY_DEFAULT_CHAT_ROOM_ID,defaultChatRoomId);
+            _this.jsonDB.push(_this.KEY_DEFAULT_CHAT_ROOM_ID,defaultChatRoomId);
 
             const name = _this.defaultChatRoom.name;
             const members = [device];
@@ -268,7 +269,7 @@ App.prototype.register = function(){
       else{
           //登録済み
           //defaultChatRoom を探して設定
-          var defaultChatRoomId = _this.store.get(_this.KEY_DEFAULT_CHAT_ROOM_ID);
+          var defaultChatRoomId = _this.jsonDB.getData(_this.KEY_DEFAULT_CHAT_ROOM_ID);
           console.log("defaultChatRoomId "+defaultChatRoomId);
           _this.somaliApi.getChatRoom(defaultChatRoomId,function(err,response){
             if(err){
