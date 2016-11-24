@@ -12,6 +12,7 @@ App.prototype.empath = require('./empath.js');
 App.prototype.hoya = require('./hoya.js');
 App.prototype.aplay = require('./aplay.js');
 App.prototype.somaliApi = require('./somali_api.js');
+App.prototype.somaliSocket = require('./somali_socket.js');
 App.prototype.arecord　= require('./arecord.js');
 App.prototype.amixer = require('./amixer.js');
 
@@ -207,8 +208,8 @@ App.prototype.register = function(){
           return (_this.config.SERIAL_CODE == d["serialCode"]);
       });
 
-      //未登録なら追加する
       if(exists == false){
+        //未登録なら追加
         var name = _this.uuid.v4();
         _this.somaliApi.postDevice(_this.config.SERIAL_CODE,name,function(err,response){
           if(err){
@@ -217,8 +218,21 @@ App.prototype.register = function(){
             _this.setStatus(App.STATUS.ERROR);
             return;
           }
+          //デバイス登録に成功
           //console.log(response);
           //var data = response.data;
+
+          //チャットルーム作成
+          _this.somaliApi.postChatRoom(name,function(err,response){
+            if(err){
+              console.log("err postDevice");
+              _this.lastErr = err;
+              _this.setStatus(App.STATUS.ERROR);
+              return;
+            }            
+            //console.log(response);
+            //var data = response.data;
+          });
 
           //モードスイッチ状態 グループモードの場合
           //同じルータにあるロボットにシリアルコードを通知する
@@ -228,6 +242,9 @@ App.prototype.register = function(){
         });
       }
       else{
+          //登録済み
+          //TODO: チャットルーム一覧を取得
+
           //モードスイッチ状態 グループモードの場合
           //同じルータにあるロボットにシリアルコードを通知する
           if(_this.mode == App.MODE.GROUP){
@@ -272,7 +289,7 @@ App.prototype.recStart = function(){
       //console.log(resp);
       console.log(body);
 
-      //TODO: モードスイッチ状態によって送信パラメータを変更
+      //TODO: モードスイッチ状態によって事前に取得したチャットルームを切り替える
       //_this.mode
     });
 /*
