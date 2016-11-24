@@ -19,6 +19,9 @@ App.prototype.somaliSocket = require('./somali_socket.js');
 App.prototype.arecord　= require('./arecord.js');
 App.prototype.amixer = require('./amixer.js');
 
+//録音 時間
+App.prototype.REC_SEC = 30;
+
 App.MODE = {
   DEFAULT:0,
   GROUP:1
@@ -340,7 +343,7 @@ App.prototype.recStart = function(){
   var _this = this;
   console.log("recStart");
   //録音する
-  this.arecord.record(this.wavFilePath,3,function(err, stdout, stderr){
+  this.arecord.record(this.wavFilePath,this.REC_SEC,function(err, stdout, stderr){
     if (err != null){
       console.log("err");
       return;
