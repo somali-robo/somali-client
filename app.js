@@ -59,6 +59,9 @@ App.prototype.KEY_STORE = "SOMALI";
 App.prototype.KEY_DEVICE_ID = "/device_id";
 App.prototype.KEY_DEFAULT_CHAT_ROOM_ID = "/default_chat_room_id";
 
+//揺らされた
+App.prototype.isShaken = false;
+
 //各ステータス遷移
 App.prototype.setStatus = function(status){
   switch(status){
@@ -478,10 +481,12 @@ App.prototype.accelerationStart = function(){
   var _this = this;
   this.mpu6050.subscribe(100,function(data){
       //console.log("MPU6050");
-      console.log(data);
+      //console.log(data);
       const v = Math.abs(data.angY);
       if(1500 < v){
+        if(this.isShaken == true) return;
         console.log("isShaken");
+        _this.isShaken = true;
         //TODO: 閾値を超えたら固定メッセージを再生
         var msg = "ゆらさないでー。";
         _this.textToSpeech(msg,_this.hoya.SPEAKER_HIKARI,function(path, err){
@@ -490,6 +495,20 @@ App.prototype.accelerationStart = function(){
             return;
           }
           console.log("success");
+          //スピーカーアンプをONにする
+          _this.speakerAmpPower(_this.wpi.HIGH);
+          //再生
+          _this.aplay.play(path,function(err, stdout, stderr){
+            //シェイクステータスをリセット
+            _this.isShaken = false;
+            //アンプをOFFにする
+            _this.speakerAmpPower(_this.wpi.LOW);
+            if (err != null){
+              console.log("err");
+              return;
+            }
+            console.log("success");
+          });
         });
       }
   });
