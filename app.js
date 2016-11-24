@@ -340,9 +340,11 @@ App.prototype.recStart = function(){
       }
       //console.log(resp);
       //console.log(body);
-      //
       const message = _this.SomaliMessage.create(_this.config.SERIAL_CODE,_this.SomaliMessage.TYPE_WAV,remotePath);
+      console.log("message");
+      console.log(message);
       var value = JSON.stringify(message);
+      console.log("value");
       console.log(value);
 
       //TODO: モードスイッチ状態によって事前に取得したチャットルームを切り替える
