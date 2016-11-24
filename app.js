@@ -366,11 +366,12 @@ App.prototype.socketConnecte = function(){
   const fromId = this.config.SERIAL_CODE;
   const socketPort = this.serviceInfo.socketPort;
   this.somaliSocket.init(roomId,fromId,socketPort,function(data){
-    console.log('publish');
+    console.log('onMessage');
     console.log(data);
-    if(data.userId != _this.config.SERIAL_CODE){
+    if(data.fromId != _this.config.SERIAL_CODE){
       //スマートフォンからのメッセージなので音声合成
-      _this.textToSpeech(data.value,_this.hoya.SPEAKER_HIKARI,function(path, err){
+      const value = data.value.value;
+      _this.textToSpeech(value,_this.hoya.SPEAKER_HIKARI,function(path, err){
         if (err != null){
           console.log("err");
           return;
