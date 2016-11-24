@@ -479,7 +479,15 @@ App.prototype.accelerationStart = function(){
                   accelY: 0,
                   accelZ: 0,
                   cnt:0,
+                  clear:function(){
+                    //初期化
+                    this.accelX = 0;
+                    this.accelX = 0;
+                    this.accelX = 0;
+                    this.cnt = 0;
+                  },
                   average:function(){
+                    //平均を計算
                     console.log("average");
                     return {accelX: (this.accelX/cnt),accelY: (this.accelY/cnt), accelZ: (this.accelZ/cnt)};
                   }};
@@ -497,8 +505,9 @@ App.prototype.accelerationStart = function(){
         var avg = accelSum.average();
         console.log("avg");
         console.log(avg);
+        accelSum.clear();
       }
-      
+
       //TODO: ベクトル計算
       //TODO: 閾値を超えたら固定メッセージを送信
   });
