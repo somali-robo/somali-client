@@ -294,7 +294,7 @@ App.prototype.register = function(){
               _this.setStatus(App.STATUS.ERROR);
               return;
             }
-            console.log("getDevice");
+            console.log("device");
             _this.device = response.data;
             console.log(_this.device);
           });
@@ -390,7 +390,7 @@ App.prototype.socketConnecte = function(){
   this.somaliSocket.init(roomId,fromId,socketPort,function(data){
     console.log('onMessage');
     console.log(data);
-    if(data.fromId != this.device._id){
+    if(data.fromId != _this.device._id){
       //スマートフォンからのメッセージなので音声合成
       const json = JSON.parse(data.value);
       //TODO: 必要なら json.type 別で処理を変更する
