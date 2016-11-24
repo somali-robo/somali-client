@@ -487,11 +487,13 @@ App.prototype.accelerationStart = function(){
         if(this.isShaken == true) return;
         console.log("isShaken");
         _this.isShaken = true;
-        //TODO: 閾値を超えたら固定メッセージを再生
-        var msg = "ゆらさないでー。";
+        //閾値を超えたら固定メッセージを再生
+        var msg = "ゆらさないで";
         _this.textToSpeech(msg,_this.hoya.SPEAKER_HIKARI,function(path, err){
           if (err != null){
             console.log("err");
+            //シェイクステータスをリセット
+            _this.isShaken = false;
             return;
           }
           console.log("success");
@@ -499,10 +501,10 @@ App.prototype.accelerationStart = function(){
           _this.speakerAmpPower(_this.wpi.HIGH);
           //再生
           _this.aplay.play(path,function(err, stdout, stderr){
-            //シェイクステータスをリセット
-            _this.isShaken = false;
             //アンプをOFFにする
             _this.speakerAmpPower(_this.wpi.LOW);
+            //シェイクステータスをリセット
+            _this.isShaken = false;
             if (err != null){
               console.log("err");
               return;
