@@ -38,6 +38,19 @@ SomaliApi.prototype.getIntonations = function(callback){
 };
 
 //デバイス一覧を取得
+SomaliApi.prototype.getDevice = function(id,callback){
+  var options = {url: this.API_HOST+this.API_DEVICES+"/"+id};
+  this.request.get(options,function(err,response){
+    if(err){
+      callback(err);
+      return;
+    }
+    var result = JSON.parse(response.body);
+    callback(null,result);
+  });
+};
+
+//デバイス一覧を取得
 SomaliApi.prototype.getDevices = function(callback){
   var options = {url: this.API_HOST+this.API_DEVICES};
   this.request.get(options,function(err,response){

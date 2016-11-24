@@ -48,8 +48,10 @@ App.prototype.dropboxApi = null;
 App.prototype.wavFilePath = "./tmp/rec.wav";
 
 //デフォルトのチャット ルーム
+App.prototype.device = null;
 App.prototype.defaultChatRoom = null;
 App.prototype.KEY_STORE = "SOMALI";
+App.prototype.KEY_DEVICE_ID = "/device_id";
 App.prototype.KEY_DEFAULT_CHAT_ROOM_ID = "/default_chat_room_id";
 
 //各ステータス遷移
@@ -207,7 +209,7 @@ App.prototype.connected = function(){
   this.setStatus(App.STATUS.REGISTER);
 };
 
-//デバイス IDをサーバに登録する
+//シリアルコードをサーバに登録する
 App.prototype.register = function(){
     console.log("register");
     var _this = this;
@@ -236,7 +238,10 @@ App.prototype.register = function(){
           }
           //デバイス登録に成功
           //console.log(response);
-          var device = response.data;
+          _this.device = response.data;
+
+          //device.idを保存する
+          _this.jsonDB.push(_this.KEY_DEVICE_ID,this.device._id);
 
           //チャットルーム作成
           _this.somaliApi.postChatRoom(_this.config.SERIAL_CODE,function(err,response){
@@ -279,6 +284,18 @@ App.prototype.register = function(){
       }
       else{
           //登録済み
+          //device情報を取得する
+          const deviceId = _this.jsonDB.getData(_this.KEY_DEVICE_ID);
+          _this.somaliApi.getDevice(deviceId,function(err,response){
+            if(err){
+              console.log("err getDevice");
+              _this.lastErr = err;
+              _this.setStatus(App.STATUS.ERROR);
+              return;
+            }
+            _this.device = response.data;
+          });
+
           //defaultChatRoom を探して設定
           var defaultChatRoomId = _this.jsonDB.getData(_this.KEY_DEFAULT_CHAT_ROOM_ID);
           _this.somaliApi.getChatRoom(defaultChatRoomId,function(err,response){
@@ -340,7 +357,7 @@ App.prototype.recStart = function(){
       }
       //console.log(resp);
       //console.log(body);
-      const message = _this.SomaliMessage.create(_this.config.SERIAL_CODE,_this.SomaliMessage.TYPE_WAV,remotePath);
+      const message = _this.SomaliMessage.create(_this.device._id,_this.SomaliMessage.TYPE_WAV,remotePath);
       console.log("message");
       console.log(message);
       var value = JSON.stringify(message);
@@ -373,6 +390,7 @@ App.prototype.socketConnecte = function(){
     if(data.fromId != _this.config.SERIAL_CODE){
       //スマートフォンからのメッセージなので音声合成
       const json = JSON.parse(data.value);
+      //TODO: 必要なら json.type 別で処理を変更する
       console.log("value");
       console.log(json.value);
       _this.textToSpeech(json.value,_this.hoya.SPEAKER_HIKARI,function(path, err){
