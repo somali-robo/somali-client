@@ -475,47 +475,12 @@ App.prototype.textToSpeech = function(text,speaker,callback){
 
 //加速度センサの監視を開始
 App.prototype.accelerationStart = function(){
-  var accelSum = {accelX: 0,
-                  accelY: 0,
-                  accelZ: 0,
-                  cnt:0,
-                  clear:function(){
-                    //初期化
-                    this.accelX = 0;
-                    this.accelX = 0;
-                    this.accelX = 0;
-                    this.cnt = 0;
-                  },
-                  average:function(){
-                    //平均を計算
-                    //console.log("average");
-                    return {accelX: (this.accelX/this.cnt),
-                            accelY: (this.accelY/this.cnt),
-                            accelZ: (this.accelZ/this.cnt)};
-                  },
-                  isShaken:function(){
-                    //揺らされた場合
-                    //const avg = this.average();
-                    const v = Math.abs(this.accelY);
-                    oldV = v;
-                    console.log("v "+v);
-                    return (1500 < v);
-                  }
-                };
   this.mpu6050.subscribe(100,function(data){
       //console.log("MPU6050");
-      //console.dir(data);
-      //合計を計算
-      accelSum.accelX += data.accelX;
-      accelSum.accelY += data.accelY;
-      accelSum.accelZ += data.accelZ;
-      accelSum.cnt += 1;
-
-      //平均を計算
-      if(accelSum.cnt == 10){
+      console.log(data);
+      const v = Math.abs(data.accelY);
+      if(1500 > v){
         console.log("isShaken");
-        console.log((accelSum.isShaken())?"true":"false");
-        accelSum.clear();
       }
 
       //TODO: ベクトル計算
