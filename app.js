@@ -360,7 +360,7 @@ App.prototype.recStart = function(){
       }
       //console.log(resp);
       //console.log(body);
-      
+
       console.log("device");
       console.log(_this.device);
       const message = _this.SomaliMessage.create(_this.device._id,_this.SomaliMessage.TYPE_WAV,remotePath);
@@ -372,7 +372,7 @@ App.prototype.recStart = function(){
 
       //TODO: モードスイッチ状態によって事前に取得したチャットルームを切り替える
       //_this.mode
-      //_this.somaliSocket.sendMessage(''+value);
+      _this.somaliSocket.sendMessage(''+value);
     });
   });
 };
