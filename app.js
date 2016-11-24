@@ -502,7 +502,7 @@ App.prototype.accelerationStart = function(){
                   }
                 };
   this.mpu6050.subscribe(100,function(data){
-      console.log("MPU6050");
+      //console.log("MPU6050");
       //console.dir(data);
       //合計を計算
       accelSum.accelX += data.accelX;
