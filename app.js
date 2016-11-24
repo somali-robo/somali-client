@@ -4,7 +4,7 @@ var App = function(){};
 App.prototype.uuid = require('node-uuid');
 App.prototype.dropbox = require("node-dropbox");
 App.prototype.wpi = require('wiring-pi');
-App.prototype.store = require('store2');
+App.prototype.localStorage = require('json-localstorage')();
 
 App.prototype.config = require('./config.js');
 App.prototype.configDevice = require('./config_device.js');
@@ -241,13 +241,7 @@ App.prototype.register = function(){
             _this.defaultChatRoom = response.data;
             const defaultChatRoomId = _this.defaultChatRoom._id;
             //ローカルストア に デフォルトルームIDを保存
-            console.log("KEY_DEFAULT_CHAT_ROOM_ID "+_this.KEY_DEFAULT_CHAT_ROOM_ID);
-
-            console.log("v "+defaultChatRoomId);
             _this.store(_this.KEY_DEFAULT_CHAT_ROOM_ID,defaultChatRoomId);
-
-            const tmpId = _this.store(_this.KEY_DEFAULT_CHAT_ROOM_ID);
-            console.log("v "+tmpId);
 
             const name = _this.defaultChatRoom.name;
             const members = [device];
