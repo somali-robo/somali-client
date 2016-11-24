@@ -18,6 +18,7 @@ App.prototype.SomaliMessage = require('./somali_message.js');
 App.prototype.somaliSocket = require('./somali_socket.js');
 App.prototype.arecord　= require('./arecord.js');
 App.prototype.amixer = require('./amixer.js');
+App.prototype.mpu6050 = require('./mpu6050.js');
 
 //録音 時間
 App.prototype.REC_SEC = 30;
@@ -37,6 +38,7 @@ App.STATUS = {
   SOCKET_CONNECT:6,
   MODE_GROUP:7,
   REC_START:8,
+  ACCELERATION_START:9
 };
 
 App.prototype.status = App.STATUS.DEFAULT;
@@ -84,6 +86,9 @@ App.prototype.setStatus = function(status){
       break;
     case App.STATUS.SOCKET_CONNECT:
       this.socketConnecte();
+      break;
+    case App.STATUS.ACCELERATION_START:
+      this.accelerationStart();
       break;
   }
   this.status = status;
@@ -423,6 +428,9 @@ App.prototype.socketConnecte = function(){
       });
     }
   });
+
+  //加速度センサの監視を開始する
+  _this.setStatus(App.STATUS.ACCELERATION_START);
 };
 
 //スピーカー・アンプ ON,OFF
@@ -463,6 +471,17 @@ App.prototype.textToSpeech = function(text,speaker,callback){
   };
 
   this.hoya.textToSpeech(apiKey,text,speaker,params,callbackTextToSpeech);
+};
+
+//加速度センサの監視を開始
+App.prototype.accelerationStart = function(){
+  //MPU6050のデータを監視
+  this.mpu6050.subscribe(30,function(data){
+      console.log("MPU6050");
+      console.dir(data);
+      //TODO: ベクトル計算
+      //TODO: 閾値を超えたら固定メッセージを送信
+  });
 };
 
 var app = new App();
