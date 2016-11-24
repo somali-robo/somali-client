@@ -263,7 +263,7 @@ App.prototype.register = function(){
 
               //デフォルトルームが決定したので ソケット接続をする
               _this.setStatus(App.STATUS.SOCKET_CONNECT);
-              
+
             });
           });
 
@@ -338,28 +338,43 @@ App.prototype.recStart = function(){
       //TODO: モードスイッチ状態によって事前に取得したチャットルームを切り替える
       //_this.mode
     });
-/*
-    //スピーカーアンプをONにする
-    _this.speakerAmpPower(_this.wpi.HIGH);
-
-    //再生テスト
-    _this.aplay.play(_this.wavFilePath,function(err, stdout, stderr){
-      if (err != null){
-        console.log("err");
-        return;
-      }
-      console.log("success");
-
-      //アンプをOFFにする
-      _this.speakerAmpPower(_this.wpi.LOW);
-    });
-*/
   });
 };
 
 //ソケット接続等を開始しする
 App.prototype.socketConnecte = function(){
+  var _this = this;
   console.log("socketConnecte");
+  console.log("serviceInfo");
+  console.log(this.serviceInfo);
+  //サービス情報のソケットに接続する
+  const socketPort = this.serviceInfo.socketPort;
+  this.somaliSocket.init(socketPort,function(data){
+    console.log('publish');
+    console.log(data);
+    if(data.userId != _this.config.SERIAL_CODE){
+      //スマートフォンからのメッセージなので音声合成
+      _this.textToSpeech(data.value,_this.hoya.SPEAKER_HIKARI,function(path, err){
+        if (err != null){
+          console.log("err");
+          return;
+        }
+        console.log("success");
+        //スピーカーアンプをONにする
+        _this.speakerAmpPower(_this.wpi.HIGH);
+        //再生
+        _this.aplay.play(path,function(err, stdout, stderr){
+          //アンプをOFFにする
+          _this.speakerAmpPower(_this.wpi.LOW);
+          if (err != null){
+            console.log("err");
+            return;
+          }
+          console.log("success");
+        });
+      });
+    }
+  });
 };
 
 //スピーカー・アンプ ON,OFF
