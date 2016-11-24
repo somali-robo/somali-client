@@ -46,6 +46,7 @@ App.prototype.wavFilePath = "./tmp/rec.wav";
 
 //デフォルトのチャット ルーム
 App.prototype.defaultChatRoom = null;
+App.prototype.KEY_STORE = "SOMALI";
 App.prototype.KEY_DEFAULT_CHAT_ROOM_ID = "DEFAULT_CHAT_ROOM_ID";
 
 //各ステータス遷移
@@ -81,7 +82,9 @@ App.prototype.setStatus = function(status){
 App.prototype.init = function(){
   console.log("init");
   var _this = this;
-  
+
+  this.store(this.KEY_STORE);
+
   //GPIO初期化
   this.wpi.wiringPiSetupGpio();
 
