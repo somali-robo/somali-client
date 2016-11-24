@@ -4,7 +4,8 @@ var App = function(){};
 App.prototype.uuid = require('node-uuid');
 App.prototype.dropbox = require("node-dropbox");
 App.prototype.wpi = require('wiring-pi');
-App.prototype.localStorage = require('json-localstorage')();
+App.prototype.LocalStorage = require('json-localstorage');
+App.prototype.localStorage = null;
 
 App.prototype.config = require('./config.js');
 App.prototype.configDevice = require('./config_device.js');
@@ -82,6 +83,9 @@ App.prototype.setStatus = function(status){
 App.prototype.init = function(){
   console.log("init");
   var _this = this;
+
+  //ローカルストレージ初期化
+  this.localStorage = new LocalStorage();
 
   //GPIO初期化
   this.wpi.wiringPiSetupGpio();
