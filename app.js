@@ -360,6 +360,8 @@ App.prototype.recStart = function(){
       }
       //console.log(resp);
       //console.log(body);
+      console.log("device");
+      console.log(_this.device);
       const message = _this.SomaliMessage.create(_this.device._id,_this.SomaliMessage.TYPE_WAV,remotePath);
       console.log("message");
       console.log(message);
@@ -369,7 +371,7 @@ App.prototype.recStart = function(){
 
       //TODO: モードスイッチ状態によって事前に取得したチャットルームを切り替える
       //_this.mode
-      _this.somaliSocket.sendMessage(''+value);
+      //_this.somaliSocket.sendMessage(''+value);
     });
   });
 };
@@ -393,7 +395,7 @@ App.prototype.socketConnecte = function(){
     if(data.fromId != _this.device._id){
       //スマートフォンからのメッセージなので音声合成
       const json = JSON.parse(data.value);
-      // json.type 別で処理を変更する
+      //TODO: json.type 別で処理を変更する
       console.log("value");
       console.log(json.value);
       _this.textToSpeech(json.value,_this.hoya.SPEAKER_HIKARI,function(path, err){
