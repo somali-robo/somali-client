@@ -269,7 +269,7 @@ App.prototype.register = function(){
       else{
           //登録済み
           //defaultChatRoom を探して設定
-          const defaultChatRoomId = _this.store.get(this.KEY_DEFAULT_CHAT_ROOM_ID);
+          const defaultChatRoomId = _this.store.get(_this.KEY_DEFAULT_CHAT_ROOM_ID);
           console.log("defaultChatRoomId "+defaultChatRoomId);
           _this.somaliApi.getChatRoom(defaultChatRoomId,function(err,response){
             if(err){
