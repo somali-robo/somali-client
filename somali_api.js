@@ -80,7 +80,7 @@ SomaliApi.prototype.postChatRoom = function(name,callback){
 
 //チャットルーム更新
 SomaliApi.prototype.putChatRoom = function(id,name,members,messages,callback){
-  var options = {url: this.API_HOST+this.API_CHAT_ROOMS+id,form: {"name":name,"members":members,"messages":messages}};
+  var options = {url: this.API_HOST+this.API_CHAT_ROOMS+id,form:{"name":name,"members":members,"messages":messages}};
   this.request.put(options,function(err,response){
     if(err){
       callback(err);
