@@ -498,11 +498,13 @@ App.prototype.accelerationStart = function(){
                     const avg = this.average();
                     const v = Math.pow(avg.accelX,2) + Math.pow(avg.accelY,2) + Math.pow(avg.accelZ,2);
                     console.log("v "+v);
-                    return (Math.pow(1500,2) <= v);
+                    const t = Math.pow(1500,2);
+                    console.log("t "+t);
+                    return ( t > v);
                   }
                 };
   this.mpu6050.subscribe(100,function(data){
-      console.log("MPU6050");
+      //console.log("MPU6050");
       //console.dir(data);
       //合計を計算
       accelSum.accelX += data.accelX;
