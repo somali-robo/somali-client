@@ -360,6 +360,7 @@ App.prototype.recStart = function(){
       }
       //console.log(resp);
       //console.log(body);
+      
       console.log("device");
       console.log(_this.device);
       const message = _this.SomaliMessage.create(_this.device._id,_this.SomaliMessage.TYPE_WAV,remotePath);
