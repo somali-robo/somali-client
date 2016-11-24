@@ -349,7 +349,7 @@ App.prototype.recStart = function(){
 
       //TODO: モードスイッチ状態によって事前に取得したチャットルームを切り替える
       //_this.mode
-      _this.somaliSocket.sendMessage(value);
+      _this.somaliSocket.sendMessage(''+value);
     });
   });
 };
@@ -373,6 +373,8 @@ App.prototype.socketConnecte = function(){
     if(data.fromId != _this.config.SERIAL_CODE){
       //スマートフォンからのメッセージなので音声合成
       const value = data.value.value;
+      console.log("value");
+      console.log(value);
       _this.textToSpeech(value,_this.hoya.SPEAKER_HIKARI,function(path, err){
         if (err != null){
           console.log("err");
