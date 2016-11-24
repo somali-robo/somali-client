@@ -83,6 +83,13 @@ App.prototype.init = function(){
   console.log("init");
   var _this = this;
 
+  console.log("KEY_DEFAULT_CHAT_ROOM_ID "+_this.KEY_DEFAULT_CHAT_ROOM_ID);
+  const defaultChatRoomId = "LExb8p3HF2NGPyvko";
+  //ローカルストア に デフォルトルームIDを保存
+  _this.store(_this.KEY_DEFAULT_CHAT_ROOM_ID,defaultChatRoomId);
+  console.log("v "+defaultChatRoomId);
+  console.log("v "+_this.store(_this.KEY_DEFAULT_CHAT_ROOM_ID));
+
   //GPIO初期化
   this.wpi.wiringPiSetupGpio();
 
@@ -240,11 +247,14 @@ App.prototype.register = function(){
             console.log(response);
             _this.defaultChatRoom = response.data;
             const defaultChatRoomId = _this.defaultChatRoom._id;
-            console.log("defaultChatRoomId "+defaultChatRoomId);
             //ローカルストア に デフォルトルームIDを保存
+            console.log("KEY_DEFAULT_CHAT_ROOM_ID "+_this.KEY_DEFAULT_CHAT_ROOM_ID);
+
+            console.log("v "+defaultChatRoomId);
             _this.store(_this.KEY_DEFAULT_CHAT_ROOM_ID,defaultChatRoomId);
+
             const tmpId = _this.store(_this.KEY_DEFAULT_CHAT_ROOM_ID);
-            console.log("tmpId "+tmpId);
+            console.log("v "+tmpId);
 
             const name = _this.defaultChatRoom.name;
             const members = [device];
