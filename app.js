@@ -329,10 +329,10 @@ App.prototype.recStart = function(){
 
     //録音内容をDropboxに送信
     var localPath = _this.wavFilePath;
-    var remotePath = "/"+_this.uuid.v4()+".wav";
+    var remotePath = _this.uuid.v4()+".wav";
     console.log("localPath "+localPath);
     console.log("remotePath "+remotePath);
-    _this.dropboxApi.upload(remotePath, localPath, function(err, resp, body) {
+    _this.dropboxApi.upload("/"+remotePath, localPath, function(err, resp, body) {
       if(err){
         _this.lastErr = err;
         _this.setStatus(App.STATUS.ERROR);
