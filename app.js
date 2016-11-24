@@ -286,6 +286,7 @@ App.prototype.register = function(){
           //登録済み
           //device情報を取得する
           const deviceId = _this.jsonDB.getData(_this.KEY_DEVICE_ID);
+          console.log("deviceId "+deviceId);
           _this.somaliApi.getDevice(deviceId,function(err,response){
             if(err){
               console.log("err getDevice");
