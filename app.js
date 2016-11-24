@@ -294,7 +294,9 @@ App.prototype.register = function(){
               _this.setStatus(App.STATUS.ERROR);
               return;
             }
+            console.log("getDevice");
             _this.device = response.data;
+            console.log(_this.device);
           });
 
           //defaultChatRoom を探して設定
