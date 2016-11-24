@@ -382,12 +382,12 @@ App.prototype.socketConnecte = function(){
 
   //サービス情報のソケットに接続する
   const roomId = this.defaultChatRoom._id;
-  const fromId = this.config.SERIAL_CODE;
+  const fromId = this.device._id;
   const socketPort = this.serviceInfo.socketPort;
   this.somaliSocket.init(roomId,fromId,socketPort,function(data){
     console.log('onMessage');
     console.log(data);
-    if(data.fromId != _this.config.SERIAL_CODE){
+    if(data.fromId != this.device._id){
       //スマートフォンからのメッセージなので音声合成
       const json = JSON.parse(data.value);
       //TODO: 必要なら json.type 別で処理を変更する
