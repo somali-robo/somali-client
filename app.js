@@ -288,6 +288,9 @@ App.prototype.register = function(){
               _this.setStatus(App.STATUS.ERROR);
               return;
             }
+            console.log("getChatRoom");
+            console.log(response);
+            
             _this.defaultChatRoom = response.data[0];
 
             //デフォルトルームが決定したので ソケット接続をする
