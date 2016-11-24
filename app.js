@@ -515,7 +515,7 @@ App.prototype.accelerationStart = function(){
 
       //平均を計算
       if(accelSum.cnt > 10){
-        const avg = this.average();
+        const avg = accelSum.average();
         console.log("avg");
         console.log(avg);
         accelSum.clear();
