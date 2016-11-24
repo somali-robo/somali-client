@@ -288,13 +288,13 @@ App.prototype.register = function(){
               _this.setStatus(App.STATUS.ERROR);
               return;
             }
-            console.log("getChatRoom");
-            console.log(response);
+            //console.log("getChatRoom");
+            //console.log(response);
 
-            _this.defaultChatRoom = response.data[0];
+            _this.defaultChatRoom = response.data;
 
             //デフォルトルームが決定したので ソケット接続をする
-            //_this.setStatus(App.STATUS.SOCKET_CONNECT);
+            _this.setStatus(App.STATUS.SOCKET_CONNECT);
           });
 
           //モードスイッチ状態 グループモードの場合
@@ -362,7 +362,7 @@ App.prototype.socketConnecte = function(){
   console.log(this.defaultChatRoom);
 
   //サービス情報のソケットに接続する
-  const roomId = this.defaultChatRoom.id;
+  const roomId = this.defaultChatRoom._id;
   const fromId = this.config.SERIAL_CODE;
   const socketPort = this.serviceInfo.socketPort;
   this.somaliSocket.init(roomId,fromId,socketPort,function(data){
