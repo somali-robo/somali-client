@@ -4,8 +4,7 @@ var App = function(){};
 App.prototype.uuid = require('node-uuid');
 App.prototype.dropbox = require("node-dropbox");
 App.prototype.wpi = require('wiring-pi');
-App.prototype.Store = require('store2');
-App.prototype.store = null;
+App.prototype.store = require('store2');
 
 App.prototype.config = require('./config.js');
 App.prototype.configDevice = require('./config_device.js');
@@ -83,8 +82,6 @@ App.prototype.setStatus = function(status){
 App.prototype.init = function(){
   console.log("init");
   var _this = this;
-  
-  this.store = this.Store(this.KEY_STORE);
 
   //GPIO初期化
   this.wpi.wiringPiSetupGpio();
@@ -245,7 +242,7 @@ App.prototype.register = function(){
             const defaultChatRoomId = _this.defaultChatRoom._id;
             console.log("defaultChatRoomId "+defaultChatRoomId);
             //ローカルストア に デフォルトルームIDを保存
-            _this.store.set(_this.KEY_DEFAULT_CHAT_ROOM_ID,defaultChatRoomId);
+            _this.store(_this.KEY_DEFAULT_CHAT_ROOM_ID,defaultChatRoomId);
 
             const name = _this.defaultChatRoom.name;
             const members = [device];
@@ -270,7 +267,7 @@ App.prototype.register = function(){
       else{
           //登録済み
           //defaultChatRoom を探して設定
-          const defaultChatRoomId = _this.store.get(_this.KEY_DEFAULT_CHAT_ROOM_ID);
+          const defaultChatRoomId = _this.store(_this.KEY_DEFAULT_CHAT_ROOM_ID);
           console.log("defaultChatRoomId "+defaultChatRoomId);
           _this.somaliApi.getChatRoom(defaultChatRoomId,function(err,response){
             if(err){
