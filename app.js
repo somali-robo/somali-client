@@ -493,11 +493,10 @@ App.prototype.accelerationStart = function(){
                             accelY: (this.accelY/this.cnt),
                             accelZ: (this.accelZ/this.cnt)};
                   },
-                  oldV:0,
                   isShaken:function(){
                     //揺らされた場合
-                    const avg = this.average();
-                    const v = Math.abs(avg.accelY) - this.oldV;
+                    //const avg = this.average();
+                    const v = Math.abs(this.accelY);
                     oldV = v;
                     console.log("v "+v);
                     return (1500 < v);
