@@ -372,7 +372,7 @@ App.prototype.socketConnecte = function(){
     console.log(data);
     if(data.fromId != _this.config.SERIAL_CODE){
       //スマートフォンからのメッセージなので音声合成
-      const value = data.value.value;
+      const value = JSON.parse(data.value);
       console.log("value");
       console.log(value);
       _this.textToSpeech(value,_this.hoya.SPEAKER_HIKARI,function(path, err){
