@@ -64,9 +64,9 @@ SomaliApi.prototype.postDevice = function(serialCode,name,callback){
   });
 };
 
-//チャットルーム一覧を取得
-SomaliApi.prototype.getChatRooms = function(callback){
-  var options = {url: this.API_HOST+this.API_CHAT_ROOMS};
+//チャットルームを取得
+SomaliApi.prototype.getChatRoom = function(id,callback){
+  var options = {url: this.API_HOST+this.API_CHAT_ROOMS+"/"+id};
   this.request.get(options,function(err,response){
     if(err){
       callback(err);

@@ -46,6 +46,7 @@ App.prototype.wavFilePath = "./tmp/rec.wav";
 
 //デフォルトのチャット ルーム
 App.prototype.defaultChatRoom = null;
+App.prototype.KEY_DEFAULT_CHAT_ROOM_ID = "DEFAULT_CHAT_ROOM_ID";
 
 //各ステータス遷移
 App.prototype.setStatus = function(status){
@@ -237,6 +238,10 @@ App.prototype.register = function(){
             console.log("postChatRoom");
             console.log(response);
             _this.defaultChatRoom = response.data;
+            
+            //ローカルストア に デフォルトルームIDを保存
+            _this.store(this.KEY_DEFAULT_CHAT_ROOM_ID,_this.defaultChatRoom._id);
+
             const id = _this.defaultChatRoom._id;
             const name = _this.defaultChatRoom.name;
             const members = [device];
@@ -260,17 +265,16 @@ App.prototype.register = function(){
       }
       else{
           //登録済み
-          //チャットルーム一覧を取得
-          _this.somaliApi.getChatRooms(function(err,response){
+          //defaultChatRoom を探して設定
+          const defaultChatRoomId = _this.store(this.KEY_DEFAULT_CHAT_ROOM_ID);
+          this.somaliApi.getChatRoom(defaultChatRoomId,function(err,response){
             if(err){
-              console.log("err putChatRoom");
+              console.log("err getChatRoom");
               _this.lastErr = err;
               _this.setStatus(App.STATUS.ERROR);
               return;
             }
-            console.log(response);
-            //TODO: defaultChatRoom を探して設定
-            //name = SerialCode
+            _this.defaultChatRoom = response.data[0];
           });
 
           //モードスイッチ状態 グループモードの場合
