@@ -509,8 +509,7 @@ App.prototype.accelerationStart = function(){
       accelSum.accelY += data.accelY;
       accelSum.accelZ += data.accelZ;
       accelSum.cnt += 1;
-      console.log("accelSum.cnt "+accelSum.cnt);
-
+      
       //平均を計算
       if(accelSum.cnt == 10){
         console.log("isShaken");
