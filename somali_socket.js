@@ -5,22 +5,24 @@ var SomaliSocket = function(){};
 //SomaliApi.prototype.SOCKET_HOST = "somali-server.herokuapp.com";
 SomaliSocket.prototype.SOCKET_HOST = "192.168.11.64";
 
+SomaliSocket.prototype.roomId = null;
 SomaliSocket.prototype.serialCode = null;
 SomaliSocket.prototype.client = require('socket.io-client');
 SomaliSocket.prototype.socket = null;
-SomaliSocket.prototype.init = function(serialCode,socketPort,callback){
+SomaliSocket.prototype.init = function(roomId,fromId,socketPort,callback){
   var _this = this;
-  this.serialCode = serialCode;
+  this.roomId = roomId;
+  this.fromId = fromId;
   var url = "ws://"+this.SOCKET_HOST+":"+socketPort;
   this.socket = this.client.connect(url);
   this.socket.on('connect',function(){
       console.log('connect');
-      _this.socket.emit("connected", {userId:_this.serialCode,value: ""});
+      _this.socket.emit("connected", {roomId:_this.roomId,fromId:this.fromId,value: ""});
   });
   this.socket.on('disconnect', function() {
     console.log('Client disconnected');
   });
-  this.socket.on('publish', function(data){
+  this.socket.on('message', function(data){
       //サーバからデータを受信した時
       //console.log('publish');
       //console.log(data);
@@ -28,8 +30,8 @@ SomaliSocket.prototype.init = function(serialCode,socketPort,callback){
   });
 };
 
-SomaliSocket.prototype.publish = function(value){
-  this.socket.emit("publish", {userId:this.serialCode,value:value});
+SomaliSocket.prototype.sendMessage = function(value){
+  this.socket.emit("message", {roomId:_this.roomId,fromId:this.fromId,value:value});
 };
 
 module.exports = new SomaliSocket();
