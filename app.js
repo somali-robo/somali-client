@@ -493,10 +493,12 @@ App.prototype.accelerationStart = function(){
                             accelY: (this.accelY/this.cnt),
                             accelZ: (this.accelZ/this.cnt)};
                   },
+                  oldV:0,
                   isShaken:function(){
                     //揺らされた場合
                     const avg = this.average();
-                    const v = Math.abs(avg.accelY);
+                    const v = Math.abs(avg.accelY) - oldV;
+                    oldV = v;
                     console.log("v "+v);
                     return (1500 < v);
                   }
@@ -509,7 +511,7 @@ App.prototype.accelerationStart = function(){
       accelSum.accelY += data.accelY;
       accelSum.accelZ += data.accelZ;
       accelSum.cnt += 1;
-      
+
       //平均を計算
       if(accelSum.cnt == 10){
         console.log("isShaken");
