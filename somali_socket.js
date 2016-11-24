@@ -31,7 +31,7 @@ SomaliSocket.prototype.init = function(roomId,fromId,socketPort,callback){
 };
 
 SomaliSocket.prototype.sendMessage = function(value){
-  this.socket.emit("message", {roomId:_this.roomId,fromId:this.fromId,value:value});
+  this.socket.emit("message", {roomId:this.roomId,fromId:this.fromId,value:value});
 };
 
 module.exports = new SomaliSocket();
