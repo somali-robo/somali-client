@@ -238,14 +238,14 @@ App.prototype.register = function(){
             console.log("postChatRoom");
             console.log(response);
             _this.defaultChatRoom = response.data;
-            
+            const defaultChatRoomId = _this.defaultChatRoom._id;
+            console.log("defaultChatRoomId "+defaultChatRoomId);
             //ローカルストア に デフォルトルームIDを保存
-            _this.store(this.KEY_DEFAULT_CHAT_ROOM_ID,_this.defaultChatRoom._id);
+            _this.store(this.KEY_DEFAULT_CHAT_ROOM_ID,defaultChatRoomId);
 
-            const id = _this.defaultChatRoom._id;
             const name = _this.defaultChatRoom.name;
             const members = [device];
-            _this.somaliApi.putChatRoom(id,name,members,[],function(err,response){
+            _this.somaliApi.putChatRoom(defaultChatRoomId,name,members,[],function(err,response){
               if(err){
                 console.log("err putChatRoom");
                 _this.lastErr = err;
@@ -267,7 +267,8 @@ App.prototype.register = function(){
           //登録済み
           //defaultChatRoom を探して設定
           const defaultChatRoomId = _this.store(this.KEY_DEFAULT_CHAT_ROOM_ID);
-          this.somaliApi.getChatRoom(defaultChatRoomId,function(err,response){
+          console.log("defaultChatRoomId "+defaultChatRoomId);
+          _this.somaliApi.getChatRoom(defaultChatRoomId,function(err,response){
             if(err){
               console.log("err getChatRoom");
               _this.lastErr = err;
