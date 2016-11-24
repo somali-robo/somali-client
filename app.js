@@ -475,16 +475,23 @@ App.prototype.textToSpeech = function(text,speaker,callback){
 
 //加速度センサの監視を開始
 App.prototype.accelerationStart = function(){
+  var _this = this;
   this.mpu6050.subscribe(100,function(data){
       //console.log("MPU6050");
       console.log(data);
       const v = Math.abs(data.angY);
       if(1500 < v){
         console.log("isShaken");
+        //TODO: 閾値を超えたら固定メッセージを再生
+        var msg = "ゆらさないでー。";
+        _this.textToSpeech(msg,_this.hoya.SPEAKER_HIKARI,function(path, err){
+          if (err != null){
+            console.log("err");
+            return;
+          }
+          console.log("success");
+        });
       }
-
-      //TODO: ベクトル計算
-      //TODO: 閾値を超えたら固定メッセージを送信
   });
 };
 
