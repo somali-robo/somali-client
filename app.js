@@ -89,6 +89,8 @@ App.prototype.init = function(){
   console.log("init");
   var _this = this;
 
+  const message = _this.SomaliMessage.create(_this.config.SERIAL_CODE,_this.SomaliMessage.TYPE_WAV,"remotePath");
+
   this.jsonDB = new this.JsonDB(this.KEY_STORE,true,false);
 
   //GPIO初期化
