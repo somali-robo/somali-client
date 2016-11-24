@@ -492,7 +492,15 @@ App.prototype.accelerationStart = function(){
                     return {accelX: (this.accelX/this.cnt),
                             accelY: (this.accelY/this.cnt),
                             accelZ: (this.accelZ/this.cnt)};
-                  }};
+                  },
+                  isShaken:function(){
+                    //揺らされた場合
+                    const avg = this.average();
+                    const v = Math.pow(avg.accelX,2) + Math.pow(avg.accelY,2) + Math.pow(avg.accelZ,2);
+                    console.log("v "+v);
+                    return (Math.pow(1500,2) <= v);
+                  }
+                };
   this.mpu6050.subscribe(100,function(data){
       console.log("MPU6050");
       console.dir(data);
@@ -504,9 +512,8 @@ App.prototype.accelerationStart = function(){
 
       //平均を計算
       if(accelSum.cnt > 10){
-        var avg = accelSum.average();
-        console.log("avg");
-        console.log(avg);
+        console.log("isShaken");
+        console.log((accelSum.isShaken())?"true":"false");
         accelSum.clear();
       }
 
