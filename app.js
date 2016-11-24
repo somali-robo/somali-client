@@ -475,10 +475,30 @@ App.prototype.textToSpeech = function(text,speaker,callback){
 
 //加速度センサの監視を開始
 App.prototype.accelerationStart = function(){
-  //MPU6050のデータを監視
-  this.mpu6050.subscribe(30,function(data){
+  var accelSum = {accelX: 0,
+                  accelY: 0,
+                  accelZ: 0,
+                  cnt:0,
+                  average:function(){
+                    console.log("average");
+                    return {accelX: (this.accelX/cnt),accelY: (this.accelY/cnt), accelZ: (this.accelZ/cnt)};
+                  }};
+  this.mpu6050.subscribe(10,function(data){
       console.log("MPU6050");
       console.dir(data);
+      //合計を計算
+      accelSum.accelX += data.accelX;
+      accelSum.accelY += data.accelY;
+      accelSum.accelZ += data.accelZ;
+      accelSum.cnt += 1;
+
+      //平均を計算
+      if(accelSum.cnt > 10){
+        var avg = accelSum.average();
+        console.log("avg");
+        console.log(avg);
+      }
+      
       //TODO: ベクトル計算
       //TODO: 閾値を超えたら固定メッセージを送信
   });
