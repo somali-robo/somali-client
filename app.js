@@ -4,6 +4,7 @@ var App = function(){};
 App.prototype.uuid = require('node-uuid');
 App.prototype.dropbox = require("node-dropbox");
 App.prototype.wpi = require('wiring-pi');
+App.prototype.store = require('store2');
 
 App.prototype.config = require('./config.js');
 App.prototype.configDevice = require('./config_device.js');
@@ -42,6 +43,9 @@ App.prototype.dropboxApi = null;
 
 //録音したファイル
 App.prototype.wavFilePath = "./tmp/rec.wav";
+
+//デフォルトのチャット ルーム
+App.prototype.defaultChatRoom = null;
 
 //各ステータス遷移
 App.prototype.setStatus = function(status){
@@ -232,9 +236,11 @@ App.prototype.register = function(){
             }
             console.log("postChatRoom");
             console.log(response);
-            var data = response.data;
-            var members = [device];
-            _this.somaliApi.putChatRoom(data._id,data.name,members,[],function(err,response){
+            _this.defaultChatRoom = response.data;
+            const id = _this.defaultChatRoom._id;
+            const name = _this.defaultChatRoom.name;
+            const members = [device];
+            _this.somaliApi.putChatRoom(id,name,members,[],function(err,response){
               if(err){
                 console.log("err putChatRoom");
                 _this.lastErr = err;
@@ -254,7 +260,18 @@ App.prototype.register = function(){
       }
       else{
           //登録済み
-          //TODO: チャットルーム一覧を取得
+          //チャットルーム一覧を取得
+          _this.somaliApi.getChatRooms(function(err,response){
+            if(err){
+              console.log("err putChatRoom");
+              _this.lastErr = err;
+              _this.setStatus(App.STATUS.ERROR);
+              return;
+            }
+            console.log(response);
+            //TODO: defaultChatRoom を探して設定
+            //name = SerialCode
+          });
 
           //モードスイッチ状態 グループモードの場合
           //同じルータにあるロボットにシリアルコードを通知する

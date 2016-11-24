@@ -64,6 +64,19 @@ SomaliApi.prototype.postDevice = function(serialCode,name,callback){
   });
 };
 
+//チャットルーム一覧を取得
+SomaliApi.prototype.getChatRooms = function(callback){
+  var options = {url: this.API_HOST+this.API_CHAT_ROOMS};
+  this.request.get(options,function(err,response){
+    if(err){
+      callback(err);
+      return;
+    }
+    var result = JSON.parse(response.body);
+    callback(null,result);
+  });
+};
+
 //チャットルーム登録
 SomaliApi.prototype.postChatRoom = function(name,callback){
   //var createdAt = (new Date()).toISOString();
