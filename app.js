@@ -336,9 +336,11 @@ App.prototype.recStart = function(){
         return;
       }
       //console.log(resp);
-      console.log(body);
+      //console.log(body);
       //
       const message = _this.SomaliMessage.create(_this.config.SERIAL_CODE,_this.SomaliMessage.TYPE_WAV,remotePath);
+      console.log(message);
+      
       //TODO: モードスイッチ状態によって事前に取得したチャットルームを切り替える
       //_this.mode
       _this.somaliSocket.publish(message);
