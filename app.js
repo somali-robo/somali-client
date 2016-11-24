@@ -485,7 +485,7 @@ App.prototype.accelerationStart = function(){
       const v = Math.abs(data.angY);
       if(1500 < v){
         if(this.isShaken == true) return;
-        console.log("isShaken");
+        console.log("isShaken v:"+v);
         _this.isShaken = true;
         //閾値を超えたら固定メッセージを再生
         var msg = "ゆらさないで";
