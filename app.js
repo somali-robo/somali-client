@@ -243,6 +243,8 @@ App.prototype.register = function(){
             console.log("defaultChatRoomId "+defaultChatRoomId);
             //ローカルストア に デフォルトルームIDを保存
             _this.store(_this.KEY_DEFAULT_CHAT_ROOM_ID,defaultChatRoomId);
+            const tmpId = _this.store(_this.KEY_DEFAULT_CHAT_ROOM_ID);
+            console.log("tmpId "+tmpId);
 
             const name = _this.defaultChatRoom.name;
             const members = [device];
