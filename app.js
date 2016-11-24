@@ -497,7 +497,7 @@ App.prototype.accelerationStart = function(){
                   isShaken:function(){
                     //揺らされた場合
                     const avg = this.average();
-                    const v = Math.abs(avg.accelY) - oldV;
+                    const v = Math.abs(avg.accelY) - this.oldV;
                     oldV = v;
                     console.log("v "+v);
                     return (1500 < v);
