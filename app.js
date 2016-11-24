@@ -30,8 +30,9 @@ App.STATUS = {
   WPS_INIT:3,
   CONNECTED:4,
   REGISTER:5,
-  MODE_GROUP:6,
-  REC_START:7
+  SOCKET_CONNECT:6,
+  MODE_GROUP:7,
+  REC_START:8,
 };
 
 App.prototype.status = App.STATUS.DEFAULT;
@@ -74,6 +75,9 @@ App.prototype.setStatus = function(status){
       break;
     case App.STATUS.REC_START:
       this.recStart();
+      break;
+    case App.STATUS.SOCKET_CONNECT:
+      this.socketConnecte();
       break;
   }
   this.status = status;
@@ -239,8 +243,8 @@ App.prototype.register = function(){
               _this.setStatus(App.STATUS.ERROR);
               return;
             }
-            console.log("postChatRoom");
-            console.log(response);
+            //console.log("postChatRoom");
+            //console.log(response);
             _this.defaultChatRoom = response.data;
             const defaultChatRoomId = _this.defaultChatRoom._id;
             //ローカルストア に デフォルトルームIDを保存
@@ -255,7 +259,11 @@ App.prototype.register = function(){
                 _this.setStatus(App.STATUS.ERROR);
                 return;
               }
-              console.log(response);
+              //console.log(response);
+
+              //デフォルトルームが決定したので ソケット接続をする
+              _this.setStatus(App.STATUS.SOCKET_CONNECT);
+              
             });
           });
 
@@ -270,7 +278,6 @@ App.prototype.register = function(){
           //登録済み
           //defaultChatRoom を探して設定
           var defaultChatRoomId = _this.jsonDB.getData(_this.KEY_DEFAULT_CHAT_ROOM_ID);
-          console.log("defaultChatRoomId "+defaultChatRoomId);
           _this.somaliApi.getChatRoom(defaultChatRoomId,function(err,response){
             if(err){
               console.log("err getChatRoom");
@@ -279,6 +286,9 @@ App.prototype.register = function(){
               return;
             }
             _this.defaultChatRoom = response.data[0];
+
+            //デフォルトルームが決定したので ソケット接続をする
+            _this.setStatus(App.STATUS.SOCKET_CONNECT);
           });
 
           //モードスイッチ状態 グループモードの場合
@@ -345,6 +355,11 @@ App.prototype.recStart = function(){
     });
 */
   });
+};
+
+//ソケット接続等を開始しする
+App.prototype.socketConnecte = function(){
+  console.log("socketConnecte");
 };
 
 //スピーカー・アンプ ON,OFF
