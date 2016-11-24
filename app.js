@@ -14,6 +14,7 @@ App.prototype.empath = require('./empath.js');
 App.prototype.hoya = require('./hoya.js');
 App.prototype.aplay = require('./aplay.js');
 App.prototype.somaliApi = require('./somali_api.js');
+App.prototype.SomaliMessage = require('./somali_message.js');
 App.prototype.somaliSocket = require('./somali_socket.js');
 App.prototype.arecord　= require('./arecord.js');
 App.prototype.amixer = require('./amixer.js');
@@ -321,7 +322,7 @@ App.prototype.recStart = function(){
     }
     console.log("success");
 
-    //録音内容をサーバに送信
+    //録音内容をDropboxに送信
     var localPath = _this.wavFilePath;
     var remotePath = "/"+_this.uuid.v4()+".wav";
     console.log("localPath "+localPath);
@@ -334,9 +335,11 @@ App.prototype.recStart = function(){
       }
       //console.log(resp);
       console.log(body);
-
+      //
+      const message = _this.SomaliMessage.create(_this.config.SERIAL_CODE,Message.TYPE_WAV,remotePath);
       //TODO: モードスイッチ状態によって事前に取得したチャットルームを切り替える
       //_this.mode
+      _this.somaliSocket.publish(message);
     });
   });
 };
