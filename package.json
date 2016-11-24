@@ -10,7 +10,6 @@
   "license": "ISC",
   "dependencies": {
     "fs": "*",
-    "json-localstorage": "^1.3.0",
     "localStorage": "^1.0.3",
     "mpu6050-wiringpi": "^0.0.2",
     "node-dropbox": "git+https://github.com/setouchi/node-dropbox.git",
