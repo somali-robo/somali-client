@@ -84,7 +84,7 @@ App.prototype.init = function(){
   console.log("init");
   var _this = this;
 
-  this.jsonDB = new this.JsonDB(KEY_STORE,true,false);
+  this.jsonDB = new this.JsonDB(this.KEY_STORE,true,false);
 
   //GPIO初期化
   this.wpi.wiringPiSetupGpio();
