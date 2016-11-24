@@ -12,7 +12,7 @@ Message.prototype.createdAt = "";
 Message.TYPE_TEXT = "text";
 Message.TYPE_WAV  = "wav";
 
-Message.create = function(from,type,value){
+Message.prototype.create = function(from,type,value){
   var result = new Message();
   result.from = from;
   result.type = type;
