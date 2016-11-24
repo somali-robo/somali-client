@@ -496,7 +496,7 @@ App.prototype.accelerationStart = function(){
                   isShaken:function(){
                     //揺らされた場合
                     const avg = this.average();
-                    const v = Math.pow(avg.accelX,2) + Math.pow(avg.accelY,2) + Math.pow(avg.accelZ,2);
+                    const v = (Math.pow(avg.accelX,2) + Math.pow(avg.accelY,2) + Math.pow(avg.accelZ,2))/3;
                     console.log("v "+v);
                     const t = Math.pow(1500,2);
                     console.log("t "+t);
