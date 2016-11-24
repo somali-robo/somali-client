@@ -230,6 +230,7 @@ App.prototype.register = function(){
               _this.setStatus(App.STATUS.ERROR);
               return;
             }
+            console.log("postChatRoom");
             console.log(response);
             var data = response.data;
             var members = [device];
