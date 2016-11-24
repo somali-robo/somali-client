@@ -355,8 +355,11 @@ App.prototype.socketConnecte = function(){
   console.log("socketConnecte");
   console.log("serviceInfo");
   console.log(this.serviceInfo);
+  console.log("defaultChatRoom");
+  console.log(this.defaultChatRoom);
+
   //サービス情報のソケットに接続する
-  const roomId = this.defaultChatRoom._id;
+  const roomId = this.defaultChatRoom.id;
   const fromId = this.config.SERIAL_CODE;
   const socketPort = this.serviceInfo.socketPort;
   this.somaliSocket.init(roomId,fromId,socketPort,function(data){
