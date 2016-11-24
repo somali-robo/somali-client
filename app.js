@@ -259,7 +259,7 @@ App.prototype.register = function(){
             _this.jsonDB.push(_this.KEY_DEFAULT_CHAT_ROOM_ID,defaultChatRoomId);
 
             const name = _this.defaultChatRoom.name;
-            const members = [device];
+            const members = [_this.device];
             _this.somaliApi.putChatRoom(defaultChatRoomId,name,members,[],function(err,response){
               if(err){
                 console.log("err putChatRoom");
