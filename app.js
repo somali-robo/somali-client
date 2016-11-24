@@ -347,7 +347,7 @@ App.prototype.recStart = function(){
 
       //TODO: モードスイッチ状態によって事前に取得したチャットルームを切り替える
       //_this.mode
-      _this.somaliSocket.publish(value);
+      _this.somaliSocket.sendMessage(value);
     });
   });
 };
