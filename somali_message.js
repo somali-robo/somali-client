@@ -9,8 +9,8 @@ Message.prototype.empath = {};
 Message.prototype.createdAt = "";
 
 //タイプ
-Message.prototype.TYPE_TEXT = "text";
-Message.prototype.TYPE_WAV  = "wav";
+Message.prototype.TYPE_TEXT = "TEXT";
+Message.prototype.TYPE_WAV  = "WAV";
 
 Message.prototype.create = function(from,type,value){
   var result = new Message();
