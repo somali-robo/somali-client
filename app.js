@@ -220,18 +220,28 @@ App.prototype.register = function(){
           }
           //デバイス登録に成功
           //console.log(response);
-          //var data = response.data;
+          var device = response.data;
 
           //チャットルーム作成
-          _this.somaliApi.postChatRoom(name,function(err,response){
+          _this.somaliApi.postChatRoom(_this.config.SERIAL_CODE,function(err,response){
             if(err){
-              console.log("err postDevice");
+              console.log("err postChatRoom");
               _this.lastErr = err;
               _this.setStatus(App.STATUS.ERROR);
               return;
-            }            
-            //console.log(response);
-            //var data = response.data;
+            }
+            console.log(response);
+            var data = response.data;
+            var members = [device];
+            _this.somaliApi.putChatRoom(data._id,data.name,members,[],function(err,response){
+              if(err){
+                console.log("err putChatRoom");
+                _this.lastErr = err;
+                _this.setStatus(App.STATUS.ERROR);
+                return;
+              }
+              console.log(response);
+            });
           });
 
           //モードスイッチ状態 グループモードの場合
