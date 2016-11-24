@@ -11,7 +11,7 @@ SomaliSocket.prototype.init = function(config,callback){
   this.socket = this.client.connect(url);
   this.socket.on('connect',function(){
       console.log('connect');
-      _this.socket.emit("connected", {userId:_this.config.DEVICE_ID,value: ""});
+      _this.socket.emit("connected", {userId:_this.config.SERIAL_CODE,value: ""});
   });
   this.socket.on('disconnect', function() {
     console.log('Client disconnected');
@@ -25,7 +25,7 @@ SomaliSocket.prototype.init = function(config,callback){
 };
 
 SomaliSocket.prototype.publish = function(value){
-  this.socket.emit("publish", {userId:this.config.DEVICE_ID,value:value});
+  this.socket.emit("publish", {userId:this.config.SERIAL_CODE,value:value});
 };
 
 module.exports = new SomaliSocket();
