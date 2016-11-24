@@ -6,7 +6,7 @@ var SomaliSocket = function(){};
 SomaliSocket.prototype.SOCKET_HOST = "192.168.11.64";
 
 SomaliSocket.prototype.roomId = null;
-SomaliSocket.prototype.serialCode = null;
+SomaliSocket.prototype.fromId = null;
 SomaliSocket.prototype.client = require('socket.io-client');
 SomaliSocket.prototype.socket = null;
 SomaliSocket.prototype.init = function(roomId,fromId,socketPort,callback){

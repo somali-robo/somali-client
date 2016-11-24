@@ -393,7 +393,7 @@ App.prototype.socketConnecte = function(){
     if(data.fromId != _this.device._id){
       //スマートフォンからのメッセージなので音声合成
       const json = JSON.parse(data.value);
-      //TODO: 必要なら json.type 別で処理を変更する
+      // json.type 別で処理を変更する
       console.log("value");
       console.log(json.value);
       _this.textToSpeech(json.value,_this.hoya.SPEAKER_HIKARI,function(path, err){
