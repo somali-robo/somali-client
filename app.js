@@ -89,7 +89,7 @@ App.prototype.init = function(){
   console.log("init");
   var _this = this;
 
-  const message = _this.SomaliMessage.create(_this.config.SERIAL_CODE,_this.SomaliMessage.TYPE_WAV,"remotePath");
+  //const message = _this.SomaliMessage.create(_this.config.SERIAL_CODE,_this.SomaliMessage.TYPE_WAV,"remotePath");
 
   this.jsonDB = new this.JsonDB(this.KEY_STORE,true,false);
 
@@ -354,7 +354,7 @@ App.prototype.socketConnecte = function(){
   console.log(this.serviceInfo);
   //サービス情報のソケットに接続する
   const socketPort = this.serviceInfo.socketPort;
-  this.somaliSocket.init(socketPort,function(data){
+  this.somaliSocket.init(_this.config.SERIAL_CODE,socketPort,function(data){
     console.log('publish');
     console.log(data);
     if(data.userId != _this.config.SERIAL_CODE){
