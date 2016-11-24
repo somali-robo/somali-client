@@ -290,11 +290,11 @@ App.prototype.register = function(){
             }
             console.log("getChatRoom");
             console.log(response);
-            
+
             _this.defaultChatRoom = response.data[0];
 
             //デフォルトルームが決定したので ソケット接続をする
-            _this.setStatus(App.STATUS.SOCKET_CONNECT);
+            //_this.setStatus(App.STATUS.SOCKET_CONNECT);
           });
 
           //モードスイッチ状態 グループモードの場合
