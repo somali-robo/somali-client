@@ -483,7 +483,7 @@ App.prototype.accelerationStart = function(){
       console.log("MPU6050");
       console.log(data);
       const v = Math.abs(data.angY);
-      if(8000 < v){
+      if(16000 < v){
         if(this.isShaken == true) return;
         console.log("isShaken v:"+v);
         _this.isShaken = true;
