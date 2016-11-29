@@ -2,7 +2,7 @@
 */
 var SomaliSocket = function(){};
 
-SomaliApi.prototype.SOCKET_HOST = "somali-server.herokuapp.com";
+SomaliSocket.prototype.SOCKET_HOST = "somali-server.herokuapp.com";
 //SomaliSocket.prototype.SOCKET_HOST = "192.168.11.82";
 
 SomaliSocket.prototype.roomId = null;
