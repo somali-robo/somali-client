@@ -480,10 +480,11 @@ App.prototype.textToSpeech = function(text,speaker,callback){
 App.prototype.accelerationStart = function(){
   var _this = this;
   this.mpu6050.subscribe(100,function(data){
-      console.log("MPU6050");
-      console.log(data);
       const v = Math.abs(data.angY);
       if(16000 < v){
+        console.log("MPU6050");
+        console.log(data);
+
         if(this.isShaken == true) return;
         console.log("isShaken v:"+v);
         _this.isShaken = true;
