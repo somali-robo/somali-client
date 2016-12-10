@@ -131,11 +131,12 @@ App.prototype.init = function(){
 
   //REC ボタン (赤色)
   this.wpi.pinMode(this.configDevice.REC_BUTTON,this.wpi.INPUT);
-  this.wpi.wiringPiISR(this.configDevice.REC_BUTTON, this.wpi.INT_EDGE_RISING, function(v) {
-    console.log("REC_BUTTON " + v);
-    _this.setStatusLed(true);
+  this.wpi.wiringPiISR(this.configDevice.REC_BUTTON, this.wpi.INT_EDGE_BOTH, function(v) {
+    var value = _this.wpi.digitalRead(_this.configDevice.REC_BUTTON);
+    console.log("REC_BUTTON " + value);
+    //_this.setStatusLed(true);
     //録音開始
-    _this.setStatus(App.STATUS.REC_START);
+    //_this.setStatus(App.STATUS.REC_START);
   });
 
   //モード スイッチ INT_EDGE_BOTH 両方
