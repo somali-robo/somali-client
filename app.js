@@ -382,17 +382,21 @@ App.prototype.runNewMessage = function(roomId,message){
 App.prototype.runEmpath = function(message){
   console.log("empath");
   const empath = message.empath;
-  for(obj in empath){
-      console.log(obj);
+  var selectKey = null;
+  if(empath["error"] == 0){
+    var max = 0;
+    for(key in empath){
+      console.log(empath[key]);
+      if(max < empath[key]){
+        selectKey = key;
+        max = empath[key];
+      }
+    }
   }
-  /*
-  "error": 0,
-   "calm": 45,
-   "anger": 4,
-   "joy": 0,
-   "sorrow": 0,
-   "energy": 4
-   */
+
+  if(selectKey){
+    console.log("selectKey "+selectKey);
+  }
 };
 
 //チャットルームの新規メッセージを監視する
