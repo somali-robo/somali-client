@@ -37,6 +37,7 @@ App.prototype.init = function(){
     var value = _this.wpi.digitalRead(_this.configDevice.WPS_BUTTON);
     console.log("WPS_BUTTON " + value);
     if(value == _this.wpi.HIGH){
+      //voiceMagic 電源をONにする
       _this.voiceMagic.power(_this.voiceMagic.POWER_ON);
       //voiceMagic にコマンド認識させる
       _this.voiceMagic.recognition(function(){

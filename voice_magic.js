@@ -39,7 +39,7 @@ VoiceMagic.prototype.init = function(config){
 
   //音声区間検出回路の制御端子
   this.wpi.pinMode(this.config.VOICE_MAGIC_VCST,this.wpi.OUTPUT);
-  
+
   //レジスターSTATUSのINT出力
   this.wpi.pinMode(this.config.VOICE_MAGIC_INT,this.wpi.INPUT);
 };
@@ -71,7 +71,7 @@ VoiceMagic.prototype.recognition = function(callback){
   }
 
   //レジスター SCENE
-  if((this.wpi.wiringPiI2CWriteReg8(this.fd,this.REGISTER_SCENE_ADDR,0x00))<0){
+  if((this.wpi.wiringPiI2CWriteReg8(this.fd,this.REGISTER_SCENE_ADDR,0x0c))<0){
     console.log("write error register "+this.REGISTER_SCENE_ADDR);
   }
 
