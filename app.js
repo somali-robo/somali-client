@@ -403,6 +403,11 @@ App.prototype.monitoringChatroomMessages = function(){
         if(_this.isNewMessage(_this.chatRoomMessages[roomId],message)){
           console.log("isNewMessage true");
           console.log(message);
+
+          //前回値として保存
+          _this.chatRoomMessages[roomId] = response.data.messages;
+          _this.jsonDB.push(_this.KEY_CHAT_ROOM_MESSAGES,_this.chatRoomMessages);
+
           if((message.from.serialCode)&&(message.from.serialCode == _this.config.SERIAL_CODE)){
             //シリアルコードを確認して自分だった場合
             //TODO: 感情にあわせて返事を再生する
@@ -411,10 +416,6 @@ App.prototype.monitoringChatroomMessages = function(){
           else{
             //それ以外
             _this.runNewMessage(roomId,message);
-
-            _this.chatRoomMessages[roomId] = response.data.messages;
-            //前回値として保存
-            _this.jsonDB.push(_this.KEY_CHAT_ROOM_MESSAGES,_this.chatRoomMessages);
           }
         }
       }
