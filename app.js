@@ -331,11 +331,16 @@ App.prototype.register = function(){
 //新規メッセージか確認
 App.prototype.isNewMessage = function(messages,lastMessage){
   console.log("isNewMessage");
-  var result = false;
+  var result = true;
   messages.forEach(function(element, index, array){
-      console.log("element "+element._id);
+      console.log("element "+element.from.serialCode);
+      //シリアルコードを確認して自分だった場合キャンセル
+      if((!element.from.serialCode)&&(element.from.serialCode == _this.config.SERIAL_CODE)){
+        return;
+      }
+      //
       if(element._id == lastMessage._id){
-          result = true;
+          result = false;
       }
   });
   return result;
@@ -376,7 +381,9 @@ App.prototype.apiInit = function(){
         console.log("lastMessage");
         console.log(_this.lastMessage);
         if(_this.isNewMessage(_this.chatRoomMessages[roomId],_this.lastMessage)){
+          console.log("isNewMessage true");
           //TODO: 新規追加されたメッセージを読み上げる
+
           _this.chatRoomMessages[roomId] = response.data.messages;
           //前回値として保存
           _this.jsonDB.push(_this.KEY_CHAT_ROOM_MESSAGES,_this.chatRoomMessages);
