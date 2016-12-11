@@ -474,8 +474,7 @@ App.prototype.recStart = function(){
     //console.log("localPath "+localPath);
     //console.log("remotePath "+remotePath);
     _this.fs.readFile(localPath,'binary', (err, data) => {
-      console.log("data");
-      console.log(data);
+      console.log("data length"+data.length);
       _this.dropboxApi.createFile("/"+remotePath, data, function(err, resp, body) {
         if(err){
           _this.lastErr = err;
