@@ -475,8 +475,8 @@ App.prototype.monitoringChatroomMessages = function(){
         }
       }
       catch(e){
-        console.log("getChatroomMessages err");
-        console.log(e);
+        //console.log("getChatroomMessages err");
+        //console.log(e);
       }
     });
   },1*1000);
@@ -782,27 +782,31 @@ App.prototype.voiceMagicStart = function(){
   const _this = this;
   //voiceMagic 電源をONにする
   this.voiceMagic.power(this.voiceMagic.POWER_ON);
-  //voiceMagic にコマンド認識させる
-  this.voiceMagic.recognition(function(){
-      console.log("help!!");
 
-      //アラートメッセージを送信する
-      const message = _this.SomaliMessage.create(_this.device,_this.SomaliMessage.TYPE_ALERT,"助けて！");
-      message._id = _this.uuid.v4();
+  setInterval(function(){
+    //voiceMagic にコマンド認識させる
+    _this.voiceMagic.recognition(function(){
+        console.log("help!!");
 
-      //アクテイブルームIDを取得する
-      const roomId = _this.getActiveRoomId();
-      //メッセージを送信
-      _this.somaliApi.putChatroomMessage(roomId,message,function(err,result){
-        if(err){
-          _this.lastErr = err;
-          _this.setStatus(App.STATUS.ERROR);
-          return;
-        }
-        //console.log("success");
-        //console.log(result);
-      });
-  });
+        //アラートメッセージを送信する
+        const message = _this.SomaliMessage.create(_this.device,_this.SomaliMessage.TYPE_ALERT,"助けて！");
+        message._id = _this.uuid.v4();
+
+        //アクテイブルームIDを取得する
+        const roomId = _this.getActiveRoomId();
+        //メッセージを送信
+        _this.somaliApi.putChatroomMessage(roomId,message,function(err,result){
+          if(err){
+            _this.lastErr = err;
+            _this.setStatus(App.STATUS.ERROR);
+            return;
+          }
+          //console.log("success");
+          //console.log(result);
+        });
+    });
+  },3*1000);
+
 };
 
 var app = new App();

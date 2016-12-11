@@ -98,9 +98,6 @@ VoiceMagic.prototype.recognition = function(callback){
     //認識結果受理 コールバック
     callback();
   }
-
-  //再起する
-  this.recognition(callback);
 };
 
 VoiceMagic.prototype.toHexStr = function(s){
