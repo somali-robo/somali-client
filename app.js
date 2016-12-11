@@ -350,22 +350,8 @@ App.prototype.isNewMessage = function(messages,lastMessage){
   return result;
 };
 
-//APIへの接続をして初期設定等を読み出す
-App.prototype.apiInit = function(){
-  console.log("apiInit");
-  var _this = this;
-
-  //保存済みのメッセージ一覧を取得
-  try{
-    this.chatRoomMessages = this.jsonDB.getData(this.KEY_CHAT_ROOM_MESSAGES);
-  }
-  catch(e){
-    console.log("chatRoomMessages err");
-    //console.log(e);
-  }
-  //console.log("this.chatRoomMessages");
-  //console.log(this.chatRoomMessages);
-
+//チャットルームの新規メッセージを監視する
+App.prototype.monitoringChatroomMessages = function(){
   //チャットルームのメッセージを監視
   setInterval(function(){
     //アクテイブルームIDを取得する
@@ -410,8 +396,7 @@ App.prototype.apiInit = function(){
             });
           }
           else if (message.type == _this.SomaliMessage.TYPE_TEXT){
-            //TODO: WAV の場合
-            //Downloadして再生
+            //TODO: WAV の場合 Downloadして再生
           }
 
           //最後に再生したメッセージを保存する
@@ -427,6 +412,27 @@ App.prototype.apiInit = function(){
       }
     });
   },1*1000);
+};
+
+//APIへの接続をして初期設定等を読み出す
+App.prototype.apiInit = function(){
+  console.log("apiInit");
+  var _this = this;
+
+  //保存済みのメッセージ一覧を取得
+  try{
+    this.chatRoomMessages = this.jsonDB.getData(this.KEY_CHAT_ROOM_MESSAGES);
+  }
+  catch(e){
+    console.log("chatRoomMessages err");
+    //console.log(e);
+  }
+  //console.log("this.chatRoomMessages");
+  //console.log(this.chatRoomMessages);
+  
+  //チャットルームの新規メッセージを監視する
+  this.monitoringChatroomMessages();
+
 
   //加速度センサの監視を開始する
   _this.setStatus(App.STATUS.ACCELERATION_START);
