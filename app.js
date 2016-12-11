@@ -47,7 +47,6 @@ App.prototype.status = App.STATUS.DEFAULT;
 App.prototype.mode = App.MODE.DEFAULT;
 App.prototype.lastErr = null;
 App.prototype.intonations = null;
-App.prototype.serviceInfo = null;
 
 App.prototype.dropboxApi = null;
 
@@ -103,7 +102,7 @@ App.prototype.setStatus = function(status){
 App.prototype.init = function(){
   console.log("init");
   var _this = this;
-  
+
   this.jsonDB = new this.JsonDB(this.KEY_STORE,true,false);
 
   //GPIO初期化
@@ -196,17 +195,6 @@ App.prototype.wps = function(){
 App.prototype.connected = function(){
   console.log("connected");
   var _this = this;
-
-  //サービス情報を取得
-  this.somaliApi.getServiceInfos(function(err,response){
-    if(err){
-      console.log("err getIntonations");
-      _this.lastErr = err;
-      _this.setStatus(App.STATUS.ERROR);
-      return;
-    }
-    _this.serviceInfo = response.data[0];
-  });
 
   //抑揚認識発話 データ取得
   this.somaliApi.getIntonations(function(err,response){
