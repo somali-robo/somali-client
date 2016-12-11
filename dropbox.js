@@ -24,6 +24,7 @@ Dropbox.prototype.upload = function(remotePath,localPath,callback){
 */
 
 Dropbox.prototype.upload = function(remotePath, localPath, callback) {
+  console.log("upload "+remotePath+" "+localPath);
   var _this = this;
   this.fs.readFile(localPath, (err, data) => {
     _this.request.put(
