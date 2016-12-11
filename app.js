@@ -1,9 +1,8 @@
 /** Somali App
 */
 var App = function(){};
-App.prototype.fs = require("fs");
 App.prototype.uuid = require('node-uuid');
-App.prototype.dropbox = require("node-dropbox");
+App.prototype.dropbox = require("./dropbox.js");
 App.prototype.wpi = require('wiring-pi');
 App.prototype.JsonDB = require('node-json-db');
 App.prototype.jsonDB = null;
@@ -48,7 +47,6 @@ App.prototype.status = App.STATUS.DEFAULT;
 App.prototype.mode = App.MODE.DEFAULT;
 App.prototype.lastErr = null;
 App.prototype.intonations = null;
-App.prototype.dropboxApi = null;
 App.prototype.chatRoomMessages = {};
 App.prototype.lastMessage = null;
 
@@ -217,8 +215,9 @@ App.prototype.connected = function(){
 
   console.log("this.dropbox");
   console.log(this.dropbox);
+
   //Dropbox APIへのアクセスの為 初期化
-  this.dropboxApi = this.dropbox.api(this.config.DROPBOX_ACCESS_TOKEN);
+  this.dropbox.init(this.config.DROPBOX_ACCESS_TOKEN);
 
   //デバイス登録処理
   this.setStatus(App.STATUS.REGISTER);
@@ -473,31 +472,28 @@ App.prototype.recStart = function(){
     var remotePath = _this.uuid.v4()+".wav";
     //console.log("localPath "+localPath);
     //console.log("remotePath "+remotePath);
-    _this.fs.readFile(localPath,'binary', (err, data) => {
-      console.log("data length"+data.length);
-      _this.dropboxApi.createFile("/"+remotePath, data, function(err, resp, body) {
+    _this.dropbox.upload("/"+remotePath, localPath, function(err, resp, body) {
+      if(err){
+        _this.lastErr = err;
+        _this.setStatus(App.STATUS.ERROR);
+        return;
+      }
+      //console.log("device");
+      //console.log(_this.device);
+      const message = _this.SomaliMessage.create(_this.device,_this.SomaliMessage.TYPE_WAV,remotePath);
+      message._id = _this.uuid.v4();
+
+      //アクテイブルームIDを取得する
+      const roomId = _this.getActiveRoomId();
+      //メッセージを送信
+      _this.somaliApi.putChatroomMessage(roomId,message,function(err,result){
         if(err){
           _this.lastErr = err;
           _this.setStatus(App.STATUS.ERROR);
           return;
         }
-        //console.log("device");
-        //console.log(_this.device);
-        const message = _this.SomaliMessage.create(_this.device,_this.SomaliMessage.TYPE_WAV,remotePath);
-        message._id = _this.uuid.v4();
-
-        //アクテイブルームIDを取得する
-        const roomId = _this.getActiveRoomId();
-        //メッセージを送信
-        _this.somaliApi.putChatroomMessage(roomId,message,function(err,result){
-          if(err){
-            _this.lastErr = err;
-            _this.setStatus(App.STATUS.ERROR);
-            return;
-          }
-          //console.log("success");
-          //console.log(result);
-        });
+        //console.log("success");
+        //console.log(result);
       });
     });
   });
