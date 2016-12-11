@@ -383,6 +383,7 @@ App.prototype.apiInit = function(){
         const message = response.data.messages[response.data.messages.length-1];
         //console.log("lastMessage");
         //console.log(_this.lastMessage);
+        if(!_this.chatRoomMessages[roomId]) _this.chatRoomMessages[roomId] = [];
         if(_this.isNewMessage(_this.chatRoomMessages[roomId],message)){
           console.log("isNewMessage true");
           if (message.type == _this.SomaliMessage.TYPE_TEXT){
@@ -420,8 +421,8 @@ App.prototype.apiInit = function(){
         }
       }
       catch(e){
-        //console.log("getChatroomMessages err");
-        //console.log(e);
+        console.log("getChatroomMessages err");
+        console.log(e);
       }
     });
   },1*1000);
