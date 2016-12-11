@@ -60,7 +60,7 @@ VoiceMagic.prototype.power = function(isOn){
 //ハードウェア仕様 P35
 VoiceMagic.prototype.recognitionInit = function(){
   var tmp = null;
-  //console.log("recognition ADDR:"+this.config.VOICE_MAGIC_I2C_ADDR);
+  console.log("recognition ADDR:"+this.config.VOICE_MAGIC_I2C_ADDR);
 
   //i2c アドレス 0x2b
   this.fd = this.wpi.wiringPiI2CSetup(this.config.VOICE_MAGIC_I2C_ADDR);
