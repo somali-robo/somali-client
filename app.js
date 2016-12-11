@@ -346,7 +346,7 @@ App.prototype.isNewMessage = function(messages,lastMessage){
 };
 
 
-App.prototype.runNewMessage = function(message){
+App.prototype.runNewMessage = function(roomId,message){
   const _this = this;
   if (message.type == this.SomaliMessage.TYPE_TEXT){
     //新規追加されたメッセージを読み上げる
@@ -357,9 +357,9 @@ App.prototype.runNewMessage = function(message){
       }
       console.log("success");
       //スピーカーアンプをONにする
-      this.speakerAmpPower(_this.wpi.HIGH);
+      _this.speakerAmpPower(_this.wpi.HIGH);
       //再生
-      this.aplay.play(path,function(err, stdout, stderr){
+      _this.aplay.play(path,function(err, stdout, stderr){
         //アンプをOFFにする
         _this.speakerAmpPower(_this.wpi.LOW);
         if (err != null){
@@ -413,7 +413,7 @@ App.prototype.monitoringChatroomMessages = function(){
           }
           else{
             //それ以外
-            _this.runNewMessage(message);
+            _this.runNewMessage(roomId,message);
           }
         }
       }
