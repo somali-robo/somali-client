@@ -339,7 +339,7 @@ App.prototype.apiInit = function(){
   }
   catch(e){
     console.log("chatRoomMessages err");
-    console.log(e);
+    //console.log(e);
   }
   console.log("this.chatRoomMessages");
   console.log(this.chatRoomMessages);
@@ -360,7 +360,6 @@ App.prototype.apiInit = function(){
       //TODO: 新規追加されたメッセージを読み上げる
 
       _this.chatRoomMessages[roomId] = response.data.messages;
-
       //前回値として保存
       _this.jsonDB.push(_this.KEY_CHAT_ROOM_MESSAGES,_this.chatRoomMessages);
     });
@@ -418,7 +417,8 @@ App.prototype.recStart = function(){
       //console.log("device");
       //console.log(_this.device);
       const message = _this.SomaliMessage.create(_this.device,_this.SomaliMessage.TYPE_WAV,remotePath);
-
+      message._id = _this.uuid.v4();
+      
       //アクテイブルームIDを取得する
       const roomId = _this.getActiveRoomId();
       //メッセージを送信
