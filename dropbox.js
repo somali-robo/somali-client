@@ -13,7 +13,7 @@ Dropbox.prototype.init = function(accessToken){
 //アップロード
 Dropbox.prototype.upload = function(remotePath,localPath,callback){
   var _this = this;
-  this.fs.readFile(localPath,'binary', (err, data) => {
+  this.fs.readFile(localPath, (err, data) => {
     console.log("data length "+data.length);
     _this.dropboxApi.createFile("/"+remotePath, data, callback);
   });
