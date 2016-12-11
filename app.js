@@ -329,6 +329,7 @@ App.prototype.register = function(){
 //APIへの接続をして初期設定等を読み出す
 App.prototype.apiInit = function(){
   console.log("apiInit");
+  var _this = this;
   //チャットルームのメッセージを監視
   setInterval(function(){
     //アクテイブルームIDを取得する
@@ -342,6 +343,7 @@ App.prototype.apiInit = function(){
       }
       console.log("getChatroomMessages");
       console.log(response);
+      //TODO: 新規追加されたメッセージを読み上げる
     });
   },1*1000);
   //加速度センサの監視を開始する
