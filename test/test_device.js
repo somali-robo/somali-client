@@ -41,7 +41,7 @@ App.prototype.init = function(){
       _this.voiceMagic.power(_this.voiceMagic.POWER_ON);
       //voiceMagic にコマンド認識させる
       _this.voiceMagic.recognition(function(){
-
+          console.log("help!!");
       });
     }
   });

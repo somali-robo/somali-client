@@ -90,47 +90,31 @@ VoiceMagic.prototype.recognition = function(callback){
 
   //TODO: 判定結果の確認 レジスターSTATUS
   var status = this.wpi.wiringPiI2CReadReg8(this.fd,this.REGISTER_STATUS_ADDR);
-  console.log("READ STATUS");
-  console.dir(status);
+  //console.log("READ STATUS");
+  //console.dir(status);
   //RJFLG 読み出し
   tmp = new Buffer(status);
-  console.log(tmp);
-  console.log("RJFLG "+tmp[1]);
+  //console.log(tmp);
+  //console.log("RJFLG "+tmp[1]);
   if(tmp[1] == 0){
     //認識結果受理
 
     //TODO: 認識結果の読み出し
     //レジスター RCGRSLTH 読み出し
-    var th = this.wpi.wiringPiI2CReadReg8(this.fd,this.REGISTER_RCGRSLTH_ADDR);
-    console.log("READ REGISTER_RCGRSLTH_ADDR");
-    console.log(th);
+    //var th = this.wpi.wiringPiI2CReadReg8(this.fd,this.REGISTER_RCGRSLTH_ADDR);
+    //console.log("READ REGISTER_RCGRSLTH_ADDR");
+    //console.log(th);
     //レジスター RCGRSLTL 読み出し
-    var tl = this.wpi.wiringPiI2CReadReg8(this.fd,this.REGISTER_RCGRSLTL_ADDR);
-    console.log("READ REGISTER_RCGRSLTL_ADDR");
-    console.log(tl);
+    //var tl = this.wpi.wiringPiI2CReadReg8(this.fd,this.REGISTER_RCGRSLTL_ADDR);
+    //console.log("READ REGISTER_RCGRSLTL_ADDR");
+    //console.log(tl);
 
-    // RCGRSL
-    /*
-    var rcgrsl = new Buffer(10);
-    rcgrsl[9] = tmpTh[1];
-    rcgrsl[8] = tmpTh[0];
-    rcgrsl[7] = tmpTl[7];
-    rcgrsl[6] = tmpTl[6];
-    rcgrsl[5] = tmpTl[5];
-    rcgrsl[4] = tmpTl[4];
-    rcgrsl[3] = tmpTl[3];
-    rcgrsl[2] = tmpTl[2];
-    rcgrsl[1] = tmpTl[1];
-    rcgrsl[0] = tmpTl[0];
-    console.log("RCGRSL");
-    console.dir(rcgrsl);
-*/
-    //TODO: 結果をコールバック
-    //callback();
+    //結果をコールバック
+    callback();
   }
 
-  //TODO: 再起する？
-  //this.recognition(callback);
+  //再起する？
+  this.recognition(callback);
 };
 
 VoiceMagic.prototype.toHexStr = function(s){
