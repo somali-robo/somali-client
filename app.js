@@ -473,7 +473,7 @@ App.prototype.recStart = function(){
     var remotePath = _this.uuid.v4()+".wav";
     //console.log("localPath "+localPath);
     //console.log("remotePath "+remotePath);
-    _this.fs.readFile(localPath, (err, data) => {
+    _this.fs.readFile(localPath,'binary', (err, data) => {
       console.log("data");
       console.log(data);
       _this.dropboxApi.createFile("/"+remotePath, data, function(err, resp, body) {
