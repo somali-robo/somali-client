@@ -216,7 +216,7 @@ App.prototype.connected = function(){
   });
 
   //Dropbox APIへのアクセスの為 初期化
-  this.dropboxApi = new this.dropbox.api(this.config.DROPBOX_ACCESS_TOKEN);
+  this.dropboxApi = this.dropbox.api(this.config.DROPBOX_ACCESS_TOKEN);
 
   //デバイス登録処理
   this.setStatus(App.STATUS.REGISTER);
