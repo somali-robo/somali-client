@@ -433,6 +433,7 @@ App.prototype.monitoringBroadcastMessages = function(){
       if(_this.broadcastMessages[last._id] == undefined){
         //新規一斉送信メッセージなので再生
         _this.broadcastMessages[last._id] = last;
+        console.log(_this.broadcastMessages);
 
         //保存
         _this.jsonDB.push(_this.KEY_BROADCAST_MESSAGES,_this.broadcastMessages);
