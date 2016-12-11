@@ -243,6 +243,7 @@ App.prototype.register = function(){
             return;
           }
           //デバイス登録に成功
+          console.log("postDevice");
           console.log(response);
           _this.device = response.data;
 
