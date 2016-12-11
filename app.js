@@ -558,7 +558,7 @@ App.prototype.apiInit = function(){
   this.setStatus(App.STATUS.ACCELERATION_START);
 
   //Voice Magic 認識を開始する
-  //this.setStatus(App.STATUS.VOICE_MAGIC_START);
+  this.setStatus(App.STATUS.VOICE_MAGIC_START);
 };
 
 //同じルータにあるロボットにシリアルコードを通知する
