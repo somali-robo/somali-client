@@ -386,7 +386,7 @@ App.prototype.apiInit = function(){
         //console.log(_this.lastMessage);
         if(_this.isNewMessage(_this.chatRoomMessages[roomId],message)){
           console.log("isNewMessage true");
-          if (message.type == SomaliMessage.TYPE_TEXT){
+          if (message.type == _this.SomaliMessage.TYPE_TEXT){
             //新規追加されたメッセージを読み上げる
             _this.textToSpeech(message.value,_this.hoya.SPEAKER_HIKARI,function(path, err){
               if (err != null){
@@ -408,7 +408,7 @@ App.prototype.apiInit = function(){
               });
             });
           }
-          else if (message.type == SomaliMessage.TYPE_TEXT){
+          else if (message.type == _this.SomaliMessage.TYPE_TEXT){
             //TODO: WAV の場合
             //Downloadして再生
           }
