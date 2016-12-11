@@ -60,7 +60,7 @@ VoiceMagic.prototype.power = function(isOn){
 //ハードウェア仕様 P35
 VoiceMagic.prototype.recognition = function(callback){
   var tmp = null;
-  console.log("recognition ADDR:"+this.config.VOICE_MAGIC_I2C_ADDR);
+  //console.log("recognition ADDR:"+this.config.VOICE_MAGIC_I2C_ADDR);
 
   //i2c アドレス 0x2b
   this.fd = this.wpi.wiringPiI2CSetup(this.config.VOICE_MAGIC_I2C_ADDR);
@@ -92,14 +92,14 @@ VoiceMagic.prototype.recognition = function(callback){
 
   //判定結果の確認 レジスターSTATUS
   var status = this.wpi.wiringPiI2CReadReg8(this.fd,this.REGISTER_STATUS_ADDR);
-  console.log("READ STATUS");
-  console.dir(status);
+  //console.log("READ STATUS");
+  //console.dir(status);
   if(status == 1){
     //認識結果受理 コールバック
     callback();
   }
 
-  //再起する？
+  //再起する
   this.recognition(callback);
 };
 

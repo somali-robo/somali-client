@@ -18,6 +18,7 @@ App.prototype.SomaliMessage = require('./somali_message.js');
 App.prototype.arecord　= require('./arecord.js');
 App.prototype.amixer = require('./amixer.js');
 App.prototype.mpu6050 = require('./mpu6050.js');
+App.prototype.voiceMagic   = require('./voice_magic.js');
 
 //録音 最小 時間
 App.prototype.REC_MINIMUM_SEC = 5;
@@ -41,7 +42,8 @@ App.STATUS = {
   MODE_GROUP:7,
   REC_START:8,
   REC_STOP:9,
-  ACCELERATION_START:10
+  ACCELERATION_START:10,
+  VOICE_MAGIC_START:11
 };
 
 App.prototype.status = App.STATUS.DEFAULT;
@@ -103,6 +105,9 @@ App.prototype.setStatus = function(status){
     case App.STATUS.ACCELERATION_START:
       this.accelerationStart();
       break;
+    case App.STATUS.VOICE_MAGIC_START:
+      this.voiceMagicStart();
+      break;
   }
   this.status = status;
 };
@@ -116,6 +121,9 @@ App.prototype.init = function(){
 
   //GPIO初期化
   this.wpi.wiringPiSetupGpio();
+
+  //voiceMagic 初期化
+  this.voiceMagic.init(this.configDevice);
 
   //ステータス用の LED 設定
   this.wpi.pinMode(this.configDevice.STATUS_LED,this.wpi.OUTPUT);
@@ -548,6 +556,9 @@ App.prototype.apiInit = function(){
 
   //加速度センサの監視を開始する
   this.setStatus(App.STATUS.ACCELERATION_START);
+
+  //Voice Magic 認識を開始する
+  this.setStatus(App.STATUS.VOICE_MAGIC_START);
 };
 
 //同じルータにあるロボットにシリアルコードを通知する
@@ -763,6 +774,17 @@ App.prototype.accelerationStart = function(){
     if(result == true) return;
     //揺らされた時の処理
     result = _this.runShaken(data);
+  });
+};
+
+//Voice Magicを有効にする
+App.prototype.voiceMagicStart = function(){
+  const _this = this;
+  //voiceMagic 電源をONにする
+  this.voiceMagic.power(this.voiceMagic.POWER_ON);
+  //voiceMagic にコマンド認識させる
+  this.voiceMagic.recognition(function(){
+      console.log("help!!");
   });
 };
 
