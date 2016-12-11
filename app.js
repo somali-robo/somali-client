@@ -216,14 +216,6 @@ App.prototype.connected = function(){
   //Dropbox APIへのアクセスの為 初期化
   this.dropbox.init(this.config.DROPBOX_ACCESS_TOKEN);
 
-
-  var remotePath = this.uuid.v4()+".wav";
-  this.dropbox.upload(remotePath, this.wavFilePath, function(err, resp, body) {
-    console.log(err);
-    console.log(resp);
-    console.log(body);
-  });
-
   //デバイス登録処理
   this.setStatus(App.STATUS.REGISTER);
 };
