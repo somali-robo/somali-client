@@ -471,7 +471,7 @@ App.prototype.recStart = function(){
     var remotePath = _this.uuid.v4()+".wav";
     //console.log("localPath "+localPath);
     //console.log("remotePath "+remotePath);
-    _this.dropbox.upload("/"+remotePath, localPath, function(err, resp, body) {
+    _this.dropbox.upload(remotePath, localPath, function(err, resp, body) {
       if(err){
         _this.lastErr = err;
         _this.setStatus(App.STATUS.ERROR);

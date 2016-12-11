@@ -13,21 +13,24 @@ Dropbox.prototype.init = function(accessToken){
 };
 
 //アップロード
+/*
 Dropbox.prototype.upload = function(remotePath,localPath,callback){
+  console.log("upload "+remotePath+" "+localPath);
   var _this = this;
-  this.fs.readFile(localPath, (err, data) => {
+  this.fs.readFile(localPath, 'binary', (err, data) => {
     console.log("data length "+data.length);
     _this.dropboxApi.createFile(remotePath, data, callback);
   });
 };
+*/
 
-/*
 Dropbox.prototype.upload = function(remotePath, localPath, callback) {
   console.log("upload "+remotePath+" "+localPath);
   var _this = this;
+  const path = '/'+remotePath;
   this.fs.readFile(localPath, (err, data) => {
     _this.request.put(
-      'https://api-content.dropbox.com/1/files_put/auto' + remotePath.split('/').map(function(str) { return encodeURIComponent(str); }).join('/'),
+      'https://api-content.dropbox.com/1/files_put/auto' + path.split('/').map(function(str) { return encodeURIComponent(str); }).join('/'),
       {
         headers: { Authorization: 'Bearer ' + _this.accessToken },
         body: data
@@ -36,6 +39,5 @@ Dropbox.prototype.upload = function(remotePath, localPath, callback) {
     );
   });
 };
-*/
 
 module.exports = new Dropbox();
