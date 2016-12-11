@@ -558,7 +558,7 @@ App.prototype.apiInit = function(){
   this.setStatus(App.STATUS.ACCELERATION_START);
 
   //Voice Magic 認識を開始する
-  this.setStatus(App.STATUS.VOICE_MAGIC_START);
+  //this.setStatus(App.STATUS.VOICE_MAGIC_START);
 };
 
 //同じルータにあるロボットにシリアルコードを通知する
@@ -789,7 +789,7 @@ App.prototype.voiceMagicStart = function(){
       //アラートメッセージを送信する
       const message = _this.SomaliMessage.create(_this.device,_this.SomaliMessage.TYPE_ALERT,"助けて！");
       message._id = _this.uuid.v4();
-      
+
       //アクテイブルームIDを取得する
       const roomId = _this.getActiveRoomId();
       //メッセージを送信
