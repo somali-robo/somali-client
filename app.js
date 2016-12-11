@@ -376,9 +376,6 @@ App.prototype.runNewMessage = function(roomId,message){
 
   //最後に再生したメッセージを保存する
   this.lastMessage = message;
-  this.chatRoomMessages[roomId] = response.data.messages;
-  //前回値として保存
-  this.jsonDB.push(this.KEY_CHAT_ROOM_MESSAGES,this.chatRoomMessages);
 };
 
 //チャットルームの新規メッセージを監視する
@@ -414,6 +411,10 @@ App.prototype.monitoringChatroomMessages = function(){
           else{
             //それ以外
             _this.runNewMessage(roomId,message);
+            
+            this.chatRoomMessages[roomId] = response.data.messages;
+            //前回値として保存
+            this.jsonDB.push(this.KEY_CHAT_ROOM_MESSAGES,this.chatRoomMessages);
           }
         }
       }
