@@ -789,8 +789,6 @@ App.prototype.voiceMagicStart = function(){
       //アラートメッセージを送信する
       const message = _this.SomaliMessage.create(_this.device,_this.SomaliMessage.TYPE_ALERT,"助けて！");
       message._id = _this.uuid.v4();
-      console.log("message");
-      console.log(message);
       
       //アクテイブルームIDを取得する
       const roomId = _this.getActiveRoomId();
