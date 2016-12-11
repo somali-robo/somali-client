@@ -87,8 +87,8 @@ VoiceMagic.prototype.recognition = function(callback){
     //RCG_EN = 0になるまで監視
     rcgEn = this.wpi.wiringPiI2CReadReg8(this.fd,this.REGISTER_SRREG_ADDR);
   }
-  console.log("READ REGISTER_SRREG_ADDR");
-  console.dir(rcgEn);
+  //console.log("READ REGISTER_SRREG_ADDR");
+  //console.dir(rcgEn);
 
   //判定結果の確認 レジスターSTATUS
   var status = this.wpi.wiringPiI2CReadReg8(this.fd,this.REGISTER_STATUS_ADDR);
