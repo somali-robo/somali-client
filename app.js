@@ -448,7 +448,7 @@ App.prototype.monitoringChatroomMessages = function(){
         return;
       }
       console.log("getChatroomMessages");
-      console.log(response.data.messages);
+      console.log(response.data);
       try{
         //最新メッセージを取得する
         const message = response.data.messages[response.data.messages.length-1];
