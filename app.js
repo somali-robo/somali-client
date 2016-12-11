@@ -294,7 +294,7 @@ App.prototype.register = function(){
             }
             console.log("device");
             _this.device = response.data;
-            console.log(_this.device);
+            //console.log(_this.device);
           });
 
           //defaultChatRoom を探して設定
@@ -306,8 +306,8 @@ App.prototype.register = function(){
               _this.setStatus(App.STATUS.ERROR);
               return;
             }
-            //console.log("getChatRoom");
-            //console.log(response);
+            console.log("getChatRoom");
+            console.log(response);
 
             _this.defaultChatRoom = response.data;
 
@@ -342,11 +342,11 @@ App.prototype.recStart = function(){
   console.log("recStart");
 
   //録音タイムアウトタイマーを開始
-  setTimeout(this.REC_SEC*1000,function(){
+  setTimeout(function(){
     if(_this.status != App.STATUS.REC_START) return;
     //REC_SEC秒 ステータスが変更されていなかった場合,録音停止
     _this.setStatus(App.STATUS.REC_STOP);
-  });
+  },this.REC_SEC*1000);
 
   //録音する
   this.arecord.start(this.wavFilePath,function(err, stdout, stderr){
@@ -389,9 +389,9 @@ App.prototype.recStart = function(){
 App.prototype.recStop = function(){
   var _this = this;
   console.log("recStop");
-  setTimeout(this.REC_MINIMUM_SEC*1000,function(){
+  setTimeout(function(){
     _this.arecord.stop();
-  });
+  },this.REC_MINIMUM_SEC*1000);
 };
 
 /*
