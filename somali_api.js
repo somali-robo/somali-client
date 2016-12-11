@@ -79,9 +79,9 @@ SomaliApi.prototype.getChatRoom = function(id,callback){
 };
 
 //チャットルーム登録
-SomaliApi.prototype.postChatRoom = function(name,callback){
+SomaliApi.prototype.postChatRoom = function(name,members,messages,callback){
   //var createdAt = (new Date()).toISOString();
-  var options = {url: this.API_HOST+this.API_CHAT_ROOMS,form: {"name":name}};
+  var options = {url: this.API_HOST+this.API_CHAT_ROOMS,form: {"name":name,"members":members,"messages":messages}};
   console.log("postChatRoom");
   console.log(options);
   this.request.post(options,function(err,response){

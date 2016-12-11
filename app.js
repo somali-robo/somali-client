@@ -250,7 +250,9 @@ App.prototype.register = function(){
           _this.jsonDB.push(_this.KEY_DEVICE_ID,_this.device._id);
 
           //チャットルーム作成
-          _this.somaliApi.postChatRoom("PRIVATE",function(err,response){
+          const chatRoomName = "PRIVATE";
+          const members = [_this.device];
+          _this.somaliApi.postChatRoom(chatRoomName,members,[],function(err,response){
             if(err){
               console.log("err postChatRoom");
               _this.lastErr = err;
@@ -264,22 +266,11 @@ App.prototype.register = function(){
             //ローカルストア に デフォルトルームIDを保存
             _this.jsonDB.push(_this.KEY_DEFAULT_CHAT_ROOM_ID,defaultChatRoomId);
 
-            const name = _this.defaultChatRoom.name;
-            const members = [_this.device];
-            _this.somaliApi.putChatRoom(defaultChatRoomId,name,members,[],function(err,response){
-              if(err){
-                console.log("err putChatRoom");
-                _this.lastErr = err;
-                _this.setStatus(App.STATUS.ERROR);
-                return;
-              }
-              //console.log(response);
 
-              //TODO: APIへの接続をして初期設定等を読み出す
-              //TODO: その後 加速度センサを有効にする
-              //加速度センサの監視を開始する
-              _this.setStatus(App.STATUS.ACCELERATION_START);
-            });
+            //TODO: APIへの接続をして初期設定等を読み出す
+            //TODO: その後 加速度センサを有効にする
+            //加速度センサの監視を開始する
+            _this.setStatus(App.STATUS.ACCELERATION_START);
           });
 
           //モードスイッチ状態 グループモードの場合
