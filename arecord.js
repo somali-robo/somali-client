@@ -17,12 +17,14 @@ Arecord.prototype.start = function(path,callback){
     console.log('stdout: ' + data);
   });
 
-  this.child.stderr.on('data', function (data) {
-    console.log('stderr: ' + data);
+  this.child.stderr.on('data', function (err) {
+    console.log('stderr: ' + err);
+    callback(err);
   });
 
   this.child.on('exit', function (code) {
     console.log('child process exited with code ' + code);
+    callback(null);
   });
 };
 

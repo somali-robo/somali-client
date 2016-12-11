@@ -42,7 +42,7 @@ App.prototype.init = function(){
     },3*1000);
 
     //録音テスト
-    _this.arecord.start(_this.wavFilePath,function(err, stdout, stderr){
+    _this.arecord.start(_this.wavFilePath,function(err){
       if (err != null){
         console.log("err");
         return;
