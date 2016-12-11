@@ -396,7 +396,7 @@ App.prototype.runEmpath = function(message){
 
   if(selectKey != null){
     console.log("selectKey "+selectKey);
-    const i = 0;
+    const i = Math.floor( Math.random() * this.intonations.length );
     const value = this.intonations[i][selectKey];
     console.log(value);
     //TODO: 再生させる
