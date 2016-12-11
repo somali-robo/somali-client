@@ -417,8 +417,8 @@ App.prototype.apiInit = function(){
         }
       }
       catch(e){
-        console.log("getChatroomMessages err");
-        console.log(e);
+        //console.log("getChatroomMessages err");
+        //console.log(e);
       }
     });
   },1*1000);
