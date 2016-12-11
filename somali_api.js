@@ -84,6 +84,7 @@ SomaliApi.prototype.postChatRoom = function(name,members,messages,callback){
   var options = {url: this.API_HOST+this.API_CHAT_ROOMS,form: {"name":name,"members":members,"messages":messages}};
   console.log("postChatRoom");
   console.log(options);
+  console.log(options["members"]);
   this.request.post(options,function(err,response){
     if(err){
       callback(err);

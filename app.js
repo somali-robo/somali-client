@@ -266,7 +266,6 @@ App.prototype.register = function(){
             //ローカルストア に デフォルトルームIDを保存
             _this.jsonDB.push(_this.KEY_DEFAULT_CHAT_ROOM_ID,defaultChatRoomId);
 
-
             //TODO: APIへの接続をして初期設定等を読み出す
             //TODO: その後 加速度センサを有効にする
             //加速度センサの監視を開始する
