@@ -386,7 +386,7 @@ App.prototype.apiInit = function(){
           //TODO: 新規追加されたメッセージを読み上げる
 
           //最後に再生したメッセージを保存する
-          _this.lastMessage = lastMessage;
+          _this.lastMessage = message;
           _this.chatRoomMessages[roomId] = response.data.messages;
           //前回値として保存
           _this.jsonDB.push(_this.KEY_CHAT_ROOM_MESSAGES,_this.chatRoomMessages);
