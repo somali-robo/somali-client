@@ -34,10 +34,14 @@ App.prototype.init = function(){
   //WPS ボタン（青） INT_EDGE_RISING 立ち上がる時
   this.wpi.pinMode(this.configDevice.WPS_BUTTON,this.wpi.INPUT);
   this.wpi.wiringPiISR(this.configDevice.WPS_BUTTON, this.wpi.INT_EDGE_BOTH, function(delta) {
-    //voiceMagic にコマンド認識させる
-    _this.voiceMagic.recognition(function(){
-
-    });
+    var value = _this.wpi.digitalRead(_this.configDevice.WPS_BUTTON);
+    console.log("WPS_BUTTON " + value);
+    if(value == _this.wpi.HIGH){
+      //voiceMagic にコマンド認識させる
+      _this.voiceMagic.recognition(function(){
+        
+      });
+    }
   });
 
   //REC ボタン(赤) INT_EDGE_RISING 立ち上がる時
