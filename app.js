@@ -378,13 +378,15 @@ App.prototype.apiInit = function(){
       //console.log(response.data.messages);
       try{
         //最新メッセージを取得する
-        _this.lastMessage = response.data.messages[response.data.messages.length-1];
+        const lastMessage = response.data.messages[response.data.messages.length-1];
         //console.log("lastMessage");
         //console.log(_this.lastMessage);
         if(_this.isNewMessage(_this.chatRoomMessages[roomId],_this.lastMessage)){
           console.log("isNewMessage true");
           //TODO: 新規追加されたメッセージを読み上げる
-
+          
+          //最後に再生したメッセージを保存する
+          _this.lastMessage = lastMessage;
           _this.chatRoomMessages[roomId] = response.data.messages;
           //前回値として保存
           _this.jsonDB.push(_this.KEY_CHAT_ROOM_MESSAGES,_this.chatRoomMessages);
