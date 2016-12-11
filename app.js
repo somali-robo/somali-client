@@ -711,7 +711,7 @@ App.prototype.runLift = function(data){
   var result = false;
   const _this = this;
   const v = Math.abs(data.accelY);
-  if(25000 < v){
+  if(1000 < v){
     console.log("MPU6050 runLift");
     console.log(data);
     //最後に受信したメッセージを再生する
