@@ -389,6 +389,7 @@ App.prototype.recStart = function(){
           return;
         }
         console.log("success");
+        console.log(result);
       });
     });
   });
