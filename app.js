@@ -345,6 +345,42 @@ App.prototype.isNewMessage = function(messages,lastMessage){
   return result;
 };
 
+
+App.prototype.runNewMessage = function(message){
+  const _this = this;
+  if (message.type == this.SomaliMessage.TYPE_TEXT){
+    //新規追加されたメッセージを読み上げる
+    this.textToSpeech(message.value,_this.hoya.SPEAKER_HIKARI,function(path, err){
+      if (err != null){
+        console.log("err");
+        return;
+      }
+      console.log("success");
+      //スピーカーアンプをONにする
+      this.speakerAmpPower(_this.wpi.HIGH);
+      //再生
+      this.aplay.play(path,function(err, stdout, stderr){
+        //アンプをOFFにする
+        _this.speakerAmpPower(_this.wpi.LOW);
+        if (err != null){
+          console.log("err");
+          return;
+        }
+        console.log("success");
+      });
+    });
+  }
+  else if (message.type == this.SomaliMessage.TYPE_TEXT){
+    //TODO: WAV の場合 Downloadして再生
+  }
+
+  //最後に再生したメッセージを保存する
+  this.lastMessage = message;
+  this.chatRoomMessages[roomId] = response.data.messages;
+  //前回値として保存
+  this.jsonDB.push(this.KEY_CHAT_ROOM_MESSAGES,this.chatRoomMessages);
+};
+
 //チャットルームの新規メッセージを監視する
 App.prototype.monitoringChatroomMessages = function(){
   const _this = this;
@@ -377,37 +413,7 @@ App.prototype.monitoringChatroomMessages = function(){
           }
           else{
             //それ以外
-            if (message.type == _this.SomaliMessage.TYPE_TEXT){
-              //新規追加されたメッセージを読み上げる
-              _this.textToSpeech(message.value,_this.hoya.SPEAKER_HIKARI,function(path, err){
-                if (err != null){
-                  console.log("err");
-                  return;
-                }
-                console.log("success");
-                //スピーカーアンプをONにする
-                _this.speakerAmpPower(_this.wpi.HIGH);
-                //再生
-                _this.aplay.play(path,function(err, stdout, stderr){
-                  //アンプをOFFにする
-                  _this.speakerAmpPower(_this.wpi.LOW);
-                  if (err != null){
-                    console.log("err");
-                    return;
-                  }
-                  console.log("success");
-                });
-              });
-            }
-            else if (message.type == _this.SomaliMessage.TYPE_TEXT){
-              //TODO: WAV の場合 Downloadして再生
-            }
-
-            //最後に再生したメッセージを保存する
-            _this.lastMessage = message;
-            _this.chatRoomMessages[roomId] = response.data.messages;
-            //前回値として保存
-            _this.jsonDB.push(_this.KEY_CHAT_ROOM_MESSAGES,_this.chatRoomMessages);
+            _this.runNewMessage(message);
           }
         }
       }
