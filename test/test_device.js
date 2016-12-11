@@ -36,8 +36,13 @@ App.prototype.init = function(){
   this.wpi.wiringPiISR(this.configDevice.WPS_BUTTON, this.wpi.INT_EDGE_RISING, function(delta) {
     console.log("WPS_BUTTON " + delta);
 
+    //録音 停止
+    setTimeout(3*1000,function(){
+        _this.arecord.stop();
+    });
+
     //録音テスト
-    _this.arecord.record(_this.wavFilePath,3,function(err, stdout, stderr){
+    _this.arecord.start(_this.wavFilePath,function(err, stdout, stderr){
       if (err != null){
         console.log("err");
         return;
@@ -79,7 +84,7 @@ App.prototype.init = function(){
   this.wpi.wiringPiISR(this.configDevice.MODE_SWITCH, this.wpi.INT_EDGE_BOTH, function(delta) {
     console.log("MODE_SWITCH " + delta);
   });
-  
+
 /*
   //MPU6050のデータを監視
   this.mpu6050.subscribe(30,function(data){

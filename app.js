@@ -38,7 +38,8 @@ App.STATUS = {
   SOCKET_CONNECT:6,
   MODE_GROUP:7,
   REC_START:8,
-  ACCELERATION_START:9
+  REC_STOP:9,
+  ACCELERATION_START:10
 };
 
 App.prototype.status = App.STATUS.DEFAULT;
@@ -86,6 +87,9 @@ App.prototype.setStatus = function(status){
       break;
     case App.STATUS.REC_START:
       this.recStart();
+      break;
+    case App.STATUS.REC_STOP:
+      this.recStop();
       break;
     case App.STATUS.SOCKET_CONNECT:
       this.socketConnecte();
@@ -135,8 +139,15 @@ App.prototype.init = function(){
     var value = _this.wpi.digitalRead(_this.configDevice.REC_BUTTON);
     console.log("REC_BUTTON " + value);
     //_this.setStatusLed(true);
-    //録音開始
-    //_this.setStatus(App.STATUS.REC_START);
+    if(value == _this.wpi.HIGH){
+      //録音 開始
+      _this.setStatus(App.STATUS.REC_START);
+    }
+    else{
+      //録音 停止
+      _this.setStatus(App.STATUS.REC_STOP);
+    }
+
   });
 
   //モード スイッチ INT_EDGE_BOTH 両方
@@ -351,8 +362,17 @@ App.prototype.modeGroup = function(){
 App.prototype.recStart = function(){
   var _this = this;
   console.log("recStart");
+
+  //録音タイムアウトタイマーを開始
+  setTimeout(this.REC_SEC*1000,function(){
+    if(_this.status != App.STATUS.REC_START) return;
+    //REC_SEC秒 ステータスが変更されていなかった場合,録音停止
+    _this.setStatus(App.STATUS.REC_STOP);
+  });
+
+/*
   //録音する
-  this.arecord.record(this.wavFilePath,this.REC_SEC,function(err, stdout, stderr){
+  this.arecord.start(this.wavFilePath,function(err, stdout, stderr){
     if (err != null){
       console.log("err");
       return;
@@ -387,6 +407,13 @@ App.prototype.recStart = function(){
       _this.somaliSocket.sendMessage(''+value);
     });
   });
+*/
+};
+
+//録音停止
+App.prototype.recStop = function(){
+  var _this = this;
+  console.log("recStop");
 };
 
 //ソケット接続等を開始しする
