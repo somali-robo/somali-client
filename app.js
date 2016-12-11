@@ -48,8 +48,8 @@ App.prototype.mode = App.MODE.DEFAULT;
 App.prototype.lastErr = null;
 App.prototype.intonations = null;
 App.prototype.dropboxApi = null;
-
 App.prototype.chatRoomMessages = {};
+App.prototype.lastMessage = null;
 
 //録音したファイル
 App.prototype.wavFilePath = "./tmp/rec.wav";
@@ -328,6 +328,16 @@ App.prototype.register = function(){
     });
 };
 
+//新規メッセージか確認
+App.prototype.isNewMessage = function(messages,lastMessage){
+  console.log("isNewMessage");
+  var result = false;
+  for each (var msg in messages) {
+    console.log(msg);
+  }
+  return result;
+};
+
 //APIへの接続をして初期設定等を読み出す
 App.prototype.apiInit = function(){
   console.log("apiInit");
@@ -358,14 +368,16 @@ App.prototype.apiInit = function(){
       console.log("getChatroomMessages");
       //console.log(response.data.messages);
       try{
-        //TODO: 新規追加されたメッセージを読み上げる
-        const lastMessage = response.data.messages[response.data.messages.length-1];
+        //最新メッセージを取得する
+        _this.lastMessage = response.data.messages[response.data.messages.length-1];
         console.log("lastMessage");
-        console.log(lastMessage);
-
-        _this.chatRoomMessages[roomId] = response.data.messages;
-        //前回値として保存
-        _this.jsonDB.push(_this.KEY_CHAT_ROOM_MESSAGES,_this.chatRoomMessages);
+        console.log(_this.lastMessage);
+        if(_this.isNewMessage(_this.chatRoomMessages[roomId],_this.lastMessage)){
+          //TODO: 新規追加されたメッセージを読み上げる
+          _this.chatRoomMessages[roomId] = response.data.messages;
+          //前回値として保存
+          _this.jsonDB.push(_this.KEY_CHAT_ROOM_MESSAGES,_this.chatRoomMessages);
+        }
       }
       catch(e){
         console.log("getChatroomMessages err");
