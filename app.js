@@ -719,9 +719,9 @@ App.prototype.runLift = function(data){
     console.log("MPU6050 runLift");
     console.log(data);
     //最後に受信したメッセージを再生する
-    console.log(this.lastMessage);
+    //console.log(this.lastMessage);
     if(this.lastMessage){
-      const value = lastMessage.value;
+      const value = this.lastMessage.value;
       //再生対象にしたので破棄
       this.lastMessage = null;
       this.textToSpeech(value,this.hoya.SPEAKER_HIKARI,function(path, err){
