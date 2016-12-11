@@ -90,6 +90,14 @@ VoiceMagic.prototype.recognition = function(callback){
   console.log("READ REGISTER_SRREG_ADDR");
   console.dir(rcgEn);
 
+  //判定結果の確認 レジスターSTATUS
+  var status = this.wpi.wiringPiI2CReadReg8(this.fd,this.REGISTER_STATUS_ADDR);
+  console.log("READ STATUS");
+  console.dir(status);
+  //RJFLG 読み出し
+  //tmp = new Buffer(status);
+  //console.log(tmp);
+  //console.log("RJFLG "+tmp[1]);
   {
     //認識結果受理
     //console.log("success");
@@ -105,7 +113,7 @@ VoiceMagic.prototype.recognition = function(callback){
     //console.log(tl);
 
     //結果をコールバック
-    //callback();
+    callback();
   }
 
   //再起する？
