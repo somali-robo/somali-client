@@ -335,7 +335,7 @@ App.prototype.isNewMessage = function(messages,lastMessage){
   messages.forEach(function(element, index, array){
       //console.log("element "+element.from.serialCode);
       //シリアルコードを確認して自分だった場合キャンセル
-      if((!element.from.serialCode)&&(element.from.serialCode == _this.config.SERIAL_CODE)){
+      if((element.from.serialCode)&&(element.from.serialCode == _this.config.SERIAL_CODE)){
         return;
       }
       //
