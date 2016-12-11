@@ -33,39 +33,40 @@ App.prototype.init = function(){
 
   //WPS ボタン（青） INT_EDGE_RISING 立ち上がる時
   this.wpi.pinMode(this.configDevice.WPS_BUTTON,this.wpi.INPUT);
-  this.wpi.wiringPiISR(this.configDevice.WPS_BUTTON, this.wpi.INT_EDGE_RISING, function(delta) {
-    console.log("WPS_BUTTON " + delta);
+  this.wpi.wiringPiISR(this.configDevice.WPS_BUTTON, this.wpi.INT_EDGE_BOTH, function(delta) {
+    var value = _this.wpi.digitalRead(_this.configDevice.REC_BUTTON);
+    console.log("REC_BUTTON " + value);
 
-    //録音 停止
-    setTimeout(function(){
-        _this.arecord.stop();
-    },3*1000);
-
-    //録音テスト
-    _this.arecord.start(_this.wavFilePath,function(err){
-      if (err != null){
-        console.log("err");
-        return;
-      }
-      console.log("success");
-
-      //スピーカーアンプをONにする
-      _this.speakerAmpPower(_this.SPEAKER_POWER_ON);
-
-      //再生テスト
-      _this.aplay.play(_this.wavFilePath,function(err, stdout, stderr){
+    if(value == _this.wpi.HIGH){
+      //録音 開始
+      _this.arecord.start(_this.wavFilePath,function(err){
         if (err != null){
           console.log("err");
           return;
         }
         console.log("success");
 
-        //アンプをOFFにする
-        _this.speakerAmpPower(_this.SPEAKER_POWER_OFF);
+        //スピーカーアンプをONにする
+        _this.speakerAmpPower(_this.SPEAKER_POWER_ON);
+
+        //再生テスト
+        _this.aplay.play(_this.wavFilePath,function(err, stdout, stderr){
+          if (err != null){
+            console.log("err");
+            return;
+          }
+          console.log("success");
+
+          //アンプをOFFにする
+          _this.speakerAmpPower(_this.SPEAKER_POWER_OFF);
+        });
+
       });
-
-    });
-
+    }
+    else{
+      //録音 停止
+      _this.arecord.stop();
+    }
   });
 
   //REC ボタン(赤) INT_EDGE_RISING 立ち上がる時

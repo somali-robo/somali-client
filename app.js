@@ -147,7 +147,6 @@ App.prototype.init = function(){
       //録音 停止
       _this.setStatus(App.STATUS.REC_STOP);
     }
-
   });
 
   //モード スイッチ INT_EDGE_BOTH 両方
