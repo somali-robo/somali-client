@@ -35,6 +35,7 @@ Arecord.prototype.stop = function(){
   var _this = this;
   if(this.child == null) return;
   this.child.kill();
+  this.child = null;
 };
 
 module.exports = new Arecord();
