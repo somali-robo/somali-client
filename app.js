@@ -342,7 +342,7 @@ App.prototype.apiInit = function(){
         return;
       }
       console.log("getChatroomMessages");
-      console.log(response.messages);
+      console.log(response.data.messages);
       //TODO: 新規追加されたメッセージを読み上げる
     });
   },1*1000);
