@@ -329,12 +329,12 @@ App.prototype.register = function(){
 
 //新規メッセージか確認
 App.prototype.isNewMessage = function(messages,lastMessage){
-  console.log("isNewMessage");
-  console.log(lastMessage);
-  console.log(messages);
+  //console.log("isNewMessage");
+  //console.log(lastMessage);
+  //console.log(messages);
   var result = true;
   messages.forEach(function(element, index, array){
-      console.log("element "+element.from.serialCode);
+      //console.log("element "+element.from.serialCode);
       //シリアルコードを確認して自分だった場合キャンセル
       if((!element.from.serialCode)&&(element.from.serialCode == _this.config.SERIAL_CODE)){
         result = false;
