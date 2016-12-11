@@ -15,7 +15,7 @@ App.prototype.hoya = require('./hoya.js');
 App.prototype.aplay = require('./aplay.js');
 App.prototype.somaliApi = require('./somali_api.js');
 App.prototype.SomaliMessage = require('./somali_message.js');
-App.prototype.somaliSocket = require('./somali_socket.js');
+//App.prototype.somaliSocket = require('./somali_socket.js');
 App.prototype.arecord　= require('./arecord.js');
 App.prototype.amixer = require('./amixer.js');
 App.prototype.mpu6050 = require('./mpu6050.js');
@@ -35,11 +35,10 @@ App.STATUS = {
   WPS_INIT:3,
   CONNECTED:4,
   REGISTER:5,
-  SOCKET_CONNECT:6,
-  MODE_GROUP:7,
-  REC_START:8,
-  REC_STOP:9,
-  ACCELERATION_START:10
+  MODE_GROUP:6,
+  REC_START:7,
+  REC_STOP:8,
+  ACCELERATION_START:9
 };
 
 App.prototype.status = App.STATUS.DEFAULT;
@@ -90,9 +89,6 @@ App.prototype.setStatus = function(status){
       break;
     case App.STATUS.REC_STOP:
       this.recStop();
-      break;
-    case App.STATUS.SOCKET_CONNECT:
-      this.socketConnecte();
       break;
     case App.STATUS.ACCELERATION_START:
       this.accelerationStart();
@@ -291,9 +287,10 @@ App.prototype.register = function(){
               }
               //console.log(response);
 
-              //デフォルトルームが決定したので ソケット接続をする
-              _this.setStatus(App.STATUS.SOCKET_CONNECT);
-
+              //TODO: APIへの接続をして初期設定等を読み出す
+              //TODO: その後 加速度センサを有効にする
+              //加速度センサの監視を開始する
+              _this.setStatus(App.STATUS.ACCELERATION_START);
             });
           });
 
@@ -335,8 +332,11 @@ App.prototype.register = function(){
 
             _this.defaultChatRoom = response.data;
 
-            //デフォルトルームが決定したので ソケット接続をする
-            _this.setStatus(App.STATUS.SOCKET_CONNECT);
+            //TODO: APIへの接続をして初期設定等を読み出す
+            //TODO: その後 加速度センサを有効にする
+
+            //加速度センサの監視を開始する
+            _this.setStatus(App.STATUS.ACCELERATION_START);
           });
 
           //モードスイッチ状態 グループモードの場合
@@ -401,8 +401,7 @@ App.prototype.recStart = function(){
       console.log(value);
 
       //TODO: モードスイッチ状態によって事前に取得したチャットルームを切り替える
-      //_this.mode
-      _this.somaliSocket.sendMessage(''+value);
+      //TODO: メッセージを送信
     });
   });
 };
@@ -413,6 +412,7 @@ App.prototype.recStop = function(){
   console.log("recStop");
 };
 
+/*
 //ソケット接続等を開始しする
 App.prototype.socketConnecte = function(){
   var _this = this;
@@ -460,6 +460,7 @@ App.prototype.socketConnecte = function(){
   //加速度センサの監視を開始する
   _this.setStatus(App.STATUS.ACCELERATION_START);
 };
+*/
 
 //スピーカー・アンプ ON,OFF
 App.prototype.speakerAmpPower = function(v){
