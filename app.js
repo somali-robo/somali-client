@@ -403,7 +403,7 @@ App.prototype.monitoringChatroomMessages = function(){
         if(_this.isNewMessage(_this.chatRoomMessages[roomId],message)){
           console.log("isNewMessage true");
           console.log(message);
-          if((!message.from.serialCode)&&(message.from.serialCode == _this.config.SERIAL_CODE)){
+          if((message.from.serialCode)&&(message.from.serialCode == _this.config.SERIAL_CODE)){
             //シリアルコードを確認して自分だった場合
             //TODO: 感情にあわせて返事を再生する
             console.log("empath");
