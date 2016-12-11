@@ -399,7 +399,7 @@ App.prototype.runEmpath = function(message){
     const i = Math.floor( Math.random() * this.intonations.length );
     const value = this.intonations[i][selectKey];
     console.log(value);
-    
+
     //再生させる
     _this.textToSpeech(value,_this.hoya.SPEAKER_HIKARI,function(path, err){
       if (err != null){
@@ -447,7 +447,7 @@ App.prototype.monitoringChatroomMessages = function(){
         if(!_this.chatRoomMessages[roomId]) _this.chatRoomMessages[roomId] = [];
         if(_this.isNewMessage(_this.chatRoomMessages[roomId],message)){
           console.log("isNewMessage true");
-          console.log(message);
+          //console.log(message);
 
           //前回値として保存
           _this.chatRoomMessages[roomId] = response.data.messages;
@@ -664,44 +664,51 @@ App.prototype.textToSpeech = function(text,speaker,callback){
   this.hoya.textToSpeech(apiKey,text,speaker,params,callbackTextToSpeech);
 };
 
+//揺らされた場合
+App.prototype.runShaken = function(data){
+  const _this = this;
+  const v = Math.abs(data.angY);
+  if(25000 < v){
+    console.log("MPU6050");
+    console.log(data);
+
+    if(this.isShaken == true) return;
+    console.log("isShaken v:"+v);
+    _this.isShaken = true;
+    //閾値を超えたら固定メッセージを再生
+    var msg = "ゆらさないで";
+    _this.textToSpeech(msg,_this.hoya.SPEAKER_HIKARI,function(path, err){
+      if (err != null){
+        console.log("err");
+        //シェイクステータスをリセット
+        _this.isShaken = false;
+        return;
+      }
+      console.log("success");
+      //スピーカーアンプをONにする
+      _this.speakerAmpPower(_this.wpi.HIGH);
+      //再生
+      _this.aplay.play(path,function(err, stdout, stderr){
+        //アンプをOFFにする
+        _this.speakerAmpPower(_this.wpi.LOW);
+        //シェイクステータスをリセット
+        _this.isShaken = false;
+        if (err != null){
+          console.log("err");
+          return;
+        }
+        console.log("success");
+      });
+    });
+  }
+};
+
 //加速度センサの監視を開始
 App.prototype.accelerationStart = function(){
-  var _this = this;
+  const _this = this;
   this.mpu6050.subscribe(100,function(data){
-      const v = Math.abs(data.angY);
-      if(25000 < v){
-        console.log("MPU6050");
-        console.log(data);
-
-        if(this.isShaken == true) return;
-        console.log("isShaken v:"+v);
-        _this.isShaken = true;
-        //閾値を超えたら固定メッセージを再生
-        var msg = "ゆらさないで";
-        _this.textToSpeech(msg,_this.hoya.SPEAKER_HIKARI,function(path, err){
-          if (err != null){
-            console.log("err");
-            //シェイクステータスをリセット
-            _this.isShaken = false;
-            return;
-          }
-          console.log("success");
-          //スピーカーアンプをONにする
-          _this.speakerAmpPower(_this.wpi.HIGH);
-          //再生
-          _this.aplay.play(path,function(err, stdout, stderr){
-            //アンプをOFFにする
-            _this.speakerAmpPower(_this.wpi.LOW);
-            //シェイクステータスをリセット
-            _this.isShaken = false;
-            if (err != null){
-              console.log("err");
-              return;
-            }
-            console.log("success");
-          });
-        });
-      }
+      //揺らされた時の処理
+      _this.runShaken();
   });
 };
 
