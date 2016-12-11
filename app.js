@@ -215,6 +215,8 @@ App.prototype.connected = function(){
     //console.log(_this.intonations);
   });
 
+  console.log("this.dropbox");
+  console.log(this.dropbox);
   //Dropbox APIへのアクセスの為 初期化
   this.dropboxApi = this.dropbox.api(this.config.DROPBOX_ACCESS_TOKEN);
 
