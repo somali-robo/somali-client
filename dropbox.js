@@ -3,7 +3,7 @@
 var Dropbox = function(){};
 Dropbox.prototype.fs = require("fs");
 Dropbox.prototype.dropbox = require("node-dropbox");
-App.prototype.dropboxApi = null;
+Dropbox.prototype.dropboxApi = null;
 
 //アップロード
 Dropbox.prototype.init = function(accessToken){
