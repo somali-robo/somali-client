@@ -62,6 +62,7 @@ App.prototype.KEY_STORE = "SOMALI";
 App.prototype.KEY_DEVICE_ID = "/device_id";
 App.prototype.KEY_DEFAULT_CHAT_ROOM_ID = "/default_chat_room_id";
 App.prototype.KEY_CHAT_ROOM_MESSAGES = "/chat_room_messages";
+App.prototype.KEY_BROADCAST_MESSAGES = "/broadcast_messages";
 
 //揺らされた
 App.prototype.isShaken = false;
@@ -426,12 +427,15 @@ App.prototype.monitoringBroadcastMessages = function(){
         return;
       }
       const last = response.data[response.data.length-1];
-      console.log("last");
-      console.log(last);
-      console.log(_this.broadcastMessages);
+      //console.log("last");
+      //console.log(last);
+      //console.log(_this.broadcastMessages);
       if(_this.broadcastMessages[last._id] == undefined){
         //新規一斉送信メッセージなので再生
         _this.broadcastMessages[last._id] = last;
+
+        //保存
+        _this.jsonDB.push(_this.KEY_BROADCAST_MESSAGES,_this.broadcastMessages);
 
         _this.textToSpeech(last.value,_this.hoya.SPEAKER_HIKARI,function(path, err){
           if (err != null){
@@ -462,14 +466,19 @@ App.prototype.apiInit = function(){
   console.log("apiInit");
   var _this = this;
 
-  //保存済みのメッセージ一覧を取得
   try{
+    //保存済みのメッセージ一覧を取得
     this.chatRoomMessages = this.jsonDB.getData(this.KEY_CHAT_ROOM_MESSAGES);
   }
   catch(e){
-    console.log("chatRoomMessages err");
-    //console.log(e);
   }
+  try{
+    //保存済み 一斉送信一覧を取得
+    this.broadcastMessages = this.jsonDB.getData(this.KEY_BROADCAST_MESSAGES);
+  }
+  catch(e){
+  }
+  
   //console.log("this.chatRoomMessages");
   //console.log(this.chatRoomMessages);
 
