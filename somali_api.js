@@ -114,9 +114,9 @@ SomaliApi.prototype.putChatroomMessage = function(id,message,callback){
 
 //チャットルームのメッセージ一覧取得
 SomaliApi.prototype.getChatroomMessages = function(id,callback){
-  console.log("getChatroomMessage");
+  //console.log("getChatroomMessage");
   var options = {url: this.API_HOST+this.API_CHAT_ROOMS+"/"+id+"/messages"};
-  console.log(options);
+  //console.log(options);
   this.request.get(options,function(err,response){
     if(err){
       callback(err);
