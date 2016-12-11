@@ -332,15 +332,16 @@ App.prototype.isNewMessage = function(messages,lastMessage){
   //console.log("isNewMessage");
   var result = true;
   messages.forEach(function(element, index, array){
-      //console.log("element "+element.from.serialCode);
+      console.log("element "+element.from.serialCode);
       //シリアルコードを確認して自分だった場合キャンセル
       if((!element.from.serialCode)&&(element.from.serialCode == _this.config.SERIAL_CODE)){
         result = false;
-        return;
       }
-      //
-      if(element._id == lastMessage._id){
+      else{
+        //
+        if(element._id == lastMessage._id){
           result = false;
+        }
       }
   });
   return result;
