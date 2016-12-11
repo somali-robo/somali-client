@@ -36,10 +36,11 @@ App.STATUS = {
   WPS_INIT:3,
   CONNECTED:4,
   REGISTER:5,
-  MODE_GROUP:6,
-  REC_START:7,
-  REC_STOP:8,
-  ACCELERATION_START:9
+  API_INIT:6,
+  MODE_GROUP:7,
+  REC_START:8,
+  REC_STOP:9,
+  ACCELERATION_START:10
 };
 
 App.prototype.status = App.STATUS.DEFAULT;
@@ -81,6 +82,9 @@ App.prototype.setStatus = function(status){
     case App.STATUS.REGISTER:
       this.register();
       break;
+    case App.STATUS.API_INIT:
+        this.apiInit();
+        break;
     case App.STATUS.MODE_GROUP:
       this.modeGroup();
       break;
@@ -267,10 +271,8 @@ App.prototype.register = function(){
             //ローカルストア に デフォルトルームIDを保存
             _this.jsonDB.push(_this.KEY_DEFAULT_CHAT_ROOM_ID,defaultChatRoomId);
 
-            //TODO: APIへの接続をして初期設定等を読み出す
-            //TODO: その後 加速度センサを有効にする
-            //加速度センサの監視を開始する
-            _this.setStatus(App.STATUS.ACCELERATION_START);
+            //APIへの接続をして初期設定等を読み出す
+            _this.setStatus(App.STATUS.API_INIT);
           });
 
           //モードスイッチ状態 グループモードの場合
@@ -311,11 +313,8 @@ App.prototype.register = function(){
 
             _this.defaultChatRoom = response.data;
 
-            //TODO: APIへの接続をして初期設定等を読み出す
-            //TODO: その後 加速度センサを有効にする
-
-            //加速度センサの監視を開始する
-            _this.setStatus(App.STATUS.ACCELERATION_START);
+            //APIへの接続をして初期設定等を読み出す
+            _this.setStatus(App.STATUS.API_INIT);
           });
 
           //モードスイッチ状態 グループモードの場合
@@ -327,6 +326,28 @@ App.prototype.register = function(){
     });
 };
 
+//APIへの接続をして初期設定等を読み出す
+App.prototype.apiInit = function(){
+  console.log("apiInit");
+  //チャットルームのメッセージを監視
+  setInterval(function(){
+    //アクテイブルームIDを取得する
+    const roomId = _this.getActiveRoomId();
+    _this.somaliApi.getChatroomMessages(roomId,function(err,response){
+      if(err){
+        console.log("err getChatroomMessages");
+        _this.lastErr = err;
+        _this.setStatus(App.STATUS.ERROR);
+        return;
+      }
+      console.log("getChatroomMessages");
+      console.log(response);
+    });
+  },1*1000);
+  //加速度センサの監視を開始する
+  _this.setStatus(App.STATUS.ACCELERATION_START);
+};
+
 //同じルータにあるロボットにシリアルコードを通知する
 App.prototype.modeGroup = function(){
   var _this = this;
@@ -336,6 +357,12 @@ App.prototype.modeGroup = function(){
   //TODO: 共通のチャットルーム作成
 };
 
+//アクテイブなルームのIDを取得する
+App.prototype.getActiveRoomId = function(){
+  //TODO: モードスイッチ状態によって事前に取得したチャットルームを切り替える
+  var roomId = _this.jsonDB.getData(_this.KEY_DEFAULT_CHAT_ROOM_ID);
+  return roomId;
+};
 //録音開始
 App.prototype.recStart = function(){
   var _this = this;
@@ -367,22 +394,14 @@ App.prototype.recStart = function(){
         _this.setStatus(App.STATUS.ERROR);
         return;
       }
-      //console.log(resp);
-      //console.log(body);
-
-      console.log("device");
-      console.log(_this.device);
+      //console.log("device");
+      //console.log(_this.device);
       const message = _this.SomaliMessage.create(_this.device,_this.SomaliMessage.TYPE_WAV,remotePath);
-      console.log("message");
-      console.log(message);
-      var value = JSON.stringify(message);
-      console.log("value");
-      console.log(value);
 
-      //TODO: モードスイッチ状態によって事前に取得したチャットルームを切り替える
-      //TODO: メッセージを送信
-      const defaultChatRoomId = _this.jsonDB.getData(_this.KEY_DEFAULT_CHAT_ROOM_ID);
-      _this.somaliApi.putChatroomMessage(defaultChatRoomId,message,function(err,result){
+      //アクテイブルームIDを取得する
+      const roomId = _this.getActiveRoomId();
+      //メッセージを送信
+      _this.somaliApi.putChatroomMessage(roomId,message,function(err,result){
         if(err){
           _this.lastErr = err;
           _this.setStatus(App.STATUS.ERROR);

@@ -95,10 +95,12 @@ SomaliApi.prototype.postChatRoom = function(name,members,messages,callback){
   });
 };
 
-/*
-//チャットルーム更新
-SomaliApi.prototype.putChatRoom = function(id,name,members,messages,callback){
-  var options = {url: this.API_HOST+this.API_CHAT_ROOMS+"/"+id,form:{"name":name,"members":members,"messages":messages}};
+//チャットルームにメッセージ追加
+SomaliApi.prototype.putChatroomMessage = function(id,message,callback){
+  console.log("putChatroomMessage");
+  console.log(message);
+  var options = {url: this.API_HOST+this.API_CHAT_ROOMS+"/"+id+"/messages",form:{"message":message}};
+  console.log(options);
   this.request.put(options,function(err,response){
     if(err){
       callback(err);
@@ -108,14 +110,13 @@ SomaliApi.prototype.putChatRoom = function(id,name,members,messages,callback){
     callback(null,result);
   });
 };
-*/
 
-SomaliApi.prototype.putChatroomMessage = function(id,message,callback){
-  console.log("putChatroomMessage");
-  console.log(message);
-  var options = {url: this.API_HOST+this.API_CHAT_ROOMS+"/"+id+"/messages",form:{"message":message}};
+//チャットルームのメッセージ一覧取得
+SomaliApi.prototype.getChatroomMessages = function(id,callback){
+  console.log("getChatroomMessage");
+  var options = {url: this.API_HOST+this.API_CHAT_ROOMS+"/"+id+"/messages"};
   console.log(options);
-  this.request.put(options,function(err,response){
+  this.request.get(options,function(err,response){
     if(err){
       callback(err);
       return;
