@@ -299,9 +299,9 @@ App.prototype.register = function(){
             //console.log(_this.device);
           });
 
-          //defaultChatRoom を探して設定
-          const defaultChatRoomId = _this.jsonDB.getData(_this.KEY_DEFAULT_CHAT_ROOM_ID);
-          _this.somaliApi.getChatRoom(defaultChatRoomId,function(err,response){
+          //アクティブなチャットルームを探して設定
+          const roomId = _this.getActiveRoomId();
+          _this.somaliApi.getChatRoom(roomId,function(err,response){
             if(err){
               console.log("err getChatRoom");
               _this.lastErr = err;
@@ -362,7 +362,7 @@ App.prototype.modeGroup = function(){
 //アクテイブなルームのIDを取得する
 App.prototype.getActiveRoomId = function(){
   //TODO: モードスイッチ状態によって事前に取得したチャットルームを切り替える
-  var roomId = _this.jsonDB.getData(_this.KEY_DEFAULT_CHAT_ROOM_ID);
+  var roomId = this.jsonDB.getData(this.KEY_DEFAULT_CHAT_ROOM_ID);
   return roomId;
 };
 //録音開始
