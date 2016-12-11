@@ -95,9 +95,10 @@ VoiceMagic.prototype.recognition = function(callback){
   //RJFLG 読み出し
   tmp = new Buffer(status);
   //console.log(tmp);
-  //console.log("RJFLG "+tmp[1]);
+  console.log("RJFLG "+tmp[1]);
   if(tmp[1] == 0){
     //認識結果受理
+    console.log("success");
 
     //TODO: 認識結果の読み出し
     //レジスター RCGRSLTH 読み出し
