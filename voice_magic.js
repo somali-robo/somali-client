@@ -134,7 +134,7 @@ VoiceMagic.prototype.recognition = function(callback){
   }
 
   //TODO: 再起する？
-  this.recognition(callback);
+  //this.recognition(callback);
 };
 
 VoiceMagic.prototype.toHexStr = function(s){
