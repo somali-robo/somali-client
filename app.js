@@ -373,7 +373,7 @@ App.prototype.apiInit = function(){
         _this.setStatus(App.STATUS.ERROR);
         return;
       }
-      console.log("getChatroomMessages");
+      //console.log("getChatroomMessages");
       //console.log(response.data.messages);
       try{
         //最新メッセージを取得する
