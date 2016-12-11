@@ -110,7 +110,7 @@ SomaliApi.prototype.putChatRoom = function(id,name,members,messages,callback){
 };
 */
 
-SomaliApi.prototype.putChatroomMessage = function(id,message){
+SomaliApi.prototype.putChatroomMessage = function(id,message,callback){
   console.log("putChatroomMessage");
   console.log(message);
   var options = {url: this.API_HOST+this.API_CHAT_ROOMS+"/"+id+"/messages",form:{"message":message}};

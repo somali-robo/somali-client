@@ -382,7 +382,14 @@ App.prototype.recStart = function(){
       //TODO: モードスイッチ状態によって事前に取得したチャットルームを切り替える
       //TODO: メッセージを送信
       const defaultChatRoomId = _this.jsonDB.getData(_this.KEY_DEFAULT_CHAT_ROOM_ID);
-      _this.somaliApi.putChatroomMessage(defaultChatRoomId,message);
+      _this.somaliApi.putChatroomMessage(defaultChatRoomId,message,function(err,result){
+        if(err){
+          _this.lastErr = err;
+          _this.setStatus(App.STATUS.ERROR);
+          return;
+        }
+        console.log("success");
+      });
     });
   });
 };
