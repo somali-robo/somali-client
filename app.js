@@ -338,15 +338,8 @@ App.prototype.isNewMessage = function(messages,lastMessage){
   var result = true;
   messages.forEach(function(element, index, array){
       //console.log("element "+element.from.serialCode);
-      //シリアルコードを確認して自分だった場合キャンセル
-      if((!element.from.serialCode)&&(element.from.serialCode == _this.config.SERIAL_CODE)){
+      if(element._id == lastMessage._id){
         result = false;
-      }
-      else{
-        //
-        if(element._id == lastMessage._id){
-          result = false;
-        }
       }
   });
   return result;
@@ -376,37 +369,46 @@ App.prototype.monitoringChatroomMessages = function(){
         if(!_this.chatRoomMessages[roomId]) _this.chatRoomMessages[roomId] = [];
         if(_this.isNewMessage(_this.chatRoomMessages[roomId],message)){
           console.log("isNewMessage true");
-          if (message.type == _this.SomaliMessage.TYPE_TEXT){
-            //新規追加されたメッセージを読み上げる
-            _this.textToSpeech(message.value,_this.hoya.SPEAKER_HIKARI,function(path, err){
-              if (err != null){
-                console.log("err");
-                return;
-              }
-              console.log("success");
-              //スピーカーアンプをONにする
-              _this.speakerAmpPower(_this.wpi.HIGH);
-              //再生
-              _this.aplay.play(path,function(err, stdout, stderr){
-                //アンプをOFFにする
-                _this.speakerAmpPower(_this.wpi.LOW);
+
+          if((!message.from.serialCode)&&(message.from.serialCode == _this.config.SERIAL_CODE)){
+            //シリアルコードを確認して自分だった場合
+            //TODO: 感情にあわせて返事を再生する
+            console.log(message);
+          }
+          else{
+            //それ以外
+            if (message.type == _this.SomaliMessage.TYPE_TEXT){
+              //新規追加されたメッセージを読み上げる
+              _this.textToSpeech(message.value,_this.hoya.SPEAKER_HIKARI,function(path, err){
                 if (err != null){
                   console.log("err");
                   return;
                 }
                 console.log("success");
+                //スピーカーアンプをONにする
+                _this.speakerAmpPower(_this.wpi.HIGH);
+                //再生
+                _this.aplay.play(path,function(err, stdout, stderr){
+                  //アンプをOFFにする
+                  _this.speakerAmpPower(_this.wpi.LOW);
+                  if (err != null){
+                    console.log("err");
+                    return;
+                  }
+                  console.log("success");
+                });
               });
-            });
-          }
-          else if (message.type == _this.SomaliMessage.TYPE_TEXT){
-            //TODO: WAV の場合 Downloadして再生
-          }
+            }
+            else if (message.type == _this.SomaliMessage.TYPE_TEXT){
+              //TODO: WAV の場合 Downloadして再生
+            }
 
-          //最後に再生したメッセージを保存する
-          _this.lastMessage = message;
-          _this.chatRoomMessages[roomId] = response.data.messages;
-          //前回値として保存
-          _this.jsonDB.push(_this.KEY_CHAT_ROOM_MESSAGES,_this.chatRoomMessages);
+            //最後に再生したメッセージを保存する
+            _this.lastMessage = message;
+            _this.chatRoomMessages[roomId] = response.data.messages;
+            //前回値として保存
+            _this.jsonDB.push(_this.KEY_CHAT_ROOM_MESSAGES,_this.chatRoomMessages);
+          }
         }
       }
       catch(e){
