@@ -490,7 +490,7 @@ App.prototype.apiInit = function(){
   this.monitoringBroadcastMessages();
 
   //加速度センサの監視を開始する
-  _this.setStatus(App.STATUS.ACCELERATION_START);
+  this.setStatus(App.STATUS.ACCELERATION_START);
 };
 
 //同じルータにあるロボットにシリアルコードを通知する
