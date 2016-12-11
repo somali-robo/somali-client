@@ -12,7 +12,6 @@ Dropbox.prototype.init = function(accessToken){
   this.dropboxApi = this.dropbox.api(accessToken);
 };
 
-/*
 //アップロード
 Dropbox.prototype.upload = function(remotePath,localPath,callback){
   var _this = this;
@@ -21,8 +20,8 @@ Dropbox.prototype.upload = function(remotePath,localPath,callback){
     _this.dropboxApi.createFile(remotePath, data, callback);
   });
 };
-*/
 
+/*
 Dropbox.prototype.upload = function(remotePath, localPath, callback) {
   console.log("upload "+remotePath+" "+localPath);
   var _this = this;
@@ -37,5 +36,6 @@ Dropbox.prototype.upload = function(remotePath, localPath, callback) {
     );
   });
 };
+*/
 
 module.exports = new Dropbox();
