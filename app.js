@@ -250,7 +250,7 @@ App.prototype.register = function(){
           _this.jsonDB.push(_this.KEY_DEVICE_ID,_this.device._id);
 
           //チャットルーム作成
-          _this.somaliApi.postChatRoom(_this.config.SERIAL_CODE,function(err,response){
+          _this.somaliApi.postChatRoom("PRIVATE",function(err,response){
             if(err){
               console.log("err postChatRoom");
               _this.lastErr = err;
