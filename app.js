@@ -66,6 +66,8 @@ App.prototype.KEY_BROADCAST_MESSAGES = "/broadcast_messages";
 
 //揺らされた
 App.prototype.isShaken = false;
+//持ち上げた時
+App.prototype.isLift = false;
 
 //各ステータス遷移
 App.prototype.setStatus = function(status){
@@ -712,12 +714,39 @@ App.prototype.runLift = function(data){
   const _this = this;
   const v = Math.abs(data.accelY);
   if(5000 < v){
+    if(this.isLift == true) return;
+    this.isLift = true;
     console.log("MPU6050 runLift");
     console.log(data);
     //最後に受信したメッセージを再生する
     console.log(this.lastMessage);
     if(this.lastMessage){
-
+      const value = lastMessage.value;
+      //再生対象にしたので破棄
+      this.lastMessage = null;
+      this.textToSpeech(value,this.hoya.SPEAKER_HIKARI,function(path, err){
+        if (err != null){
+          console.log("err");
+          //文字上げステータスをリセット
+          _this.isLift = false;
+          return;
+        }
+        console.log("success");
+        //スピーカーアンプをONにする
+        _this.speakerAmpPower(_this.wpi.HIGH);
+        //再生
+        _this.aplay.play(path,function(err, stdout, stderr){
+          //アンプをOFFにする
+          _this.speakerAmpPower(_this.wpi.LOW);
+          //文字上げステータスをリセット
+          _this.isLift = false;
+          if (err != null){
+            console.log("err");
+            return;
+          }
+          console.log("success");
+        });
+      });
     }
     result = true;
   }
