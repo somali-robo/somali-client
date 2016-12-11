@@ -362,7 +362,6 @@ App.prototype.apiInit = function(){
   //console.log("this.chatRoomMessages");
   //console.log(this.chatRoomMessages);
 
-/*
   //チャットルームのメッセージを監視
   setInterval(function(){
     //アクテイブルームIDを取得する
@@ -423,7 +422,6 @@ App.prototype.apiInit = function(){
       }
     });
   },1*1000);
-*/
 
   //加速度センサの監視を開始する
   _this.setStatus(App.STATUS.ACCELERATION_START);
