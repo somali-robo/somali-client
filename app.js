@@ -429,9 +429,9 @@ App.prototype.monitoringBroadcastMessages = function(){
       console.log("last");
       console.log(last);
       console.log(_this.broadcastMessages);
-      if(!_this.broadcastMessages[last._id]){
+      if(_this.broadcastMessages[last._id] == undefined){
         //新規一斉送信メッセージなので再生
-        _this.broadcastMessages.push(last._id);
+        _this.broadcastMessages[last._id] = last;
 
         _this.textToSpeech(last.value,_this.hoya.SPEAKER_HIKARI,function(path, err){
           if (err != null){
