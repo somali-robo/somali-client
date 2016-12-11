@@ -11,7 +11,7 @@ Message.prototype.createdAt = "";
 //タイプ
 Message.prototype.TYPE_TEXT = "text";
 Message.prototype.TYPE_WAV  = "wav";
-Message.prototype.ALERT = "alert"
+Message.prototype.TYPE_ALERT = "alert"
 
 Message.prototype.create = function(from,type,value){
   var result = new Message();

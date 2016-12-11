@@ -785,6 +785,22 @@ App.prototype.voiceMagicStart = function(){
   //voiceMagic にコマンド認識させる
   this.voiceMagic.recognition(function(){
       console.log("help!!");
+
+      //アラートメッセージを送信する
+      const message = _this.SomaliMessage.create(_this.device,_this.SomaliMessage.TYPE_ALERT,"助けて！");
+      message._id = _this.uuid.v4();
+      //アクテイブルームIDを取得する
+      const roomId = _this.getActiveRoomId();
+      //メッセージを送信
+      _this.somaliApi.putChatroomMessage(roomId,message,function(err,result){
+        if(err){
+          _this.lastErr = err;
+          _this.setStatus(App.STATUS.ERROR);
+          return;
+        }
+        //console.log("success");
+        //console.log(result);
+      });
   });
 };
 
