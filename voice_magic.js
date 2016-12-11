@@ -71,7 +71,7 @@ VoiceMagic.prototype.recognition = function(callback){
   }
 
   //レジスター SCENE
-  if((this.wpi.wiringPiI2CWriteReg8(this.fd,this.REGISTER_SCENE_ADDR,0x0c))<0){
+  if((this.wpi.wiringPiI2CWriteReg8(this.fd,this.REGISTER_SCENE_ADDR,0x00))<0){
     console.log("write error register "+this.REGISTER_SCENE_ADDR);
   }
 
@@ -98,7 +98,7 @@ VoiceMagic.prototype.recognition = function(callback){
   //console.log("RJFLG "+tmp[1]);
   if(tmp[1] == 0){
     //認識結果受理
-    console.log("success");
+    //console.log("success");
 
     //TODO: 認識結果の読み出し
     //レジスター RCGRSLTH 読み出し
