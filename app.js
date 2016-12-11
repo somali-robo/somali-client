@@ -332,9 +332,9 @@ App.prototype.register = function(){
 App.prototype.isNewMessage = function(messages,lastMessage){
   console.log("isNewMessage");
   var result = false;
-  for each (var msg in messages) {
-    console.log(msg);
-  }
+  messages.forEach(function(element, index, array){
+      console.log("element "+element);
+  });
   return result;
 };
 
