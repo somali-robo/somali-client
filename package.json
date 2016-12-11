@@ -15,7 +15,6 @@
     "node-json-db": "^0.7.3",
     "node-uuid": "^1.4.7",
     "request": "*",
-    "socket.io-client": "^1.5.1",
     "wiring-pi": "^2.2.0"
   }
 }
