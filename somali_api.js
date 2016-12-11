@@ -4,8 +4,8 @@ var SomaliApi = function(){};
 
 //HTTPリクエスト
 SomaliApi.prototype.request = require('request');
-//SomaliApi.prototype.API_HOST = "https://somali-server.herokuapp.com";
-SomaliApi.prototype.API_HOST = "http://192.168.0.9:3000";
+SomaliApi.prototype.API_HOST = "https://somali-server.herokuapp.com";
+//SomaliApi.prototype.API_HOST = "http://192.168.0.9:3000";
 SomaliApi.prototype.API_INTONATIONS = "/api/intonations";
 SomaliApi.prototype.API_DEVICES = "/api/devices";
 SomaliApi.prototype.API_CHAT_ROOMS = "/api/chat_rooms";
