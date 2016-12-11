@@ -496,8 +496,8 @@ App.prototype.monitoringBroadcastMessages = function(){
         //console.log("last is null");
         return;
       }
-      console.log("last");
-      console.log(last);
+      //console.log("last");
+      //console.log(last);
       //console.log(_this.broadcastMessages);
       if(_this.broadcastMessages[last._id] == undefined){
         //新規一斉送信メッセージなので再生
