@@ -473,6 +473,8 @@ App.prototype.apiInit = function(){
   //チャットルームの新規メッセージを監視する
   this.monitoringChatroomMessages();
 
+  //一斉送信メッセージの監視
+  this.monitoringBroadcastMessages();
 
   //加速度センサの監視を開始する
   _this.setStatus(App.STATUS.ACCELERATION_START);
