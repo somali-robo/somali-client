@@ -395,11 +395,31 @@ App.prototype.runEmpath = function(message){
   }
 
   if(selectKey != null){
-    console.log("selectKey "+selectKey);
+    //console.log("selectKey "+selectKey);
     const i = Math.floor( Math.random() * this.intonations.length );
     const value = this.intonations[i][selectKey];
     console.log(value);
-    //TODO: 再生させる
+    
+    //再生させる
+    _this.textToSpeech(value,_this.hoya.SPEAKER_HIKARI,function(path, err){
+      if (err != null){
+        console.log("err");
+        return;
+      }
+      console.log("success");
+      //スピーカーアンプをONにする
+      _this.speakerAmpPower(_this.wpi.HIGH);
+      //再生
+      _this.aplay.play(path,function(err, stdout, stderr){
+        //アンプをOFFにする
+        _this.speakerAmpPower(_this.wpi.LOW);
+        if (err != null){
+          console.log("err");
+          return;
+        }
+        console.log("success");
+      });
+    });
   }
 };
 
@@ -435,8 +455,7 @@ App.prototype.monitoringChatroomMessages = function(){
 
           if((message.from.serialCode)&&(message.from.serialCode == _this.config.SERIAL_CODE)){
             //シリアルコードを確認して自分だった場合
-            //TODO: 感情にあわせて返事を再生する
-            console.log("empath");
+            //感情にあわせて返事を再生する
             _this.runEmpath(message);
           }
           else{
