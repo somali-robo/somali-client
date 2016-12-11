@@ -24,7 +24,7 @@ Dropbox.prototype._upload = function(remotePath,localPath,callback){
 Dropbox.prototype.upload = function(remotePath, localPath, callback) {
   var _this = this;
   this.fs.readFile(localPath, (err, data) => {
-    request.put(
+    _this.request.put(
       'https://api-content.dropbox.com/1/files_put/auto' + remotePath.split('/').map(function(str) { return encodeURIComponent(str); }).join('/'),
       {
         headers: { Authorization: 'Bearer ' + _this.accessToken },
