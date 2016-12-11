@@ -19,10 +19,11 @@ App.prototype.arecord　= require('./arecord.js');
 App.prototype.amixer = require('./amixer.js');
 App.prototype.mpu6050 = require('./mpu6050.js');
 
-//録音 時間
-App.prototype.REC_SEC = 30;
-//録音 最低 時間
+//録音 最小 時間
 App.prototype.REC_MINIMUM_SEC = 5;
+
+//録音 時間
+App.prototype.REC_SEC = (30 - App.prototype.REC_MINIMUM_SEC);
 
 App.MODE = {
   DEFAULT:0,
@@ -506,56 +507,6 @@ App.prototype.recStop = function(){
     _this.arecord.stop();
   },this.REC_MINIMUM_SEC*1000);
 };
-
-/*
-//ソケット接続等を開始しする
-App.prototype.socketConnecte = function(){
-  var _this = this;
-  console.log("socketConnecte");
-  console.log("serviceInfo");
-  console.log(this.serviceInfo);
-  console.log("defaultChatRoom");
-  console.log(this.defaultChatRoom);
-
-  //サービス情報のソケットに接続する
-  const roomId = this.defaultChatRoom._id;
-  const fromId = this.device._id;
-  const socketPort = this.serviceInfo.socketPort;
-  this.somaliSocket.init(roomId,fromId,socketPort,function(data){
-    console.log('onMessage');
-    console.log(data);
-    if(data.fromId != _this.device._id){
-      //スマートフォンからのメッセージなので音声合成
-      const json = JSON.parse(data.value);
-      //TODO: json.type 別で処理を変更する
-      console.log("value");
-      console.log(json.value);
-      _this.textToSpeech(json.value,_this.hoya.SPEAKER_HIKARI,function(path, err){
-        if (err != null){
-          console.log("err");
-          return;
-        }
-        console.log("success");
-        //スピーカーアンプをONにする
-        _this.speakerAmpPower(_this.wpi.HIGH);
-        //再生
-        _this.aplay.play(path,function(err, stdout, stderr){
-          //アンプをOFFにする
-          _this.speakerAmpPower(_this.wpi.LOW);
-          if (err != null){
-            console.log("err");
-            return;
-          }
-          console.log("success");
-        });
-      });
-    }
-  });
-
-  //加速度センサの監視を開始する
-  _this.setStatus(App.STATUS.ACCELERATION_START);
-};
-*/
 
 //スピーカー・アンプ ON,OFF
 App.prototype.speakerAmpPower = function(v){
