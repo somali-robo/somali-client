@@ -366,6 +366,7 @@ App.prototype.apiInit = function(){
   console.log("this.chatRoomMessages");
   console.log(this.chatRoomMessages);
 
+/*
   //チャットルームのメッセージを監視
   setInterval(function(){
     //アクテイブルームIDを取得する
@@ -426,6 +427,8 @@ App.prototype.apiInit = function(){
       }
     });
   },1*1000);
+*/
+
   //加速度センサの監視を開始する
   _this.setStatus(App.STATUS.ACCELERATION_START);
 };
@@ -471,6 +474,8 @@ App.prototype.recStart = function(){
     //console.log("localPath "+localPath);
     //console.log("remotePath "+remotePath);
     _this.fs.readFile(localPath, (err, data) => {
+      console.log("data");
+      console.log(data);
       _this.dropboxApi.createFile("/"+remotePath, data, function(err, resp, body) {
         if(err){
           _this.lastErr = err;
