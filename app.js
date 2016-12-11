@@ -213,9 +213,6 @@ App.prototype.connected = function(){
     //console.log(_this.intonations);
   });
 
-  console.log("this.dropbox");
-  console.log(this.dropbox);
-
   //Dropbox APIへのアクセスの為 初期化
   this.dropbox.init(this.config.DROPBOX_ACCESS_TOKEN);
 
@@ -362,8 +359,8 @@ App.prototype.apiInit = function(){
     console.log("chatRoomMessages err");
     //console.log(e);
   }
-  console.log("this.chatRoomMessages");
-  console.log(this.chatRoomMessages);
+  //console.log("this.chatRoomMessages");
+  //console.log(this.chatRoomMessages);
 
 /*
   //チャットルームのメッセージを監視
