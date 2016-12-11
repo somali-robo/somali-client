@@ -94,25 +94,8 @@ VoiceMagic.prototype.recognition = function(callback){
   var status = this.wpi.wiringPiI2CReadReg8(this.fd,this.REGISTER_STATUS_ADDR);
   console.log("READ STATUS");
   console.dir(status);
-  //RJFLG 読み出し
-  //tmp = new Buffer(status);
-  //console.log(tmp);
-  //console.log("RJFLG "+tmp[1]);
-  {
-    //認識結果受理
-    //console.log("success");
-
-    //TODO: 認識結果の読み出し
-    //レジスター RCGRSLTH 読み出し
-    //var th = this.wpi.wiringPiI2CReadReg8(this.fd,this.REGISTER_RCGRSLTH_ADDR);
-    //console.log("READ REGISTER_RCGRSLTH_ADDR");
-    //console.log(th);
-    //レジスター RCGRSLTL 読み出し
-    //var tl = this.wpi.wiringPiI2CReadReg8(this.fd,this.REGISTER_RCGRSLTL_ADDR);
-    //console.log("READ REGISTER_RCGRSLTL_ADDR");
-    //console.log(tl);
-
-    //結果をコールバック
+  if(status == 1){
+    //認識結果受理 コールバック
     callback();
   }
 
