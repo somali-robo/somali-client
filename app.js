@@ -708,7 +708,7 @@ App.prototype.accelerationStart = function(){
   const _this = this;
   this.mpu6050.subscribe(100,function(data){
       //揺らされた時の処理
-      _this.runShaken();
+      _this.runShaken(data);
   });
 };
 
