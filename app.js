@@ -333,7 +333,7 @@ App.prototype.isNewMessage = function(messages,lastMessage){
   console.log("isNewMessage");
   var result = true;
   messages.forEach(function(element, index, array){
-      console.log("element "+element.from.serialCode);
+      //console.log("element "+element.from.serialCode);
       //シリアルコードを確認して自分だった場合キャンセル
       if((!element.from.serialCode)&&(element.from.serialCode == _this.config.SERIAL_CODE)){
         return;
@@ -378,8 +378,8 @@ App.prototype.apiInit = function(){
       try{
         //最新メッセージを取得する
         _this.lastMessage = response.data.messages[response.data.messages.length-1];
-        console.log("lastMessage");
-        console.log(_this.lastMessage);
+        //console.log("lastMessage");
+        //console.log(_this.lastMessage);
         if(_this.isNewMessage(_this.chatRoomMessages[roomId],_this.lastMessage)){
           console.log("isNewMessage true");
           //TODO: 新規追加されたメッセージを読み上げる
