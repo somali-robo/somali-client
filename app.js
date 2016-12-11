@@ -426,6 +426,9 @@ App.prototype.monitoringBroadcastMessages = function(){
         return;
       }
       const last = response.data[response.data.length-1];
+      console.log("last");
+      console.log(last);
+      console.log(_this.broadcastMessages);
       if(!_this.broadcastMessages[last._id]){
         //新規一斉送信メッセージなので再生
         _this.broadcastMessages.push(last._id);
