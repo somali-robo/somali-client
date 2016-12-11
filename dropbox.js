@@ -18,5 +18,5 @@ Dropbox.prototype.upload = function(remotePath,localPath,callback){
     _this.dropboxApi.createFile("/"+remotePath, data, callback);
   });
 });
-}
+
 module.exports = new Dropbox();
