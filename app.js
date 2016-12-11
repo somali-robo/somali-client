@@ -49,7 +49,7 @@ App.prototype.mode = App.MODE.DEFAULT;
 App.prototype.lastErr = null;
 App.prototype.intonations = null;
 App.prototype.chatRoomMessages = {};
-App.prototype.broadcastMessages = [];
+App.prototype.broadcastMessages = {};
 App.prototype.lastMessage = null;
 
 //録音したファイル
@@ -428,8 +428,8 @@ App.prototype.monitoringBroadcastMessages = function(){
       }
       const last = response.data[response.data.length-1];
       //console.log("last");
-      console.log(last);
-      console.log(_this.broadcastMessages);
+      //console.log(last);
+      //console.log(_this.broadcastMessages);
       if(_this.broadcastMessages[last._id] == undefined){
         //新規一斉送信メッセージなので再生
         _this.broadcastMessages[last._id] = last;
@@ -475,6 +475,8 @@ App.prototype.apiInit = function(){
   try{
     //保存済み 一斉送信一覧を取得
     this.broadcastMessages = this.jsonDB.getData(this.KEY_BROADCAST_MESSAGES);
+    console.log("broadcastMessages -----");
+    console.log(this.broadcastMessages);
   }
   catch(e){
   }
