@@ -95,6 +95,7 @@ SomaliApi.prototype.postChatRoom = function(name,members,messages,callback){
   });
 };
 
+/*
 //チャットルーム更新
 SomaliApi.prototype.putChatRoom = function(id,name,members,messages,callback){
   var options = {url: this.API_HOST+this.API_CHAT_ROOMS+"/"+id,form:{"name":name,"members":members,"messages":messages}};
@@ -107,6 +108,11 @@ SomaliApi.prototype.putChatRoom = function(id,name,members,messages,callback){
     callback(null,result);
   });
 };
+*/
 
+SomaliApi.prototype.putChatroomMessage = function(id,message){
+  console.log("putChatroomMessage");
+  console.log(message);
+};
 
 module.exports = new SomaliApi();
