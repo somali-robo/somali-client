@@ -333,7 +333,10 @@ App.prototype.isNewMessage = function(messages,lastMessage){
   console.log("isNewMessage");
   var result = false;
   messages.forEach(function(element, index, array){
-      console.log("element "+element);
+      console.log("element "+element._id);
+      if(element._id == lastMessage._id){
+          result = true;
+      }
   });
   return result;
 };
