@@ -83,10 +83,12 @@ VoiceMagic.prototype.recognition = function(callback){
 
   //音声入力
   var rcgEn = 0x02;
-  while (rcgEn == 0x02) {
+  //while (rcgEn == 0x02) {
     //RCG_EN = 0になるまで監視
     rcgEn = this.wpi.wiringPiI2CReadReg8(this.fd,this.REGISTER_SRREG_ADDR);
-  }
+  //}
+  if (rcgEn == 0x02) return;
+
   //console.log("READ REGISTER_SRREG_ADDR");
   //console.dir(rcgEn);
 

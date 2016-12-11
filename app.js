@@ -493,7 +493,7 @@ App.prototype.monitoringBroadcastMessages = function(){
       }
       const last = response.data[response.data.length-1];
       if(last == undefined){
-        console.log("last is null");
+        //console.log("last is null");
         return;
       }
       console.log("last");
