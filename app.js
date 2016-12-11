@@ -360,6 +360,7 @@ App.prototype.apiInit = function(){
       try{
         //TODO: 新規追加されたメッセージを読み上げる
         const lastMessage = response.data.messages[response.data.messages.length-1];
+        console.log("lastMessage");
         console.log(lastMessage);
 
         _this.chatRoomMessages[roomId] = response.data.messages;
