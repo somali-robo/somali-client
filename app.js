@@ -456,7 +456,7 @@ App.prototype.monitoringChatroomMessages = function(){
         //console.log(_this.lastMessage);
         if(!_this.chatRoomMessages[roomId]) _this.chatRoomMessages[roomId] = [];
         if(_this.isNewMessage(_this.chatRoomMessages[roomId],message)){
-          console.log("isNewMessage true");
+          //console.log("isNewMessage true");
           //console.log(message);
 
           //前回値として保存
