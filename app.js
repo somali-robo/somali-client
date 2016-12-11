@@ -715,7 +715,7 @@ App.prototype.runLift = function(data){
     console.log("MPU6050 runLift");
     console.log(data);
     //最後に受信したメッセージを再生する
-
+    console.log(this.lastMessage);
     result = true;
   }
   return result;
