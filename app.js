@@ -791,11 +791,15 @@ App.prototype.voiceMagicStart = function(){
   this.voiceMagic.recognitionInit();
   setInterval(function(){
     //voiceMagic にコマンド認識させる
-    _this.voiceMagic.recognition(function(){
-        console.log("help!!");
-        
+    _this.voiceMagic.recognition(function(status){
         //voiceMagic 認識開始
         _this.voiceMagic.recognitionInit();
+
+        if(status != 1){
+          //コマンド以外だった
+          return;
+        }
+        console.log("help!!");
 
         //アラートメッセージを送信する
         const message = _this.SomaliMessage.create(_this.device,_this.SomaliMessage.TYPE_ALERT,"助けて！");

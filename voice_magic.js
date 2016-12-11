@@ -99,10 +99,8 @@ VoiceMagic.prototype.recognition = function(callback){
   var status = this.wpi.wiringPiI2CReadReg8(this.fd,this.REGISTER_STATUS_ADDR);
   //console.log("READ STATUS");
   //console.dir(status);
-  if(status == 1){
-    //認識結果受理 コールバック
-    callback();
-  }
+  //認識結果受理 コールバック
+  callback(status);
 };
 
 VoiceMagic.prototype.toHexStr = function(s){
