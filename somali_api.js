@@ -53,6 +53,8 @@ SomaliApi.prototype.getDevices = function(callback){
 SomaliApi.prototype.postDevice = function(serialCode,name,callback){
   //var createdAt = (new Date()).toISOString();
   var options = {url: this.API_HOST+this.API_DEVICES+"/serial_code/"+serialCode,form: {"name":name}};
+  console.log("postDevice");
+  console.log(options);
   this.request.post(options,function(err,response){
     if(err){
       callback(err);
