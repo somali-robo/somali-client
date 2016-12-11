@@ -244,7 +244,7 @@ App.prototype.register = function(){
             return;
           }
           //デバイス登録に成功
-          //console.log(response);
+          console.log(response);
           _this.device = response.data;
 
           //device.idを保存する
