@@ -378,6 +378,23 @@ App.prototype.runNewMessage = function(roomId,message){
   this.lastMessage = message;
 };
 
+//感情にあわせて返事を再生する
+App.prototype.runEmpath = function(message){
+  console.log("empath");
+  const empath = message.empath;
+  for(obj in empath){
+      console.log(obj);
+  }
+  /*
+  "error": 0,
+   "calm": 45,
+   "anger": 4,
+   "joy": 0,
+   "sorrow": 0,
+   "energy": 4
+   */
+};
+
 //チャットルームの新規メッセージを監視する
 App.prototype.monitoringChatroomMessages = function(){
   const _this = this;
@@ -412,6 +429,7 @@ App.prototype.monitoringChatroomMessages = function(){
             //シリアルコードを確認して自分だった場合
             //TODO: 感情にあわせて返事を再生する
             console.log("empath");
+            _this.runEmpath(message);
           }
           else{
             //それ以外
