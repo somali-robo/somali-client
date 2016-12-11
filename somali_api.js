@@ -97,10 +97,10 @@ SomaliApi.prototype.postChatRoom = function(name,members,messages,callback){
 
 //チャットルームにメッセージ追加
 SomaliApi.prototype.putChatroomMessage = function(id,message,callback){
-  console.log("putChatroomMessage");
-  console.log(message);
+  //console.log("putChatroomMessage");
+  //console.log(message);
   var options = {url: this.API_HOST+this.API_CHAT_ROOMS+"/"+id+"/messages",form:{"message":message}};
-  console.log(options);
+  //console.log(options);
   this.request.put(options,function(err,response){
     if(err){
       callback(err);

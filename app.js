@@ -407,8 +407,8 @@ App.prototype.recStart = function(){
           _this.setStatus(App.STATUS.ERROR);
           return;
         }
-        console.log("success");
-        console.log(result);
+        //console.log("success");
+        //console.log(result);
       });
     });
   });
