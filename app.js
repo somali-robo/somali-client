@@ -49,6 +49,7 @@ App.prototype.mode = App.MODE.DEFAULT;
 App.prototype.lastErr = null;
 App.prototype.intonations = null;
 App.prototype.chatRoomMessages = {};
+App.prototype.broadcastMessages = [];
 App.prototype.lastMessage = null;
 
 //録音したファイル
@@ -352,7 +353,7 @@ App.prototype.isNewMessage = function(messages,lastMessage){
 
 //チャットルームの新規メッセージを監視する
 App.prototype.monitoringChatroomMessages = function(){
-  var _this = this;
+  const _this = this;
   //チャットルームのメッセージを監視
   setInterval(function(){
     //アクテイブルームIDを取得する
@@ -410,6 +411,44 @@ App.prototype.monitoringChatroomMessages = function(){
       catch(e){
         console.log("getChatroomMessages err");
         console.log(e);
+      }
+    });
+  },1*1000);
+};
+
+//一斉送信メッセージの監視
+App.prototype.monitoringBroadcastMessages = function(){
+  const _this = this;
+  setInterval(function(){
+    _this.somaliApi.getBroadcastMessages(function(err,response){
+      if (err != null){
+        console.log("err");
+        return;
+      }
+      const last = response.data[response.data-1];
+      if(!_this.broadcastMessages[last._id]){
+        //新規一斉送信メッセージなので再生
+        _this.broadcastMessages.push(last._id);
+
+        _this.textToSpeech(last.value,_this.hoya.SPEAKER_HIKARI,function(path, err){
+          if (err != null){
+            console.log("err");
+            return;
+          }
+          console.log("success");
+          //スピーカーアンプをONにする
+          _this.speakerAmpPower(_this.wpi.HIGH);
+          //再生
+          _this.aplay.play(path,function(err, stdout, stderr){
+            //アンプをOFFにする
+            _this.speakerAmpPower(_this.wpi.LOW);
+            if (err != null){
+              console.log("err");
+              return;
+            }
+            console.log("success");
+          });
+        });
       }
     });
   },1*1000);
