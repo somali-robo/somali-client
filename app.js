@@ -15,7 +15,6 @@ App.prototype.hoya = require('./hoya.js');
 App.prototype.aplay = require('./aplay.js');
 App.prototype.somaliApi = require('./somali_api.js');
 App.prototype.SomaliMessage = require('./somali_message.js');
-//App.prototype.somaliSocket = require('./somali_socket.js');
 App.prototype.arecord　= require('./arecord.js');
 App.prototype.amixer = require('./amixer.js');
 App.prototype.mpu6050 = require('./mpu6050.js');
