@@ -475,7 +475,7 @@ App.prototype.apiInit = function(){
   }
   try{
     //保存済み 一斉送信一覧を取得
-    //this.broadcastMessages = this.jsonDB.getData(this.KEY_BROADCAST_MESSAGES);
+    this.broadcastMessages = this.jsonDB.getData(this.KEY_BROADCAST_MESSAGES);
     console.log("broadcastMessages -----");
     console.log(this.broadcastMessages);
   }
