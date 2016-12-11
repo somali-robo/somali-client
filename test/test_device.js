@@ -34,6 +34,12 @@ App.prototype.init = function(){
   //WPS ボタン（青） INT_EDGE_RISING 立ち上がる時
   this.wpi.pinMode(this.configDevice.WPS_BUTTON,this.wpi.INPUT);
   this.wpi.wiringPiISR(this.configDevice.WPS_BUTTON, this.wpi.INT_EDGE_BOTH, function(delta) {
+
+  });
+
+  //REC ボタン(赤) INT_EDGE_RISING 立ち上がる時
+  this.wpi.pinMode(this.configDevice.REC_BUTTON,this.wpi.INPUT);
+  this.wpi.wiringPiISR(this.configDevice.REC_BUTTON, this.wpi.INT_EDGE_RISING, function(delta) {
     var value = _this.wpi.digitalRead(_this.configDevice.REC_BUTTON);
     console.log("REC_BUTTON " + value);
 
@@ -67,17 +73,6 @@ App.prototype.init = function(){
       //録音 停止
       _this.arecord.stop();
     }
-  });
-
-  //REC ボタン(赤) INT_EDGE_RISING 立ち上がる時
-  this.wpi.pinMode(this.configDevice.REC_BUTTON,this.wpi.INPUT);
-  this.wpi.wiringPiISR(this.configDevice.REC_BUTTON, this.wpi.INT_EDGE_RISING, function(delta) {
-    console.log("REC_BUTTON " + delta);
-    //VoiceMagic テスト
-    _this.voiceMagic.power(_this.voiceMagic.POWER_ON);
-    _this.voiceMagic.recognition(function(){
-
-    });
   });
 
   //モード スイッチ INT_EDGE_BOTH 両方
