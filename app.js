@@ -334,7 +334,12 @@ App.prototype.apiInit = function(){
   var _this = this;
 
   //保存済みのメッセージ一覧を取得
-  this.chatRoomMessages = this.jsonDB.getData(this.KEY_CHAT_ROOM_MESSAGES);
+  try{
+    this.chatRoomMessages = this.jsonDB.getData(this.KEY_CHAT_ROOM_MESSAGES);
+  }
+  catch{
+    console.log("chatRoomMessages err");
+  }
   console.log("this.chatRoomMessages");
   console.log(this.chatRoomMessages);
 
