@@ -22,6 +22,8 @@ App.prototype.mpu6050 = require('./mpu6050.js');
 
 //録音 時間
 App.prototype.REC_SEC = 30;
+//録音 最低 時間
+App.prototype.REC_MINIMUM_SEC = 5;
 
 App.MODE = {
   DEFAULT:0,
@@ -410,6 +412,9 @@ App.prototype.recStart = function(){
 App.prototype.recStop = function(){
   var _this = this;
   console.log("recStop");
+  setTimeout(this.REC_MINIMUM_SEC*1000,function(){
+    _this.arecord.stop();
+  });
 };
 
 /*
