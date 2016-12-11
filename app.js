@@ -337,8 +337,9 @@ App.prototype.apiInit = function(){
   try{
     this.chatRoomMessages = this.jsonDB.getData(this.KEY_CHAT_ROOM_MESSAGES);
   }
-  catch{
+  catch(e){
     console.log("chatRoomMessages err");
+    console.log(e);
   }
   console.log("this.chatRoomMessages");
   console.log(this.chatRoomMessages);
