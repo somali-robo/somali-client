@@ -47,8 +47,9 @@ App.prototype.status = App.STATUS.DEFAULT;
 App.prototype.mode = App.MODE.DEFAULT;
 App.prototype.lastErr = null;
 App.prototype.intonations = null;
-
 App.prototype.dropboxApi = null;
+
+App.prototype.chatRoomMessages = {};
 
 //録音したファイル
 App.prototype.wavFilePath = "./tmp/rec.wav";
@@ -59,6 +60,7 @@ App.prototype.defaultChatRoom = null;
 App.prototype.KEY_STORE = "SOMALI";
 App.prototype.KEY_DEVICE_ID = "/device_id";
 App.prototype.KEY_DEFAULT_CHAT_ROOM_ID = "/default_chat_room_id";
+App.prototype.KEY_CHAT_ROOM_MESSAGES = "/chat_room_messages";
 
 //揺らされた
 App.prototype.isShaken = false;
@@ -330,6 +332,12 @@ App.prototype.register = function(){
 App.prototype.apiInit = function(){
   console.log("apiInit");
   var _this = this;
+
+  //保存済みのメッセージ一覧を取得
+  this.chatRoomMessages = this.jsonDB.getData(this.KEY_CHAT_ROOM_MESSAGES);
+  console.log("this.chatRoomMessages");
+  console.log(this.chatRoomMessages);
+
   //チャットルームのメッセージを監視
   setInterval(function(){
     //アクテイブルームIDを取得する
@@ -344,6 +352,11 @@ App.prototype.apiInit = function(){
       console.log("getChatroomMessages");
       console.log(response.data.messages);
       //TODO: 新規追加されたメッセージを読み上げる
+
+      _this.chatRoomMessages[roomId] = response.data.messages;
+
+      //前回値として保存
+      _this.jsonDB.push(_this.KEY_CHAT_ROOM_MESSAGES,_this.chatRoomMessages);
     });
   },1*1000);
   //加速度センサの監視を開始する
