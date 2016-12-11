@@ -220,6 +220,8 @@ App.prototype.connected = function(){
   var remotePath = this.uuid.v4()+".wav";
   this.dropbox.upload(remotePath, this.wavFilePath, function(err, resp, body) {
     console.log(err);
+    console.log(resp);
+    console.log(body);
   });
 
   //デバイス登録処理
