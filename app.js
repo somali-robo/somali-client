@@ -666,18 +666,19 @@ App.prototype.textToSpeech = function(text,speaker,callback){
 
 //揺らされた場合
 App.prototype.runShaken = function(data){
+  var result = false;
   const _this = this;
   const v = Math.abs(data.angY);
   if(25000 < v){
-    console.log("MPU6050");
+    console.log("MPU6050 runShaken");
     console.log(data);
 
     if(this.isShaken == true) return;
     console.log("isShaken v:"+v);
-    _this.isShaken = true;
+    this.isShaken = true;
     //閾値を超えたら固定メッセージを再生
     var msg = "ゆらさないで";
-    _this.textToSpeech(msg,_this.hoya.SPEAKER_HIKARI,function(path, err){
+    this.textToSpeech(msg,this.hoya.SPEAKER_HIKARI,function(path, err){
       if (err != null){
         console.log("err");
         //シェイクステータスをリセット
@@ -700,15 +701,46 @@ App.prototype.runShaken = function(data){
         console.log("success");
       });
     });
+    result = true;
   }
+  return result;
+};
+
+//持ち上げ判定
+App.prototype.runLift = function(data){
+  var result = false;
+  const _this = this;
+  const v = Math.abs(data.accelY);
+  if(25000 < v){
+    console.log("MPU6050 runLift");
+    console.log(data);
+    //最後に受信したメッセージを再生する
+
+    result = true;
+  }
+  return result;
+  /*
+  {
+  accelX: -312,
+  accelY: 8740,
+  accelZ: 4464,
+  angX: -5488,
+  angY: 26199,
+  angZ: 4144
+  }
+  */
 };
 
 //加速度センサの監視を開始
 App.prototype.accelerationStart = function(){
   const _this = this;
   this.mpu6050.subscribe(100,function(data){
-      //揺らされた時の処理
-      _this.runShaken(data);
+    var result = false;
+    //持ち上げられた時
+    result = _this.runLift(data);
+    if(result == true) return;
+    //揺らされた時の処理
+    result = _this.runShaken(data);
   });
 };
 
