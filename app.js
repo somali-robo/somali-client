@@ -805,7 +805,7 @@ App.prototype.voiceMagicStart = function(){
           //console.log(result);
         });
     });
-  },3*1000);
+  },1*1000);
 
 };
 
