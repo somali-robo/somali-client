@@ -306,8 +306,8 @@ App.prototype.register = function(){
               _this.setStatus(App.STATUS.ERROR);
               return;
             }
-            console.log("getChatRoom");
-            console.log(response);
+            //console.log("getChatRoom");
+            //console.log(response);
 
             _this.defaultChatRoom = response.data;
 
@@ -372,7 +372,7 @@ App.prototype.recStart = function(){
 
       console.log("device");
       console.log(_this.device);
-      const message = _this.SomaliMessage.create(_this.device._id,_this.SomaliMessage.TYPE_WAV,remotePath);
+      const message = _this.SomaliMessage.create(_this.device,_this.SomaliMessage.TYPE_WAV,remotePath);
       console.log("message");
       console.log(message);
       var value = JSON.stringify(message);
