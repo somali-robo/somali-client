@@ -787,6 +787,7 @@ App.prototype.voiceMagicStart = function(){
   //voiceMagic 電源をONにする
   this.voiceMagic.power(this.voiceMagic.POWER_ON);
 
+  _this.voiceMagic.recognitionInit();
   setInterval(function(){
     //voiceMagic にコマンド認識させる
     _this.voiceMagic.recognition(function(){
