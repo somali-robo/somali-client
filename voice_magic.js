@@ -39,6 +39,7 @@ VoiceMagic.prototype.init = function(config){
 
   //音声区間検出回路の制御端子
   this.wpi.pinMode(this.config.VOICE_MAGIC_VCST,this.wpi.OUTPUT);
+  
   //レジスターSTATUSのINT出力
   this.wpi.pinMode(this.config.VOICE_MAGIC_INT,this.wpi.INPUT);
 };
