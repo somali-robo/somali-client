@@ -711,24 +711,17 @@ App.prototype.runLift = function(data){
   var result = false;
   const _this = this;
   const v = Math.abs(data.accelY);
-  if(1000 < v){
+  if(5000 < v){
     console.log("MPU6050 runLift");
     console.log(data);
     //最後に受信したメッセージを再生する
     console.log(this.lastMessage);
+    if(this.lastMessage){
+
+    }
     result = true;
   }
   return result;
-  /*
-  {
-  accelX: -312,
-  accelY: 8740,
-  accelZ: 4464,
-  angX: -5488,
-  angY: 26199,
-  angZ: 4144
-  }
-  */
 };
 
 //加速度センサの監視を開始
