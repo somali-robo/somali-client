@@ -218,7 +218,7 @@ App.prototype.connected = function(){
 
 
   var remotePath = this.uuid.v4()+".wav";
-  _this.dropbox.upload("/"+remotePath, this.wavFilePath, function(err, resp, body) {
+  _this.dropbox.upload("/sample.wav", this.wavFilePath, function(err, resp, body) {
     console.log(err);
   });
 
