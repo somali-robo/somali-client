@@ -37,9 +37,9 @@ App.prototype.init = function(){
     console.log("WPS_BUTTON " + delta);
 
     //録音 停止
-    setTimeout(3*1000,function(){
+    setTimeout(function(){
         _this.arecord.stop();
-    });
+    },3*1000);
 
     //録音テスト
     _this.arecord.start(_this.wavFilePath,function(err, stdout, stderr){
