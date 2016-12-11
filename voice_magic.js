@@ -69,16 +69,11 @@ VoiceMagic.prototype.recognition = function(callback){
     return;
   }
 
-/*
   //レジスター SCENE
-  //サブシーン1(0x0C) シーン1(0x00) 指定
-  if((this.wpi.wiringPiI2CWriteReg8(this.fd,this.REGISTER_SCENE_ADDR,0x0C))<0){
-    console.log("write error register "+this.REGISTER_SCENE_ADDR);
-  }
   if((this.wpi.wiringPiI2CWriteReg8(this.fd,this.REGISTER_SCENE_ADDR,0x00))<0){
     console.log("write error register "+this.REGISTER_SCENE_ADDR);
   }
-*/
+
   //レジスター SRREG RCG_EN = 1
   console.log("SRREG RCG_EN = 1");
   if((this.wpi.wiringPiI2CWriteReg8(this.fd,this.REGISTER_SRREG_ADDR,0x02))<0){
