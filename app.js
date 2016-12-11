@@ -809,7 +809,7 @@ App.prototype.voiceMagicStart = function(){
           //console.log(result);
         });
     });
-  },1*1000);
+  },3*1000);
 
 };
 
