@@ -436,7 +436,7 @@ App.prototype.monitoringBroadcastMessages = function(){
         console.log(_this.broadcastMessages);
 
         //保存
-        _this.jsonDB.push(_this.KEY_BROADCAST_MESSAGES,_this.broadcastMessages);
+        _this.jsonDB.push(_this.KEY_BROADCAST_MESSAGES,JSON.stringify(_this.broadcastMessages));
 
         _this.textToSpeech(last.value,_this.hoya.SPEAKER_HIKARI,function(path, err){
           if (err != null){
