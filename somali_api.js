@@ -11,19 +11,6 @@ SomaliApi.prototype.API_INTONATIONS = "/api/intonations";
 SomaliApi.prototype.API_DEVICES = "/api/devices";
 SomaliApi.prototype.API_CHAT_ROOMS = "/api/chat_rooms";
 
-//サービス情報
-SomaliApi.prototype.getServiceInfos = function(callback){
-  var options = {url: this.API_HOST+this.API_SERVICE_INFOS};
-  this.request.get(options,function(err,response){
-    if(err){
-      callback(err);
-      return;
-    }
-    var result = JSON.parse(response.body);
-    callback(null,result);
-  });
-};
-
 //抑揚認識発話 データ取得
 SomaliApi.prototype.getIntonations = function(callback){
   var options = {url: this.API_HOST+this.API_INTONATIONS};

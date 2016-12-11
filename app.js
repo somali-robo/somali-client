@@ -103,9 +103,7 @@ App.prototype.setStatus = function(status){
 App.prototype.init = function(){
   console.log("init");
   var _this = this;
-
-  //const message = _this.SomaliMessage.create(_this.config.SERIAL_CODE,_this.SomaliMessage.TYPE_WAV,"remotePath");
-
+  
   this.jsonDB = new this.JsonDB(this.KEY_STORE,true,false);
 
   //GPIO初期化
@@ -158,9 +156,10 @@ App.prototype.init = function(){
   });
 
   //ネットワークが繋がっているか確認する
-  this.somaliApi.getServiceInfos(function(err,response){
+  this.somaliApi.getIntonations(function(err,response){
       if(err){
         //未接続
+        //TODO: 失敗時に何か鳴らす？
         return;
       }
       //接続されていたので App.STATUS.CONNECTED の処理をする
