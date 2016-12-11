@@ -369,7 +369,6 @@ App.prototype.recStart = function(){
     _this.setStatus(App.STATUS.REC_STOP);
   });
 
-/*
   //録音する
   this.arecord.start(this.wavFilePath,function(err, stdout, stderr){
     if (err != null){
@@ -406,7 +405,6 @@ App.prototype.recStart = function(){
       _this.somaliSocket.sendMessage(''+value);
     });
   });
-*/
 };
 
 //録音停止
