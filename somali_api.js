@@ -52,7 +52,7 @@ SomaliApi.prototype.getDevices = function(callback){
 //デバイスを登録
 SomaliApi.prototype.postDevice = function(serialCode,name,callback){
   //var createdAt = (new Date()).toISOString();
-  var options = {url: this.API_HOST+this.API_DEVICES,form: {"serialCode":serialCode,"name":name}};
+  var options = {url: this.API_HOST+this.API_DEVICES+"/serial_code/"+serialCode,form: {"name":name}};
   this.request.post(options,function(err,response){
     if(err){
       callback(err);
