@@ -6,6 +6,7 @@ Arecord.prototype.child = null;
 
 //録音 開始
 Arecord.prototype.start = function(path,callback){
+  console.log('arecord start');
   var _this = this;
   //var cmd = 'arecord -D plughw:1,0 -d '+sec+' -f U8 -c 1 '+path;
   var cmd = 'arecord -D plughw:1,0 -f U8 -c 1 '+path;
@@ -19,6 +20,7 @@ Arecord.prototype.start = function(path,callback){
 
 //録音 停止
 Arecord.prototype.stop = function(){
+  console.log('arecord stop');
   if(this.child == null) return;
   this.child.kill();
 };
