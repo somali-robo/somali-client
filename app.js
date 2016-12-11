@@ -329,7 +329,7 @@ App.prototype.register = function(){
 
 //新規メッセージか確認
 App.prototype.isNewMessage = function(messages,lastMessage){
-  //console.log("isNewMessage");
+  console.log("isNewMessage");
   var result = true;
   messages.forEach(function(element, index, array){
       console.log("element "+element.from.serialCode);
