@@ -352,6 +352,7 @@ App.prototype.isNewMessage = function(messages,lastMessage){
 
 //チャットルームの新規メッセージを監視する
 App.prototype.monitoringChatroomMessages = function(){
+  var _this = this;
   //チャットルームのメッセージを監視
   setInterval(function(){
     //アクテイブルームIDを取得する
@@ -429,7 +430,7 @@ App.prototype.apiInit = function(){
   }
   //console.log("this.chatRoomMessages");
   //console.log(this.chatRoomMessages);
-  
+
   //チャットルームの新規メッセージを監視する
   this.monitoringChatroomMessages();
 
