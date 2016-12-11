@@ -381,12 +381,12 @@ App.prototype.runNewMessage = function(roomId,message){
 //感情にあわせて返事を再生する
 App.prototype.runEmpath = function(message){
   console.log("empath");
+  const _this = this;
   const empath = message.empath;
   var selectKey = null;
   if(empath["error"] == 0){
     var max = 0;
     for(key in empath){
-      console.log(empath[key]);
       if(max < empath[key]){
         selectKey = key;
         max = empath[key];
@@ -394,8 +394,9 @@ App.prototype.runEmpath = function(message){
     }
   }
 
-  if(selectKey){
+  if(selectKey != null){
     console.log("selectKey "+selectKey);
+    console.log(this.intonations);
   }
 };
 
