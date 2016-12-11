@@ -39,7 +39,7 @@ App.prototype.init = function(){
 
   //REC ボタン(赤) INT_EDGE_RISING 立ち上がる時
   this.wpi.pinMode(this.configDevice.REC_BUTTON,this.wpi.INPUT);
-  this.wpi.wiringPiISR(this.configDevice.REC_BUTTON, this.wpi.INT_EDGE_RISING, function(delta) {
+  this.wpi.wiringPiISR(this.configDevice.REC_BUTTON, this.wpi.INT_EDGE_BOTH, function(delta) {
     var value = _this.wpi.digitalRead(_this.configDevice.REC_BUTTON);
     console.log("REC_BUTTON " + value);
 
