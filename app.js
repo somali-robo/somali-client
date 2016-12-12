@@ -740,10 +740,11 @@ App.prototype.runLift = function(data){
       //再生対象にしたので破棄
       this.lastMessage = null;
       this.textToSpeech(value,this.hoya.SPEAKER_HIKARI,function(path, err){
+        //持ち上げステータスをリセット
+        _this.isLift = false;
+
         if (err != null){
           console.log("err");
-          //文字上げステータスをリセット
-          _this.isLift = false;
           return;
         }
         console.log("success");
@@ -753,8 +754,6 @@ App.prototype.runLift = function(data){
         _this.aplay.play(path,function(err, stdout, stderr){
           //アンプをOFFにする
           _this.speakerAmpPower(_this.wpi.LOW);
-          //文字上げステータスをリセット
-          _this.isLift = false;
           if (err != null){
             console.log("err");
             return;
@@ -772,6 +771,9 @@ App.prototype.runLift = function(data){
 App.prototype.accelerationStart = function(){
   const _this = this;
   this.mpu6050.subscribe(100,function(data){
+    console.log("MPU6050");
+    console.log(data);
+
     var result = false;
     //持ち上げられた時
     result = _this.runLift(data);
