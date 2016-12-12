@@ -771,8 +771,8 @@ App.prototype.runLift = function(data){
 App.prototype.accelerationStart = function(){
   const _this = this;
   this.mpu6050.subscribe(100,function(data){
-    //console.log("MPU6050");
-    //console.log(data);
+    console.log("MPU6050");
+    console.log(data);
 
     var result = false;
     //持ち上げられた時
