@@ -685,7 +685,7 @@ App.prototype.textToSpeech = function(text,speaker,callback){
 App.prototype.runShaken = function(data){
   var result = false;
   const _this = this;
-  const v = Math.abs(data.angY);
+  const v = Math.abs(data.angX);
   if(25000 < v){
     console.log("MPU6050 runShaken");
     console.log(data);
@@ -727,7 +727,7 @@ App.prototype.runShaken = function(data){
 App.prototype.runLift = function(data){
   var result = false;
   const _this = this;
-  const v = Math.abs(data.accelY);
+  const v = Math.abs(data.angY);
   if(5000 < v){
     if(this.isLift == true) return;
     this.isLift = true;
@@ -771,8 +771,8 @@ App.prototype.runLift = function(data){
 App.prototype.accelerationStart = function(){
   const _this = this;
   this.mpu6050.subscribe(100,function(data){
-    console.log("MPU6050");
-    console.log(data);
+    //console.log("MPU6050");
+    //console.log(data);
 
     var result = false;
     //持ち上げられた時
