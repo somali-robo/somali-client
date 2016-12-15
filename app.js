@@ -91,7 +91,7 @@ App.prototype.onError = function(){
     });
   }
   catch(e){
-
+    console.log(e);
   }
 };
 
