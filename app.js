@@ -19,6 +19,7 @@ App.prototype.arecord　= require('./arecord.js');
 App.prototype.amixer = require('./amixer.js');
 App.prototype.mpu6050 = require('./mpu6050.js');
 App.prototype.voiceMagic   = require('./voice_magic.js');
+App.prototype.ota = require('./somali_ota.js');
 
 //録音 最小 時間
 App.prototype.REC_MINIMUM_SEC = 5;
@@ -122,6 +123,19 @@ App.prototype.init = function(){
   //GPIO初期化
   this.wpi.wiringPiSetupGpio();
 
+  //OTAモードに入るかの確認
+  this.wpi.pinMode(this.configDevice.WPS_BUTTON,this.wpi.INPUT);
+  var value = _this.wpi.digitalRead(_this.configDevice.WPS_BUTTON);
+  if(value == _this.wpi.HIGH){
+    //WPSボタン押したまま起動した場合 OTAを実行する
+    if(_this.status == App.STATUS.DEFAULT){
+      console.log("ota mode.");
+      //TODO: OTA開始時に音を鳴らす
+      //TODO: OTA 終了時に音を鳴らす
+      return;
+    }
+  }
+
   //voiceMagic 初期化
   this.voiceMagic.init(this.configDevice);
 
@@ -140,6 +154,7 @@ App.prototype.init = function(){
   this.wpi.pinMode(this.configDevice.WPS_BUTTON,this.wpi.INPUT);
   this.wpi.wiringPiISR(this.configDevice.WPS_BUTTON, this.wpi.INT_EDGE_RISING, function(v) {
     console.log("WPS_BUTTON " + v);
+    var value = _this.wpi.digitalRead(_this.configDevice.WPS_BUTTON);
     //console.log("_this " + _this);
     if(_this.status == App.STATUS.WPS_INIT) return;
     _this.setStatus(App.STATUS.WPS_INIT);
