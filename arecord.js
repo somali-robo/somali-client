@@ -25,6 +25,7 @@ Arecord.prototype.start = function(path,callback){
 
   this.child.on('exit', function (code) {
     console.log('child process exited with code ' + code);
+    _this.child = null;
     callback(null);
   });
 };
@@ -35,7 +36,6 @@ Arecord.prototype.stop = function(){
   var _this = this;
   if(this.child == null) return;
   this.child.kill();
-  this.child = null;
 };
 
 module.exports = new Arecord();
