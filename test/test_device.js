@@ -40,9 +40,16 @@ App.prototype.init = function(){
       //voiceMagic 電源をONにする
       _this.voiceMagic.power(_this.voiceMagic.POWER_ON);
       //voiceMagic にコマンド認識させる
-      _this.voiceMagic.recognition(function(){
-          console.log("help!!");
+      _this.voiceMagic.recognitionInit();
+      _this.voiceMagic.recognition(function(status){
+        if(status != 1){
+          //コマンド以外だった
+          console.log("not help");
+          return;
+        }
+        console.log("help!!");
       });
+
     }
   });
 

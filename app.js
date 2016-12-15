@@ -749,7 +749,7 @@ App.prototype.runLift = function(data){
         console.log("success");
         //スピーカーアンプをONにする
         _this.speakerAmpPower(_this.wpi.HIGH);
-        
+
         //再生
         _this.aplay.play(path,function(err, stdout, stderr){
           //持ち上げステータスをリセット
@@ -797,7 +797,7 @@ App.prototype.voiceMagicStart = function(){
   setInterval(function(){
     //voiceMagic にコマンド認識させる
     _this.voiceMagic.recognition(function(status){
-        //voiceMagic 認識開始
+        //voiceMagic 再認識開始
         _this.voiceMagic.recognitionInit();
 
         if(status != 1){
