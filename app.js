@@ -148,7 +148,7 @@ App.prototype.setStatus = function(status){
 //初期化
 App.prototype.init = function(){
   console.log("init");
-  var _this = this;
+  const _this = this;
 
   this.jsonDB = new this.JsonDB(this.KEY_STORE,true,false);
 
@@ -167,7 +167,7 @@ App.prototype.init = function(){
   //this.speakerAmpPower(this.wpi.HIGH);
 
   //音量変更
-  this.amixer.pcmVolume(100);
+  this.amixer.pcmVolume(50);
 
   //OTAモードに入るかの確認
   this.wpi.pinMode(this.configDevice.WPS_BUTTON,this.wpi.INPUT);
@@ -878,7 +878,7 @@ App.prototype.voiceMagicStart = function(){
 App.prototype.ota = function(){
   const _this = this;
   //スピーカーアンプをONにする
-  _this.speakerAmpPower(_this.wpi.HIGH);
+  this.speakerAmpPower(_this.wpi.HIGH);
 
   //OTA開始時に音を鳴らす
   this.aplay.play(this.otaWavFilePath,function(err, stdout, stderr){
