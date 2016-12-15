@@ -44,7 +44,8 @@ App.STATUS = {
   REC_START:8,
   REC_STOP:9,
   ACCELERATION_START:10,
-  VOICE_MAGIC_START:11
+  VOICE_MAGIC_START:11,
+  OTA:12
 };
 
 App.prototype.status = App.STATUS.DEFAULT;
@@ -72,12 +73,34 @@ App.prototype.isShaken = false;
 //持ち上げた時
 App.prototype.isLift = false;
 
+//OTA開始,終了時に再生するファイル
+App.prototype.otaWavFilePath = "./resources/1up.wav";
+
+//ERROR時に再生する音
+App.prototype.errWavFilePath = "./resources/err.wav";
+
+//error発生時の処理
+App.prototype.onError = function(){
+  const _this = this;
+  console.log(this.lastErr);
+  try{
+    this.speakerAmpPower(this.wpi.HIGH);
+    this.aplay.play(this.errWavFilePath,function(err, stdout, stderr){
+        //アンプをOFFにする
+        _this.speakerAmpPower(_this.wpi.LOW);
+    });
+  }
+  catch(e){
+
+  }
+};
+
 //各ステータス遷移
 App.prototype.setStatus = function(status){
   switch(status){
     case App.STATUS.ERROR:
-      //TODO: エラーの時の処理
-      console.log(this.lastErr);
+      //エラーの時の処理
+      this.onError();
       break;
     case App.STATUS.INIT:
       this.init();
@@ -109,6 +132,9 @@ App.prototype.setStatus = function(status){
     case App.STATUS.VOICE_MAGIC_START:
       this.voiceMagicStart();
       break;
+    case App.STATUS.OTA:
+      this.ota();
+      break;
   }
   this.status = status;
 };
@@ -123,19 +149,6 @@ App.prototype.init = function(){
   //GPIO初期化
   this.wpi.wiringPiSetupGpio();
 
-  //OTAモードに入るかの確認
-  this.wpi.pinMode(this.configDevice.WPS_BUTTON,this.wpi.INPUT);
-  var value = _this.wpi.digitalRead(_this.configDevice.WPS_BUTTON);
-  if(value == _this.wpi.HIGH){
-    //WPSボタン押したまま起動した場合 OTAを実行する
-    if(_this.status == App.STATUS.DEFAULT){
-      console.log("ota mode.");
-      //TODO: OTA開始時に音を鳴らす
-      //TODO: OTA 終了時に音を鳴らす
-      return;
-    }
-  }
-
   //voiceMagic 初期化
   this.voiceMagic.init(this.configDevice);
 
@@ -149,6 +162,19 @@ App.prototype.init = function(){
 
   //音量変更
   this.amixer.pcmVolume(100);
+
+  //OTAモードに入るかの確認
+  this.wpi.pinMode(this.configDevice.WPS_BUTTON,this.wpi.INPUT);
+  var value = _this.wpi.digitalRead(_this.configDevice.WPS_BUTTON);
+  if(value == _this.wpi.HIGH){
+    //WPSボタン押したまま起動した場合 OTAを実行する
+    if(_this.status == App.STATUS.DEFAULT){
+      console.log("ota mode.");
+      _this.lastErr = "ERROR TEST";
+      _this.setStatus(App.STATUS.ERROR);
+      return;
+    }
+  }
 
   //WPS ボタン (青色)
   this.wpi.pinMode(this.configDevice.WPS_BUTTON,this.wpi.INPUT);
@@ -840,6 +866,35 @@ App.prototype.voiceMagicStart = function(){
     });
   },3*1000);
 
+};
+
+//OTA処理を実行する
+App.prototype.ota = function(){
+  const _this = this;
+  //スピーカーアンプをONにする
+  _this.speakerAmpPower(_this.wpi.HIGH);
+
+  //OTA開始時に音を鳴らす
+  this.aplay.play(this.otaWavFilePath,function(err, stdout, stderr){
+      if (err != null){
+        console.log("err");
+        return;
+      }
+      //OTA処理を開始する
+      _this.ota.start(function(code,err){
+          if(err){
+            //OTA 何らかのエラー
+            _this.lastErr = err;
+            _this.setStatus(App.STATUS.ERROR);
+            return;
+          }
+          //OTA 終了時に音を鳴らす
+          _this.aplay.play(_this.otaWavFilePath,function(err, stdout, stderr){
+              //アンプをOFFにする
+              _this.speakerAmpPower(_this.wpi.LOW);
+          });
+      });
+  });
 };
 
 var app = new App();
