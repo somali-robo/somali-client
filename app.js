@@ -176,8 +176,7 @@ App.prototype.init = function(){
     //WPSボタン押したまま起動した場合 OTAを実行する
     if(_this.status == App.STATUS.DEFAULT){
       console.log("ota mode.");
-      _this.lastErr = "ERROR TEST";
-      _this.setStatus(App.STATUS.ERROR);
+      _this.setStatus(App.STATUS.OTA);
       return;
     }
   }
