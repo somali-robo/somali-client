@@ -8,10 +8,14 @@ SomaliOta.prototype.child = null;
 
 //開始
 SomaliOta.prototype.start = function(callback){
-    if(this.child != null) return;
-    var cmd = 'git';
-    var args = ['pull'];
-    console.log('SomaliOta '+cmd);
+    if(this.child != null){
+      callback(null,"child is not null.");
+      return;
+    }
+    const _this = this;
+    const cmd = 'git';
+    const args = ['pull'];
+    console.log('SomaliOta start '+cmd);
     this.child = this.spawn(cmd,args);
     this.child.stdout.on('data', function (data) {
       console.log('stdout: ' + data);
