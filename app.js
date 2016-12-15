@@ -163,6 +163,9 @@ App.prototype.init = function(){
   //音量変更
   this.amixer.pcmVolume(100);
 
+  this.lastErr = "ERROR TEST";
+  this.setStatus(App.STATUS.ERROR);
+
   //OTAモードに入るかの確認
   this.wpi.pinMode(this.configDevice.WPS_BUTTON,this.wpi.INPUT);
   var value = _this.wpi.digitalRead(_this.configDevice.WPS_BUTTON);
@@ -216,7 +219,8 @@ App.prototype.init = function(){
   this.somaliApi.getIntonations(function(err,response){
       if(err){
         //未接続
-        //TODO: 失敗時に何か鳴らす？
+        _this.lastErr = err;
+        _this.setStatus(App.STATUS.ERROR);
         return;
       }
       //接続されていたので App.STATUS.CONNECTED の処理をする
