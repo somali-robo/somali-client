@@ -738,9 +738,8 @@ App.prototype.runShaken = function(data){
   if((t < x)||(t < y)){
     console.log("MPU6050 runShaken");
     console.log(data);
-
     if(this.isShaken == true) return;
-    console.log("isShaken v:"+v);
+    console.log("isShaken");
     this.isShaken = true;
     //閾値を超えたら固定メッセージを再生
     var msg = "ゆらさないで";
