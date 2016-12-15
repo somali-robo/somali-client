@@ -77,7 +77,7 @@ App.prototype.isLift = false;
 App.prototype.otaWavFilePath = "./resources/1up.wav";
 
 //ERROR時に再生する音
-App.prototype.errWavFilePath = "./resources/err.wav";
+App.prototype.errWavFilePath = "./resources/error.wav";
 
 //error発生時の処理
 App.prototype.onError = function(){
