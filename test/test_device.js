@@ -42,15 +42,18 @@ App.prototype.init = function(){
 
       //voiceMagic にコマンド認識させる
       _this.voiceMagic.recognitionInit();
-      _this.voiceMagic.recognition(function(status){
-        console.log("recognition "+status);
-        if(status != 1){
-          //コマンド以外だった
-          console.log("not help");
-          return;
-        }
-        console.log("help!!");
-      });
+      var result = false;
+      while (result == false) {
+        result = _this.voiceMagic.recognition(function(status){
+          console.log("recognition "+status);
+          if(status != 1){
+            //コマンド以外だった
+            console.log("not help");
+            return;
+          }
+          console.log("help!!");
+        });
+      }
     }
   });
 
