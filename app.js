@@ -19,7 +19,7 @@ App.prototype.arecord　= require('./arecord.js');
 App.prototype.amixer = require('./amixer.js');
 App.prototype.mpu6050 = require('./mpu6050.js');
 App.prototype.voiceMagic   = require('./voice_magic.js');
-App.prototype.ota = require('./somali_ota.js');
+App.prototype.somaliOta = require('./somali_ota.js');
 
 //録音 最小 時間
 App.prototype.REC_MINIMUM_SEC = 5;
@@ -886,10 +886,10 @@ App.prototype.ota = function(){
         console.log("err");
         return;
       }
-      console.log("_this.ota");
-      console.log(_this.ota);
+      console.log("_this.somaliOta");
+      console.log(_this.somaliOta.start);
       //OTA処理を開始する
-      _this.ota.start(function(code,err){
+      _this.somaliOta.start(function(code,err){
           if(err){
             //OTA 何らかのエラー
             _this.lastErr = err;
