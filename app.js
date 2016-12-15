@@ -732,8 +732,10 @@ App.prototype.textToSpeech = function(text,speaker,callback){
 App.prototype.runShaken = function(data){
   var result = false;
   const _this = this;
-  const v = Math.abs(data.angX);
-  if(25000 < v){
+  const x = Math.abs(data.angX);
+  const y = Math.abs(data.angY);
+  const t = 25000;
+  if(t < x)||(t < y){
     console.log("MPU6050 runShaken");
     console.log(data);
 
@@ -886,8 +888,6 @@ App.prototype.ota = function(){
         console.log("err");
         return;
       }
-      console.log("_this.somaliOta");
-      console.log(_this.somaliOta.start);
       //OTA処理を開始する
       _this.somaliOta.start(function(code,err){
           if(err){
