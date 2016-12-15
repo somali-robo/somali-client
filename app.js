@@ -87,13 +87,14 @@ App.prototype.onError = function(){
     console.log("play start.");
     this.speakerAmpPower(this.wpi.HIGH);
     this.aplay.play(this.errWavFilePath,function(err, stdout, stderr){
+        //アンプをOFFにする
+        _this.speakerAmpPower(_this.wpi.LOW);
+
         if(err){
           console.log(err);
           return;
         }
         console.log("play stop.");
-        //アンプをOFFにする
-        _this.speakerAmpPower(_this.wpi.LOW);
     });
   }
   catch(e){
