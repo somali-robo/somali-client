@@ -15,7 +15,7 @@ SomaliOta.prototype.start = function(callback){
     const _this = this;
     const cmd = 'git';
     const args = ['pull'];
-    console.log('SomaliOta start '+cmd);
+    console.log('start '+cmd);
     this.child = this.spawn(cmd,args);
     this.child.stdout.on('data', function (data) {
       console.log('stdout: ' + data);
