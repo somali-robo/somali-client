@@ -29,7 +29,7 @@ App.prototype.init = function(){
   this.speakerAmpPower(this.SPEAKER_POWER_ON);
 
   //音量変更
-  this.amixer.pcmVolume(100);
+  this.amixer.pcmVolume(50);
 
   //WPS ボタン（青） INT_EDGE_RISING 立ち上がる時
   this.wpi.pinMode(this.configDevice.WPS_BUTTON,this.wpi.INPUT);
