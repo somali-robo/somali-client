@@ -735,7 +735,7 @@ App.prototype.runShaken = function(data){
   const x = Math.abs(data.angX);
   const y = Math.abs(data.angY);
   const t = 25000;
-  if(t < x)||(t < y){
+  if((t < x)||(t < y)){
     console.log("MPU6050 runShaken");
     console.log(data);
 
