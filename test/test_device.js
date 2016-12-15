@@ -39,9 +39,11 @@ App.prototype.init = function(){
     if(value == _this.wpi.HIGH){
       //voiceMagic 電源をONにする
       _this.voiceMagic.power(_this.voiceMagic.POWER_ON);
+
       //voiceMagic にコマンド認識させる
       _this.voiceMagic.recognitionInit();
       _this.voiceMagic.recognition(function(status){
+        console.log("recognition "+status);
         if(status != 1){
           //コマンド以外だった
           console.log("not help");
@@ -49,7 +51,6 @@ App.prototype.init = function(){
         }
         console.log("help!!");
       });
-
     }
   });
 
