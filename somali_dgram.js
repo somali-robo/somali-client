@@ -29,9 +29,10 @@ SomaliDgram.prototype.init = function(){
 
 //UDPでの受信開始
 SomaliDgram.prototype.bind = function(callback){
+  const _this = this;
   this.bindCallback = callback;
   this.socket.bind(this.UDP_PORT,'0.0.0.0',function(){
-    this.socket.setBroadcast(true);
+    _this.socket.setBroadcast(true);
   });
 };
 
