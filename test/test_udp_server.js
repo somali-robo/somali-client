@@ -8,9 +8,7 @@ App.prototype.init = function(){
   const _this = this;
 
   //初期化
-  this.dgram.init();
-  //受信設定
-  this.dgram.bind(function(message, remote){
+  this.dgram.init(function(message, remote){
     console.log('onMessage');
     console.log(remote.address + ':' + remote.port +' - ' + message);
     console.log(remote);

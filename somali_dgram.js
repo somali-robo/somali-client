@@ -9,8 +9,10 @@ SomaliDgram.prototype.bindCallback = null;
 SomaliDgram.prototype.UDP_PORT = 8000;
 
 //UDPでのメッセージ受信開始
-SomaliDgram.prototype.init = function(){
+SomaliDgram.prototype.init = function(callback){
   const _this = this;
+  this.bindCallback = callback;
+
   this.socket = this.dgram.createSocket("udp4");
 
   this.socket.on('listening', function () {
@@ -24,12 +26,6 @@ SomaliDgram.prototype.init = function(){
     }
   });
 
-};
-
-//UDPでの受信開始
-SomaliDgram.prototype.bind = function(callback){
-  const _this = this;
-  this.bindCallback = callback;
   this.socket.bind(this.UDP_PORT,'0.0.0.0',function(){
     _this.socket.setBroadcast(true);
   });
@@ -41,8 +37,7 @@ SomaliDgram.prototype.send = function(buffer){
   //var buffer = new Buffer("nantekottai.");
   //console.log(buffer);
   const _this = this;
-  const address = '255.255.255.255';
-  this.socket.send(buffer, 0, buffer.length, this.UDP_PORT, address, function(err, bytes) {
+  this.socket.send(buffer, 0, buffer.length, this.UDP_PORT, '255.255.255.255', function(err, bytes) {
     if (err) {
       console.log('err');
       console.log(err);

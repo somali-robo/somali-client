@@ -8,9 +8,8 @@ App.prototype.init = function(){
   const _this = this;
 
   //初期化
-  this.dgram.init();
-  this.dgram.bind(function(msg, remote){
-    
+  this.dgram.init(function(msg, remote){
+
   });
 
   //定期的にメッセージを送信してみる
