@@ -79,23 +79,16 @@ App.prototype.otaWavFilePath = "./resources/1up.wav";
 //ERROR時に再生する音
 App.prototype.errWavFilePath = "./resources/error.wav";
 
+//警報音
+App.prototype.helpWavFilePath = "./resources/help.wav";
+
 //error発生時の処理
 App.prototype.onError = function(){
   const _this = this;
   console.log(this.lastErr);
   try{
     console.log("play start.");
-    this.speakerAmpPower(this.wpi.HIGH);
-    this.aplay.play(this.errWavFilePath,function(err, stdout, stderr){
-        //アンプをOFFにする
-        _this.speakerAmpPower(_this.wpi.LOW);
-
-        if(err){
-          console.log(err);
-          return;
-        }
-        console.log("play stop.");
-    });
+    this.wavPlay(this.errWavFilePath);
   }
   catch(e){
     console.log(e);
@@ -402,18 +395,7 @@ App.prototype.runNewMessage = function(roomId,message){
         return;
       }
       console.log("success");
-      //スピーカーアンプをONにする
-      _this.speakerAmpPower(_this.wpi.HIGH);
-      //再生
-      _this.aplay.play(path,function(err, stdout, stderr){
-        //アンプをOFFにする
-        _this.speakerAmpPower(_this.wpi.LOW);
-        if (err != null){
-          console.log("err");
-          return;
-        }
-        console.log("success");
-      });
+      _this.wavPlay(path);
     });
   }
   else if (message.type == this.SomaliMessage.TYPE_TEXT){
@@ -453,18 +435,8 @@ App.prototype.runEmpath = function(message){
         return;
       }
       console.log("success");
-      //スピーカーアンプをONにする
-      _this.speakerAmpPower(_this.wpi.HIGH);
       //再生
-      _this.aplay.play(path,function(err, stdout, stderr){
-        //アンプをOFFにする
-        _this.speakerAmpPower(_this.wpi.LOW);
-        if (err != null){
-          console.log("err");
-          return;
-        }
-        console.log("success");
-      });
+      _this.wavPlay(path);
     });
   }
 };
@@ -551,18 +523,7 @@ App.prototype.monitoringBroadcastMessages = function(){
             return;
           }
           console.log("success");
-          //スピーカーアンプをONにする
-          _this.speakerAmpPower(_this.wpi.HIGH);
-          //再生
-          _this.aplay.play(path,function(err, stdout, stderr){
-            //アンプをOFFにする
-            _this.speakerAmpPower(_this.wpi.LOW);
-            if (err != null){
-              console.log("err");
-              return;
-            }
-            console.log("success");
-          });
+          _this.wavPlay(path);
         });
       }
     });
@@ -742,19 +703,9 @@ App.prototype.runShaken = function(data){
         return;
       }
       console.log("success");
-      //スピーカーアンプをONにする
-      _this.speakerAmpPower(_this.wpi.HIGH);
-      //再生
-      _this.aplay.play(path,function(err, stdout, stderr){
-        //アンプをOFFにする
-        _this.speakerAmpPower(_this.wpi.LOW);
+      _this.wavPlay(path,function(){
         //シェイクステータスをリセット
         _this.isShaken = false;
-        if (err != null){
-          console.log("err");
-          return;
-        }
-        console.log("success");
       });
     });
     result = true;
@@ -779,19 +730,27 @@ App.prototype.playLastMessage = function(){
       return;
     }
     console.log("success");
-    //スピーカーアンプをONにする
-    _this.speakerAmpPower(_this.wpi.HIGH);
+    _this.wavPlay(path);
+  });
+};
 
-    //再生
-    _this.aplay.play(path,function(err, stdout, stderr){
-      //アンプをOFFにする
-      _this.speakerAmpPower(_this.wpi.LOW);
-      if (err != null){
-        console.log("err");
-        return;
-      }
-      console.log("success");
-    });
+//wavファイル再生
+App.prototype.wavPlay = function(path,callback){
+  const _this = this;
+  //スピーカーアンプをONにする
+  this.speakerAmpPower(this.wpi.HIGH);
+  //再生
+  this.aplay.play(path,function(err, stdout, stderr){
+    //アンプをOFFにする
+    _this.speakerAmpPower(_this.wpi.LOW);
+    if(callback){
+      callback();
+    }    
+    if (err != null){
+      console.log("err");
+      return;
+    }
+    console.log("success");
   });
 };
 
@@ -805,19 +764,8 @@ App.prototype.playPleased = function(){
       return;
     }
     console.log("success");
-    //スピーカーアンプをONにする
-    _this.speakerAmpPower(_this.wpi.HIGH);
-
     //再生
-    _this.aplay.play(path,function(err, stdout, stderr){
-      //アンプをOFFにする
-      _this.speakerAmpPower(_this.wpi.LOW);
-      if (err != null){
-        console.log("err");
-        return;
-      }
-      console.log("success");
-    });
+    _this.wavPlay(path);
   });
 };
 
@@ -833,8 +781,9 @@ App.prototype.runLift = function(data){
     console.log(data);
 
     var resetDelay = 5;
+
     if(this.mode == App.MODE.SINGLE){
-      //よろこぶ
+      //シングルモードの場合 よろこぶ
       this.playPleased();
       //持ち上げ判定をresetするまでの時間を長くする。
       resetDelay = 120;
@@ -890,22 +839,28 @@ App.prototype.voiceMagicStart = function(){
         }
         console.log("help!!");
 
-        //アラートメッセージを送信する
-        const message = _this.SomaliMessage.create(_this.device,_this.SomaliMessage.TYPE_ALERT,"助けて！");
-        message._id = _this.uuid.v4();
+        //TODO: 警報音を本体から鳴らす
+        //helpWavFilePath
 
-        //アクテイブルームIDを取得する
-        const roomId = _this.getActiveRoomId();
-        //メッセージを送信
-        _this.somaliApi.putChatroomMessage(roomId,message,function(err,result){
-          if(err){
-            _this.lastErr = err;
-            _this.setStatus(App.STATUS.ERROR);
-            return;
-          }
-          //console.log("success");
-          //console.log(result);
-        });
+        if(_this.mode == App.MODE.GROUP){
+          //アラートメッセージを送信する
+          const message = _this.SomaliMessage.create(_this.device,_this.SomaliMessage.TYPE_ALERT,"助けて！");
+          message._id = _this.uuid.v4();
+
+          //アクテイブルームIDを取得する
+          const roomId = _this.getActiveRoomId();
+          //メッセージを送信
+          _this.somaliApi.putChatroomMessage(roomId,message,function(err,result){
+            if(err){
+              _this.lastErr = err;
+              _this.setStatus(App.STATUS.ERROR);
+              return;
+            }
+            //console.log("success");
+            //console.log(result);
+          });
+        }
+
     });
   },3*1000);
 
