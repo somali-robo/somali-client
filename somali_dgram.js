@@ -5,7 +5,6 @@ const SomaliDgram = function(){};
 
 SomaliDgram.prototype.dgram = require('dgram');
 SomaliDgram.prototype.socket = null;
-SomaliDgram.prototype.rinfo = null;
 SomaliDgram.prototype.UDP_PORT = 8000;
 
 SomaliDgram.prototype.bindCallback = null;
@@ -15,7 +14,6 @@ SomaliDgram.prototype.bindCallback = null;
 SomaliDgram.prototype.init = function(){
   this.socket = this.dgram.createSocket("udp4", function (msg, rinfo) {
     //UDPで受信したメッセージ
-    _this.rinfo = rinfo;
     //console.log('got message from '+ rinfo.address +':'+ rinfo.port);
     //console.log('data len: '+ rinfo.size + " data: "+msg.toString('ascii', 0, rinfo.size));
     if(bindCallback){
