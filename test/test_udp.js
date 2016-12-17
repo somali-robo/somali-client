@@ -17,7 +17,7 @@ App.prototype.init = function(){
     //console.log('got message from '+ rinfo.address +':'+ rinfo.port);
     //console.log('data len: '+ rinfo.size + " data: "+msg.toString('ascii', 0, rinfo.size));
   });
-
+/*
   this.clientDgram.init();
   //定期的にメッセージを送信してみる
   const message = new Buffer("nantekottai.");
@@ -25,6 +25,7 @@ App.prototype.init = function(){
   setInterval(function(){
     _this.clientDgram.send(message,_this.clientDgram.UDP_PORT,'127.0.0.1');
   },5*1000);
+*/
 };
 
 var app = new App();
