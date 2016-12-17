@@ -18,8 +18,9 @@ App.prototype.init = function(){
   });
 
   //定期的にメッセージを送信してみる
+  const message = new Buffer("nantekottai.");
+  this.dgram.send(message,this.dgram.UDP_PORT,'255.255.255.255');
   setInterval(function(){
-    var message = new Buffer("nantekottai.");
     _this.dgram.send(message,_this.dgram.UDP_PORT,'255.255.255.255');
   },5*1000);
 };
