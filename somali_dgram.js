@@ -12,6 +12,7 @@ SomaliDgram.prototype.bindCallback = null;
 
 //UDPでのメッセージ受信開始
 SomaliDgram.prototype.init = function(){
+  const _this = this;
   this.socket = this.dgram.createSocket("udp4", function (msg, rinfo) {
     //UDPで受信したメッセージ
     //console.log('got message from '+ rinfo.address +':'+ rinfo.port);
