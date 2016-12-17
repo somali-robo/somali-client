@@ -40,7 +40,7 @@ SomaliDgram.prototype.send = function(buffer){
   console.log(buffer);
   const _this = this;
   //var message = new Buffer("nantekottai.");
-  const address = '192.168.1.178';
+  const address = '255.255.255.255';
   this.socket.send(buffer, 0, buffer.length, this.UDP_PORT, address, function(err, bytes) {
     if (err) {
       console.log('err');
