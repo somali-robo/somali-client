@@ -10,8 +10,9 @@ App.prototype.init = function(){
   //初期化
   this.dgram.init();
   //受信設定
-  this.dgram.bind(function(msg, rinfo){
-    console.log(rinfo);
+  this.dgram.bind(function(msg, remote){
+    console.log(remote.address + ':' + remote.port +' - ' + message);
+    console.log(remote);
     console.log(msg);
   });
 

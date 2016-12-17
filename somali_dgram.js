@@ -17,9 +17,6 @@ SomaliDgram.prototype.init = function(){
     //UDPで受信したメッセージ
     //console.log('got message from '+ rinfo.address +':'+ rinfo.port);
     //console.log('data len: '+ rinfo.size + " data: "+msg.toString('ascii', 0, rinfo.size));
-    if(this.bindCallback){
-      this.bindCallback(msg, rinfo);
-    }
   });
 
   this.socket.on('listening', function () {
@@ -29,6 +26,9 @@ SomaliDgram.prototype.init = function(){
 
   this.socket.on('message', function (message, remote) {
     console.log(remote.address + ':' + remote.port +' - ' + message);
+    if(this.bindCallback){
+      this.bindCallback(message, remote);
+    }
   });
 
 };
