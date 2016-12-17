@@ -21,7 +21,6 @@ App.prototype.init = function(){
   const message = new Buffer("nantekottai.");
   this.dgram.send(message,this.dgram.UDP_PORT,'255.255.255.255');
   setInterval(function(){
-    console.log("");
     _this.dgram.send(message,_this.dgram.UDP_PORT,'255.255.255.255');
   },5*1000);
 };
