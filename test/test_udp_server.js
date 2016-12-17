@@ -10,11 +10,11 @@ App.prototype.init = function(){
   //初期化
   this.dgram.init();
   //受信設定
-  this.dgram.bind(function(msg, remote){
+  this.dgram.bind(function(message, remote){
     console.log('onMessage');
     console.log(remote.address + ':' + remote.port +' - ' + message);
     console.log(remote);
-    console.log(msg);
+    console.log(message);
   });
 
 };
