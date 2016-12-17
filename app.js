@@ -745,7 +745,7 @@ App.prototype.wavPlay = function(path,callback){
     _this.speakerAmpPower(_this.wpi.LOW);
     if(callback){
       callback();
-    }    
+    }
     if (err != null){
       console.log("err");
       return;
@@ -839,8 +839,8 @@ App.prototype.voiceMagicStart = function(){
         }
         console.log("help!!");
 
-        //TODO: 警報音を本体から鳴らす
-        //helpWavFilePath
+        //警報音を本体から鳴らす
+        _this.wavPlay(_this.helpWavFilePath);
 
         if(_this.mode == App.MODE.GROUP){
           //アラートメッセージを送信する
