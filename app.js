@@ -17,11 +17,11 @@ App.prototype.arecord　= require('./arecord.js');
 App.prototype.amixer = require('./amixer.js');
 App.prototype.mpu6050 = require('./mpu6050.js');
 App.prototype.voiceMagic   = require('./voice_magic.js');
-App.prototype.SomaliMessage = require('./somali_message.js');
+App.prototype.dgram = require('./dgram.js');
 
+App.prototype.SomaliMessage = require('./somali_message.js');
 App.prototype.somaliApi = require('./somali_api.js');
 App.prototype.somaliOta = require('./somali_ota.js');
-App.prototype.dgram = require('./dgram.js');
 
 //録音 最小 時間
 App.prototype.REC_MINIMUM_SEC = 5;
