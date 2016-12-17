@@ -1,6 +1,7 @@
 const App = function(){};
 
-App.prototype.dgram = require('../somali_dgram.js');
+App.prototype.serverDgram = require('../somali_dgram.js');
+App.prototype.clientDgram = require('../somali_dgram.js');
 
 //初期化
 App.prototype.init = function(){
@@ -8,9 +9,11 @@ App.prototype.init = function(){
   const _this = this;
 
   //初期化
-  this.dgram.init();
+  this.serverDgram.init();
+  this.clientDgram.init();
+
   //受信設定
-  this.dgram.bind(function(msg, rinfo){
+  this.serverDgram.bind(function(msg, rinfo){
     console.log(rinfo);
     console.log(msg);
     //console.log('got message from '+ rinfo.address +':'+ rinfo.port);
@@ -19,9 +22,9 @@ App.prototype.init = function(){
 
   //定期的にメッセージを送信してみる
   const message = new Buffer("nantekottai.");
-  this.dgram.send(message,this.dgram.UDP_PORT,'255.255.255.255');
+  this.clientDgram.send(message,this.clientDgram.UDP_PORT,'255.255.255.255');
   setInterval(function(){
-    _this.dgram.send(message,_this.dgram.UDP_PORT,'255.255.255.255');
+    _this.clientDgram.send(message,_this.clientDgram.UDP_PORT,'255.255.255.255');
   },5*1000);
 };
 
