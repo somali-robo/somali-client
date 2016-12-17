@@ -20,8 +20,8 @@ SomaliDgram.prototype.init = function(){
 
   this.socket.on('message', function (message, remote) {
     //console.log(remote.address + ':' + remote.port +' - ' + message);
-    if(this.bindCallback){
-      this.bindCallback(message, remote);
+    if(_this.bindCallback){
+      _this.bindCallback(message, remote);
     }
   });
 
@@ -39,9 +39,9 @@ SomaliDgram.prototype.bind = function(callback){
 //UDPでの送信
 SomaliDgram.prototype.send = function(buffer){
   console.log("send");
+  //var buffer = new Buffer("nantekottai.");
   //console.log(buffer);
   const _this = this;
-  //var message = new Buffer("nantekottai.");
   const address = '192.168.1.178';
   this.socket.send(buffer, 0, buffer.length, this.UDP_PORT, address, function(err, bytes) {
     if (err) {
@@ -50,7 +50,7 @@ SomaliDgram.prototype.send = function(buffer){
       return;
     }
     console.log('UDP message sent.');
-    console.log(bytes);
+    //console.log(bytes);
   });
 };
 
