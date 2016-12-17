@@ -20,7 +20,7 @@ App.prototype.init = function(){
   //定期的にメッセージを送信してみる
   setInterval(function(){
     var message = new Buffer("nantekottai.");
-    _this.dgram.send(message,_this.dgram.UDP_PORT,'127.0.0.1');
+    _this.dgram.send(message,_this.dgram.UDP_PORT,'255.255.255.255');
   },5*1000);
 };
 
