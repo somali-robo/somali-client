@@ -9,12 +9,18 @@ App.prototype.init = function(){
 
   //初期化
   this.dgram.init();
+  this.dgram.bind(function(msg, remote){
+    console.log('onMessage');
+    console.log(remote.address + ':' + remote.port +' - ' + message);
+    console.log(remote);
+    console.log(msg);
+  });
+
   //定期的にメッセージを送信してみる
   const message = new Buffer("nantekottai.");
-  const address = '192.168.1.178';
-  this.dgram.send(message,this.dgram.UDP_PORT,address);
+  this.dgram.send(message,this.dgram.UDP_PORT);
   setInterval(function(){
-    _this.dgram.send(message,_this.dgram.UDP_PORT,address);
+    _this.dgram.send(message,_this.dgram.UDP_PORT);
   },5*1000);
 
 };
