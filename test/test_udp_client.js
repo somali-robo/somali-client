@@ -9,6 +9,9 @@ App.prototype.init = function(){
 
   //初期化
   this.dgram.init();
+  this.dgram.bind(function(msg, remote){
+    
+  });
 
   //定期的にメッセージを送信してみる
   const message = new Buffer("nantekottai.");
