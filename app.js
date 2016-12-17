@@ -832,7 +832,7 @@ App.prototype.runLift = function(data){
     console.log("MPU6050 runLift");
     console.log(data);
 
-    void resetDelay = 5;
+    var resetDelay = 5;
     if(this.mode == App.MODE.SINGLE){
       //よろこぶ
       this.playPleased();
