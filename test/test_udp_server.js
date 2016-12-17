@@ -1,6 +1,6 @@
 const App = function(){};
 
-App.prototype.dgram = require('../somali_dgram.js');
+App.prototype.dgram = require('../dgram.js');
 
 //初期化
 App.prototype.init = function(){
