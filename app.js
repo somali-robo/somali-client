@@ -837,7 +837,7 @@ App.prototype.runLift = function(data){
       //よろこぶ
       this.playPleased();
       //持ち上げ判定をresetするまでの時間を長くする。
-      resetDelay = 30;
+      resetDelay = 120;
     }
     else{
       //最終メッセージがあった場合再生
