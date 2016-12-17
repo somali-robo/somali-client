@@ -11,8 +11,10 @@ App.prototype.init = function(){
   this.dgram.init();
   //受信設定
   this.dgram.bind(function(msg, rinfo){
-    console.log('got message from '+ rinfo.address +':'+ rinfo.port);
-    console.log('data len: '+ rinfo.size + " data: "+msg.toString('ascii', 0, rinfo.size));
+    console.log(rinfo);
+    console.log(msg);
+    //console.log('got message from '+ rinfo.address +':'+ rinfo.port);
+    //console.log('data len: '+ rinfo.size + " data: "+msg.toString('ascii', 0, rinfo.size));
   });
 
   //定期的にメッセージを送信してみる
