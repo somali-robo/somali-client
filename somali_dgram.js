@@ -13,11 +13,7 @@ SomaliDgram.prototype.bindCallback = null;
 //UDPでのメッセージ受信開始
 SomaliDgram.prototype.init = function(){
   const _this = this;
-  this.socket = this.dgram.createSocket("udp4", function (msg, rinfo) {
-    //UDPで受信したメッセージ
-    //console.log('got message from '+ rinfo.address +':'+ rinfo.port);
-    //console.log('data len: '+ rinfo.size + " data: "+msg.toString('ascii', 0, rinfo.size));
-  });
+  this.socket = this.dgram.createSocket("udp4");
 
   this.socket.on('listening', function () {
     var address = _this.socket.address();
@@ -25,7 +21,7 @@ SomaliDgram.prototype.init = function(){
   });
 
   this.socket.on('message', function (message, remote) {
-    console.log(remote.address + ':' + remote.port +' - ' + message);
+    //console.log(remote.address + ':' + remote.port +' - ' + message);
     if(this.bindCallback){
       this.bindCallback(message, remote);
     }
@@ -36,16 +32,18 @@ SomaliDgram.prototype.init = function(){
 //UDPでの受信開始
 SomaliDgram.prototype.bind = function(callback){
   this.bindCallback = callback;
-  this.socket.bind(this.UDP_PORT, '0.0.0.0');
+  this.socket.bind(this.UDP_PORT); //'0.0.0.0'
 };
 
 //UDPでの送信
-SomaliDgram.prototype.send = function(buffer, port, address){
+SomaliDgram.prototype.send = function(buffer){
   console.log("send");
   console.log(buffer);
   const _this = this;
   //var message = new Buffer("nantekottai.");
-  this.socket.send(buffer, 0, buffer.length, port, address, function(err, bytes) {
+  const address = '192.168.1.255';
+  this.socket.setBroadcast(true);
+  this.socket.send(buffer, 0, buffer.length, this.UDP_PORT, address, function(err, bytes) {
     if (err) {
       console.log('err');
       console.log(err);

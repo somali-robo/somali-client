@@ -11,9 +11,10 @@ App.prototype.init = function(){
   this.dgram.init();
   //定期的にメッセージを送信してみる
   const message = new Buffer("nantekottai.");
-  this.dgram.send(message,this.dgram.UDP_PORT,'255.255.255.255');
+  const address = '192.168.1.178';
+  this.dgram.send(message,this.dgram.UDP_PORT,address);
   setInterval(function(){
-    _this.dgram.send(message,_this.dgram.UDP_PORT,'255.255.255.255');
+    _this.dgram.send(message,_this.dgram.UDP_PORT,address);
   },5*1000);
 
 };
