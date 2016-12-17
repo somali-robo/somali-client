@@ -31,12 +31,7 @@ SomaliDgram.prototype.init = function(){
 SomaliDgram.prototype.bind = function(callback){
   const _this = this;
   this.bindCallback = callback;
-/*
-  this.socket.bind(this.UDP_PORT,'0.0.0.0',function(){
-    _this.socket.setBroadcast(true);
-  });
-*/
-  this.socket.bind(this.UDP_PORT,function(){
+  this.socket.bind(this.UDP_PORT,'255.255.255.255',function(){
     _this.socket.setBroadcast(true);
   });
 };
