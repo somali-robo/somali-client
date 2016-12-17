@@ -9,14 +9,13 @@ App.prototype.init = function(){
 
   //初期化
   this.dgram.init();
-/*
   this.dgram.bind(function(msg, remote){
     console.log('onMessage');
     console.log(remote.address + ':' + remote.port +' - ' + message);
     console.log(remote);
     console.log(msg);
   });
-*/
+
   //定期的にメッセージを送信してみる
   const message = new Buffer("nantekottai.");
   this.dgram.send(message,this.dgram.UDP_PORT);
