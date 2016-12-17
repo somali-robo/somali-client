@@ -14,7 +14,6 @@ SomaliDgram.prototype.init = function(){
   this.socket = this.dgram.createSocket("udp4");
 
   this.socket.on('listening', function () {
-    var address = _this.socket.address();
     console.log('UDP Server listening');
   });
 
