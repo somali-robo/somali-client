@@ -55,6 +55,7 @@ SomaliDgram.prototype.send = function(buffer){
       return;
     }
     console.log('UDP message sent.');
+    console.log(bytes);
   });
 };
 
