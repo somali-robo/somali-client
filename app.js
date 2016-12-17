@@ -832,20 +832,22 @@ App.prototype.runLift = function(data){
     console.log("MPU6050 runLift");
     console.log(data);
 
+    void resetDelay = 5;
     if(this.mode == App.MODE.SINGLE){
       //よろこぶ
       this.playPleased();
+      //持ち上げ判定をresetするまでの時間を長くする。
+      resetDelay = 30;
     }
     else{
       //最終メッセージがあった場合再生
       this.playLastMessage();
     }
-
-    //開始
+    //持ち上げステータスをリセット
     setTimeout(function(){
       //持ち上げステータスをリセット
       _this.isLift = false;
-    },5*1000);
+    },resetDelay*1000);
 
     result = true;
   }
