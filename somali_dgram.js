@@ -31,7 +31,12 @@ SomaliDgram.prototype.init = function(){
 SomaliDgram.prototype.bind = function(callback){
   const _this = this;
   this.bindCallback = callback;
+/*
   this.socket.bind(this.UDP_PORT,'0.0.0.0',function(){
+    _this.socket.setBroadcast(true);
+  });
+*/
+  this.socket.bind(this.UDP_PORT,function(){
     _this.socket.setBroadcast(true);
   });
 };
@@ -39,7 +44,7 @@ SomaliDgram.prototype.bind = function(callback){
 //UDPでの送信
 SomaliDgram.prototype.send = function(buffer){
   console.log("send");
-  console.log(buffer);
+  //console.log(buffer);
   const _this = this;
   //var message = new Buffer("nantekottai.");
   const address = '255.255.255.255';
