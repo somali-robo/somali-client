@@ -797,6 +797,7 @@ App.prototype.playLastMessage = function(){
 
 //よろこぶ
 App.prototype.playPleased = function(){
+  const _this = this;
   const value = "遊ぼう！";
   this.textToSpeech(value,this.hoya.SPEAKER_HIKARI,function(path, err){
     if (err != null){
