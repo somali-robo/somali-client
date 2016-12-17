@@ -11,8 +11,6 @@ SomaliDgram.prototype.UDP_PORT = 8000;
 //UDPでのメッセージ受信開始
 SomaliDgram.prototype.init = function(){
   const _this = this;
-  this.dgram.setBroadcast(true);
-
   this.socket = this.dgram.createSocket("udp4");
 
   this.socket.on('listening', function () {
@@ -32,6 +30,7 @@ SomaliDgram.prototype.init = function(){
 //UDPでの受信開始
 SomaliDgram.prototype.bind = function(callback){
   this.bindCallback = callback;
+  this.socket.setBroadcast(true);
   this.socket.bind(this.UDP_PORT,'0.0.0.0');
 };
 
