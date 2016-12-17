@@ -5,14 +5,17 @@ const SomaliDgram = function(){};
 
 SomaliDgram.prototype.dgram = require('dgram');
 SomaliDgram.prototype.socket = null;
+SomaliDgram.prototype.rinfo = null;
 SomaliDgram.prototype.UDP_PORT = 8000;
 
 SomaliDgram.prototype.bindCallback = null;
+
 
 //UDPでのメッセージ受信開始
 SomaliDgram.prototype.init = function(){
   this.socket = this.dgram.createSocket("udp4", function (msg, rinfo) {
     //UDPで受信したメッセージ
+    _this.rinfo = rinfo;
     //console.log('got message from '+ rinfo.address +':'+ rinfo.port);
     //console.log('data len: '+ rinfo.size + " data: "+msg.toString('ascii', 0, rinfo.size));
     if(bindCallback){
@@ -28,9 +31,9 @@ SomaliDgram.prototype.bind = function(callback){
 };
 
 //UDPでの送信
-SomaliDgram.prototype.send = function(buffer){
+SomaliDgram.prototype.send = function(buffer, port, address){
   //var message = new Buffer("nantekottai.");
-  this.socket.send(buffer, 0, buffer.length, rinfo.port, rinfo.address);
+  this.socket.send(buffer, 0, buffer.length, port, address);
 };
 
 //UDPでの受信,送信停止
