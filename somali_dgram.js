@@ -16,8 +16,8 @@ SomaliDgram.prototype.init = function(){
     //UDPで受信したメッセージ
     //console.log('got message from '+ rinfo.address +':'+ rinfo.port);
     //console.log('data len: '+ rinfo.size + " data: "+msg.toString('ascii', 0, rinfo.size));
-    if(bindCallback){
-      bindCallback(msg, rinfo);
+    if(this.bindCallback){
+      this.bindCallback(msg, rinfo);
     }
   });
 };
