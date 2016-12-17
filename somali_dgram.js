@@ -33,8 +33,16 @@ SomaliDgram.prototype.bind = function(callback){
 SomaliDgram.prototype.send = function(buffer, port, address){
   console.log("send");
   console.log(buffer);
+  const _this = this;
   //var message = new Buffer("nantekottai.");
-  this.socket.send(buffer, 0, buffer.length, port, address);
+  this.socket.send(buffer, 0, buffer.length, port, address, function(err, bytes) {
+    if (err) {
+      console.log('err');
+      console.log(err);
+      return;
+    }
+    console.log('UDP message sent.');
+  });
 };
 
 //UDPでの受信,送信停止
