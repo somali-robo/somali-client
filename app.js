@@ -28,7 +28,7 @@ App.prototype.REC_MINIMUM_SEC = 5;
 App.prototype.REC_SEC = (30 - App.prototype.REC_MINIMUM_SEC);
 
 App.MODE = {
-  DEFAULT:0,
+  SINGLE:0,
   GROUP:1
 };
 
@@ -49,7 +49,7 @@ App.STATUS = {
 };
 
 App.prototype.status = App.STATUS.DEFAULT;
-App.prototype.mode = App.MODE.DEFAULT;
+App.prototype.mode = App.MODE.SINGLE;
 App.prototype.lastErr = null;
 App.prototype.intonations = null;
 App.prototype.chatRoomMessages = {};
@@ -168,7 +168,7 @@ App.prototype.init = function(){
   //this.speakerAmpPower(this.wpi.HIGH);
 
   //音量変更
-  this.amixer.pcmVolume(10);
+  this.amixer.pcmVolume(100);
 
   //OTAモードに入るかの確認
   this.wpi.pinMode(this.configDevice.WPS_BUTTON,this.wpi.INPUT);
@@ -212,10 +212,10 @@ App.prototype.init = function(){
   this.wpi.pinMode(this.configDevice.MODE_SWITCH,this.wpi.INPUT);
   this.wpi.wiringPiISR(this.configDevice.MODE_SWITCH, this.wpi.INT_EDGE_BOTH, function(v) {
     var value = _this.wpi.digitalRead(_this.configDevice.MODE_SWITCH);
-    //console.log("MODE_SWITCH " + value);
+    console.log("MODE_SWITCH " + value);
     //通常モード,グループモード トグル切り替え
-    _this.mode = (value == _this.wpi.HIGH)?App.MODE.DEFAULT:App.MODE.GROUP;
-    console.log((_this.mode == App.MODE.GROUP)?"GROUP":"DEFAULT");
+    _this.mode = (value == _this.wpi.HIGH)?App.MODE.SINGLE:App.MODE.GROUP;
+    console.log((_this.mode == App.MODE.GROUP)?"GROUP":"SINGLE");
   });
 
   //ネットワークが繋がっているか確認する
@@ -336,12 +336,6 @@ App.prototype.register = function(){
             //APIへの接続をして初期設定等を読み出す
             _this.setStatus(App.STATUS.API_INIT);
           });
-
-          //モードスイッチ状態 グループモードの場合
-          //同じルータにあるロボットにシリアルコードを通知する
-          if(_this.mode == App.MODE.GROUP){
-            _this.setStatus(App.STATUS.MODE_GROUP);
-          }
         });
       }
       else{
@@ -378,12 +372,6 @@ App.prototype.register = function(){
             //APIへの接続をして初期設定等を読み出す
             _this.setStatus(App.STATUS.API_INIT);
           });
-
-          //モードスイッチ状態 グループモードの場合
-          //同じルータにあるロボットにシリアルコードを通知する
-          if(_this.mode == App.MODE.GROUP){
-            _this.setStatus(App.STATUS.MODE_GROUP);
-          }
       }
     });
 };
@@ -512,9 +500,11 @@ App.prototype.monitoringChatroomMessages = function(){
           _this.jsonDB.push(_this.KEY_CHAT_ROOM_MESSAGES,_this.chatRoomMessages);
 
           if((message.from.serialCode)&&(message.from.serialCode == _this.config.SERIAL_CODE)){
-            //シリアルコードを確認して自分だった場合
-            //感情にあわせて返事を再生する
-            _this.runEmpath(message);
+            //シングルモード時 シリアルコードを確認して自分だった場合
+            if(_this.mode == App.MODE.SINGLE){
+              //感情にあわせて返事を再生する
+              _this.runEmpath(message);
+            }
           }
           else{
             //それ以外
@@ -772,6 +762,64 @@ App.prototype.runShaken = function(data){
   return result;
 };
 
+//最終メッセージがあった場合再生
+App.prototype.playLastMessage = function(){
+  const _this = this;
+  //console.log(this.lastMessage);
+  if(!this.lastMessage){
+    return;
+  }
+
+  const value = this.lastMessage.value;
+  //再生対象にしたので破棄
+  this.lastMessage = null;
+  this.textToSpeech(value,this.hoya.SPEAKER_HIKARI,function(path, err){
+    if (err != null){
+      console.log("err");
+      return;
+    }
+    console.log("success");
+    //スピーカーアンプをONにする
+    _this.speakerAmpPower(_this.wpi.HIGH);
+
+    //再生
+    _this.aplay.play(path,function(err, stdout, stderr){
+      //アンプをOFFにする
+      _this.speakerAmpPower(_this.wpi.LOW);
+      if (err != null){
+        console.log("err");
+        return;
+      }
+      console.log("success");
+    });
+  });
+};
+
+//よろこぶ
+App.prototype.playPleased = function(){
+  const value = "遊ぼう！";
+  this.textToSpeech(value,this.hoya.SPEAKER_HIKARI,function(path, err){
+    if (err != null){
+      console.log("err");
+      return;
+    }
+    console.log("success");
+    //スピーカーアンプをONにする
+    _this.speakerAmpPower(_this.wpi.HIGH);
+
+    //再生
+    _this.aplay.play(path,function(err, stdout, stderr){
+      //アンプをOFFにする
+      _this.speakerAmpPower(_this.wpi.LOW);
+      if (err != null){
+        console.log("err");
+        return;
+      }
+      console.log("success");
+    });
+  });
+};
+
 //持ち上げ判定
 App.prototype.runLift = function(data){
   var result = false;
@@ -782,38 +830,22 @@ App.prototype.runLift = function(data){
     this.isLift = true;
     console.log("MPU6050 runLift");
     console.log(data);
-    //最後に受信したメッセージを再生する
-    //console.log(this.lastMessage);
-    if(this.lastMessage){
-      const value = this.lastMessage.value;
-      //再生対象にしたので破棄
-      this.lastMessage = null;
-      this.textToSpeech(value,this.hoya.SPEAKER_HIKARI,function(path, err){
-        if (err != null){
-          console.log("err");
-          //持ち上げステータスをリセット
-          _this.isLift = false;
-          return;
-        }
-        console.log("success");
-        //スピーカーアンプをONにする
-        _this.speakerAmpPower(_this.wpi.HIGH);
 
-        //再生
-        _this.aplay.play(path,function(err, stdout, stderr){
-          //持ち上げステータスをリセット
-          _this.isLift = false;
-
-          //アンプをOFFにする
-          _this.speakerAmpPower(_this.wpi.LOW);
-          if (err != null){
-            console.log("err");
-            return;
-          }
-          console.log("success");
-        });
-      });
+    if(this.mode == App.MODE.SINGLE){
+      //よろこぶ
+      this.playPleased();
     }
+    else{
+      //最終メッセージがあった場合再生
+      this.playLastMessage();
+    }
+
+    //開始
+    setTimeout(function(){
+      //持ち上げステータスをリセット
+      _this.isLift = false;
+    },5*1000);
+
     result = true;
   }
   return result;
