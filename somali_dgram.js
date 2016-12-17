@@ -21,6 +21,16 @@ SomaliDgram.prototype.init = function(){
       this.bindCallback(msg, rinfo);
     }
   });
+
+  this.socket.on('listening', function () {
+    var address = _this.socket.address();
+    console.log('UDP Server listening');
+  });
+
+  this.socket.on('message', function (message, remote) {
+    console.log(remote.address + ':' + remote.port +' - ' + message);
+  });
+
 };
 
 //UDPでの受信開始
