@@ -606,8 +606,15 @@ App.prototype.apiInit = function(){
 
 //アクテイブなルームのIDを取得する
 App.prototype.getActiveRoomId = function(){
-  //モードスイッチ状態によって事前に取得したチャットルームを切り替える
-  return (this.mode == App.MODE.SINGLE)?this.jsonDB.getData(this.KEY_SINGLE_CHAT_ROOM_ID):this.jsonDB.getData(this.KEY_GROUP_CHAT_ROOM_ID);
+  var roomId = null;
+  try{
+    //モードスイッチ状態によって事前に取得したチャットルームを切り替える
+    roomId = (this.mode == App.MODE.SINGLE)?this.jsonDB.getData(this.KEY_SINGLE_CHAT_ROOM_ID):this.jsonDB.getData(this.KEY_GROUP_CHAT_ROOM_ID);
+  }
+  catch(e){
+    console.log("err "+e);
+  }
+  return roomId;
 };
 
 //録音開始
