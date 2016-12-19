@@ -14,7 +14,7 @@ App.prototype.init = function(){
 
   //定期的にメッセージを送信してみる
   const message = new Buffer("nantekottai.");
-  this.dgram.send(message);
+  this.dgram.broadcast(message);
   setInterval(function(){
     _this.dgram.broadcast(message);
   },5*1000);

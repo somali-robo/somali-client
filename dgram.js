@@ -11,8 +11,9 @@ SomaliDgram.prototype.UDP_PORT = 8000;
 //UDPでのメッセージ受信開始
 SomaliDgram.prototype.init = function(callback){
   const _this = this;
-  if(!this.bindCallback){
+  if(this.bindCallback != null){
     //既に初期化済み
+    console.log('bindCallback is not null.');
     return;
   }
   this.bindCallback = callback;
