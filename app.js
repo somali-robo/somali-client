@@ -934,7 +934,7 @@ App.prototype.groupInit = function(){
     //UDPからデータを受信したとき
     console.log('onMessage');
     console.log(message);
-    const msg = this.GroupJoinMessage.parse(message);
+    const msg = _this.GroupJoinMessage.parse(message);
     console.log("serialCode "+msg.serialCode);
     //TODO: JOINメッセージを受信したとき
     //TODO: シリアルコードが自分じゃなかった場合
