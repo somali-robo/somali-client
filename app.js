@@ -1005,8 +1005,8 @@ App.prototype.creteGroupChatRoom = function(joinSerialCode){
 App.prototype.groupJoin = function(){
   console.log("groupJoin");
   const _this = this;
-  //TODO: JOINメッセージをブロードキャスト送信する
-  const msg = this.SomaliGroupJoinMessage.create(this.config.SERIAL_CODE);
+  //JOINメッセージをブロードキャスト送信する
+  const msg = this.SomaliGroupJoinMessage.create(this.config.SERIAL_CODE,this.SomaliGroupJoinMessage.MODE_JOIN);
   const json = JSON.stringify(msg);
   console.log(json);
   this.dgram.broadcast(new Buffer(json));
