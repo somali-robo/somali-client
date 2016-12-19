@@ -949,7 +949,7 @@ App.prototype.groupJoin = function(){
 };
 
 //通常モード開始
-this.singleInit = function(){
+App.prototype.singleInit = function(){
   console.log("singleInit");
   //UDPからの受信を停止
   this.dgram.close();
