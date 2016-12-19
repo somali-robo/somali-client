@@ -196,7 +196,6 @@ App.prototype.init = function(){
     console.log("WPS_BUTTON " + v);
     var value = _this.wpi.digitalRead(_this.configDevice.WPS_BUTTON);
     //console.log("_this " + _this);
-    if(_this.status == App.STATUS.WPS_INIT) return;
     _this.setStatus(App.STATUS.WPS_INIT);
   });
 
@@ -263,6 +262,8 @@ App.prototype.wps = function(){
 //WPS処理
 App.prototype._wps = function(){
   const _this = this;
+  if(this.status == App.STATUS.WPS_INIT) return;
+
   this.setStatusLed(true);
   //WPSしてからネットワークに接続
   this.wpa_cli.execute(function(err, stdout, stderr){
