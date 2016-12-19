@@ -959,7 +959,7 @@ App.prototype.creteGroupChatRoom = function(joinSerialCode){
     }
     console.log("device");
     const joinDevice = response.data;
-    console.log(device);
+    console.log(joinDevice);
 
     //チャットルーム作成
     const chatRoomName = "GROUP";
