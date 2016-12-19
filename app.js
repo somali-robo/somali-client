@@ -279,7 +279,7 @@ App.prototype.wps = function(){
       //グループへ追加する処理を実行する
       this.setStatus(App.STATUS.GROUP_JOIN);
     }
-    
+
     //接続されたら、App.STATUS.CONNECTED の処理をする
     _this.setStatus(App.STATUS.CONNECTED);
   });
@@ -934,7 +934,7 @@ App.prototype.ota = function(){
 
 //グループ設定を開始
 App.prototype.groupInit = function(){
-  console.log("group_init");
+  console.log("groupInit");
   const _this = this;
   this.dgram.init(function(message, remote){
     //UDPからデータを受信したとき
@@ -944,12 +944,13 @@ App.prototype.groupInit = function(){
 
 //グループに追加
 App.prototype.groupJoin = function(){
-  console.log("group_join");
+  console.log("groupJoin");
   const _this = this;
 };
 
 //通常モード開始
 this.singleInit = function(){
+  console.log("singleInit");
   //UDPからの受信を停止
   this.dgram.close();
 };
