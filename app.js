@@ -1014,7 +1014,8 @@ App.prototype.creteGroupChatRoom = function(joinSerialCode){
       //ローカルストア に グループルームIDを保存
       _this.jsonDB.push(_this.KEY_GROUP_CHAT_ROOM_ID,groupChatRoomId);
       //作成成功したので ルームID を broadcastして通知する
-      const msg = _this.SomaliGroupJoinMessage.create(_this.config.SERIAL_CODE,_this.SomaliGroupJoinMessage.MODE_JOIN,groupChatRoomId);
+      const code = "ABCDEFG"; //_this.config.SERIAL_CODE
+      const msg = _this.SomaliGroupJoinMessage.create(code,_this.SomaliGroupJoinMessage.MODE_JOIN,groupChatRoomId);
       _this.dgram.broadcast(new Buffer( JSON.stringify(msg) ));
     });
 
