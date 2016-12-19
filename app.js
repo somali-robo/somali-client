@@ -965,7 +965,7 @@ App.prototype.groupInit = function(){
         _this.creteGroupChatRoom(msg.serialCode);
     }
     else if(msg.mode == _this.SomaliGroupJoinMessage.MODE_CREATE_GROUP){
-      //TODO: リモートで作成されたグループを取得
+      //リモートで作成されたグループを取得
       _this.somaliApi.getChatRoom(msg.groupChatRoomId,function(err,response){
         if(err){
           console.log("err getDevice");
