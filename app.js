@@ -275,6 +275,11 @@ App.prototype.wps = function(){
     //console.log('stdout '+stdout);
     _this.setStatusLed(true);
 
+    if(this.mode == App.MODE.GROUP){
+      //グループへ追加する処理を実行する
+      this.setStatus(App.STATUS.GROUP_JOIN);
+    }
+    
     //接続されたら、App.STATUS.CONNECTED の処理をする
     _this.setStatus(App.STATUS.CONNECTED);
   });
@@ -566,12 +571,6 @@ App.prototype.monitoringBroadcastMessages = function(){
 App.prototype.apiInit = function(){
   console.log("apiInit");
   const _this = this;
-
-  //Voice Magic 認識を開始する
-  if(this.mode == App.MODE.GROUP){
-    //グループへ追加する処理を実行する
-    this.setStatus(App.STATUS.GROUP_JOIN);
-  }
 
   try{
     //保存済みのメッセージ一覧を取得
