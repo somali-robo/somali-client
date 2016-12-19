@@ -955,7 +955,7 @@ App.prototype.groupJoin = function(){
   console.log("groupJoin");
   const _this = this;
   //TODO: JOINメッセージをブロードキャスト送信する
-  const msg = SomaliGroupJoinMessage.create(this.config.SERIAL_CODE);
+  const msg = this.SomaliGroupJoinMessage.create(this.config.SERIAL_CODE);
   const json = JSON.stringify(msg);
   console.log(json);
   this.dgram.broadcast(new Buffer(json));
