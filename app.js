@@ -926,7 +926,7 @@ App.prototype.ota = function(){
 };
 
 //グループ設定を開始
-App.prototype.groupInit(){
+App.prototype.groupInit = function(){
   console.log("group_init");
   const _this = this;
   this.dgram.init(function(message, remote){
