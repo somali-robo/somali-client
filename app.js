@@ -937,7 +937,8 @@ App.prototype.groupInit = function(){
     //console.log(message);
     const msg = _this.SomaliGroupJoinMessage.parse(message);
     //console.log("serialCode "+msg.serialCode);
-    if(msg.serialCode != _this.config.SERIAL_CODE){
+    //if(msg.serialCode != _this.config.SERIAL_CODE)
+    {
       //シリアルコードが自分じゃなかった場合
       //新規でチャットグループを作成する
       _this.creteGroupChatRoom(msg.serialCode);
