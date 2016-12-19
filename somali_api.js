@@ -52,7 +52,9 @@ SomaliApi.prototype.getDevices = function(callback){
 
 //デバイス一覧を取得
 SomaliApi.prototype.getDeviceForSerialCode = function(serialCode,callback){
+  console.log("getDeviceForSerialCode");
   var options = {url: this.API_HOST+this.API_DEVICES+"/serial_code/"+serialCode};
+  console.log(options);
   this.request.get(options,function(err,response){
     if(err){
       callback(err);
