@@ -66,10 +66,11 @@ App.prototype.wavFilePath = "./tmp/rec.wav";
 
 //デフォルトのチャット ルーム
 App.prototype.device = null;
-App.prototype.defaultChatRoom = null;
+App.prototype.singleChatRoom = null;
+App.prototype.groupChatRoom = null;
 App.prototype.KEY_STORE = "SOMALI";
 App.prototype.KEY_DEVICE_ID = "/device_id";
-App.prototype.KEY_DEFAULT_CHAT_ROOM_ID = "/default_chat_room_id";
+App.prototype.KEY_SINGLE_CHAT_ROOM_ID = "/single_chat_room_id";
 App.prototype.KEY_GROUP_CHAT_ROOM_ID = "/group_chat_room_id";
 App.prototype.KEY_CHAT_ROOM_MESSAGES = "/chat_room_messages";
 App.prototype.KEY_BROADCAST_MESSAGES = "/broadcast_messages";
@@ -350,9 +351,7 @@ App.prototype.register = function(){
           _this.jsonDB.push(_this.KEY_DEVICE_ID,_this.device._id);
 
           //チャットルーム作成
-          const chatRoomName = "PRIVATE";
-          const members = [_this.device];
-          _this.somaliApi.postChatRoom(chatRoomName,members,[],function(err,response){
+          _this.somaliApi.postChatRoom("SINGLE",[_this.device],[],function(err,response){
             if(err){
               console.log("err postChatRoom");
               _this.lastErr = err;
@@ -361,10 +360,10 @@ App.prototype.register = function(){
             }
             //console.log("postChatRoom");
             //console.log(response);
-            _this.defaultChatRoom = response.data;
-            const defaultChatRoomId = _this.defaultChatRoom._id;
+            _this.singleChatRoom = response.data;
+            const singleChatRoomId = _this.singleChatRoom._id;
             //ローカルストア に デフォルトルームIDを保存
-            _this.jsonDB.push(_this.KEY_DEFAULT_CHAT_ROOM_ID,defaultChatRoomId);
+            _this.jsonDB.push(_this.KEY_SINGLE_CHAT_ROOM_ID,singleChatRoomId);
 
             //APIへの接続をして初期設定等を読み出す
             _this.setStatus(App.STATUS.API_INIT);
@@ -401,7 +400,7 @@ App.prototype.register = function(){
             //console.log("getChatRoom");
             //console.log(response);
 
-            _this.defaultChatRoom = response.data;
+            _this.singleChatRoom = response.data;
 
             //APIへの接続をして初期設定等を読み出す
             _this.setStatus(App.STATUS.API_INIT);
@@ -608,7 +607,7 @@ App.prototype.apiInit = function(){
 //アクテイブなルームのIDを取得する
 App.prototype.getActiveRoomId = function(){
   //TODO: モードスイッチ状態によって事前に取得したチャットルームを切り替える
-  var roomId = this.jsonDB.getData(this.KEY_DEFAULT_CHAT_ROOM_ID);
+  var roomId = this.jsonDB.getData(this.KEY_SINGLE_CHAT_ROOM_ID);
   return roomId;
 };
 //録音開始
