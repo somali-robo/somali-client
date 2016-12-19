@@ -256,8 +256,12 @@ App.prototype.setModeSwitch = function(){
   }
 };
 
-//WPS処理
 App.prototype.wps = function(){
+  this.setStatus(App.STATUS.GROUP_JOIN);
+};
+
+//WPS処理
+App.prototype._wps = function(){
   const _this = this;
   this.setStatusLed(true);
   //WPSしてからネットワークに接続
