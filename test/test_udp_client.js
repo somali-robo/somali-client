@@ -16,7 +16,7 @@ App.prototype.init = function(){
   const message = new Buffer("nantekottai.");
   this.dgram.send(message);
   setInterval(function(){
-    _this.dgram.send(message);
+    _this.dgram.broadcast(message);
   },5*1000);
 
 };

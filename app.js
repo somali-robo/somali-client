@@ -20,6 +20,7 @@ App.prototype.voiceMagic   = require('./voice_magic.js');
 App.prototype.dgram = require('./dgram.js');
 
 App.prototype.SomaliMessage = require('./somali_message.js');
+App.prototype.SomaliGroupJoinMessage = require('./somali_group_join_message.js');
 App.prototype.somaliApi = require('./somali_api.js');
 App.prototype.somaliOta = require('./somali_ota.js');
 
@@ -939,6 +940,9 @@ App.prototype.groupInit = function(){
   this.dgram.init(function(message, remote){
     //UDPからデータを受信したとき
     console.log('onMessage');
+    //TODO: JOINメッセージを受信したとき
+    //TODO: シリアルコードが自分じゃなかった場合
+    //TODO: 新規でチャットグループを作成する
   });
 };
 
@@ -946,6 +950,11 @@ App.prototype.groupInit = function(){
 App.prototype.groupJoin = function(){
   console.log("groupJoin");
   const _this = this;
+  //TODO: JOINメッセージをブロードキャスト送信する
+  const msg = SomaliGroupJoinMessage.create(this.config.SERIAL_CODE);
+  const json = JSON.stringify(msg);
+  console.log(json);
+  this.dgram.broadcast(new Buffer(json));
 };
 
 //通常モード開始

@@ -36,7 +36,7 @@ SomaliDgram.prototype.init = function(callback){
 };
 
 //UDPでの送信
-SomaliDgram.prototype.send = function(buffer){
+SomaliDgram.prototype.broadcast = function(buffer){
   console.log("send");
   //var buffer = new Buffer("nantekottai.");
   //console.log(buffer);
