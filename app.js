@@ -951,16 +951,18 @@ App.prototype.groupInit = function(){
   const _this = this;
   this.dgram.init(function(message, remote){
     //UDPからデータを受信したとき
-    console.log('onMessage');
+    //console.log('onMessage');
     //console.log(message);
     const msg = _this.SomaliGroupJoinMessage.parse(message);
     //console.log("serialCode "+msg.serialCode);
+    if(msg.serialCode == _this.config.SERIAL_CODE){
+      return;
+    }
+
+    //シリアルコードが自分じゃなかった場合
     if(msg.mode == _this.SomaliGroupJoinMessage.MODE_JOIN){
-      if(msg.serialCode != _this.config.SERIAL_CODE){
-        //シリアルコードが自分じゃなかった場合
         //新規でチャットグループを作成する
         _this.creteGroupChatRoom(msg.serialCode);
-      }
     }
     else if(msg.mode == _this.SomaliGroupJoinMessage.MODE_CREATE_GROUP){
       //TODO: リモートで作成されたグループを取得
