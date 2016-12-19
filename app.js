@@ -388,8 +388,8 @@ App.prototype.register = function(){
             //console.log(_this.device);
           });
 
-          //アクティブなチャットルームを探して設定
-          const roomId = _this.getActiveRoomId();
+          //シングルチャットルームを探して設定
+          const roomId = _this.jsonDB.getData(_this.KEY_SINGLE_CHAT_ROOM_ID);
           _this.somaliApi.getChatRoom(roomId,function(err,response){
             if(err){
               console.log("err getChatRoom");
@@ -606,10 +606,10 @@ App.prototype.apiInit = function(){
 
 //アクテイブなルームのIDを取得する
 App.prototype.getActiveRoomId = function(){
-  //TODO: モードスイッチ状態によって事前に取得したチャットルームを切り替える
-  var roomId = this.jsonDB.getData(this.KEY_SINGLE_CHAT_ROOM_ID);
-  return roomId;
+  //モードスイッチ状態によって事前に取得したチャットルームを切り替える
+  return (this.mode == App.MODE.SINGLE)?this.jsonDB.getData(this.KEY_SINGLE_CHAT_ROOM_ID):this.jsonDB.getData(this.KEY_GROUP_CHAT_ROOM_ID);
 };
+
 //録音開始
 App.prototype.recStart = function(){
   var _this = this;
