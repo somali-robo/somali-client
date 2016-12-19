@@ -488,6 +488,10 @@ App.prototype.monitoringChatroomMessages = function(){
   setInterval(function(){
     //アクテイブルームIDを取得する
     const roomId = _this.getActiveRoomId();
+    if(roomId == null){
+      console.log("roomId is null.");
+      return;
+    }
     _this.somaliApi.getChatroomMessages(roomId,function(err,response){
       if(err){
         console.log("err getChatroomMessages");
@@ -655,6 +659,10 @@ App.prototype.recStart = function(){
 
       //アクテイブルームIDを取得する
       const roomId = _this.getActiveRoomId();
+      if(roomId == null){
+        console.log("roomId is null.");
+        return;
+      }
       //メッセージを送信
       _this.somaliApi.putChatroomMessage(roomId,message,function(err,result){
         if(err){
@@ -887,6 +895,10 @@ App.prototype.voiceMagicStart = function(){
 
           //アクテイブルームIDを取得する
           const roomId = _this.getActiveRoomId();
+          if(roomId == null){
+            console.log("roomId is null.");
+            return;
+          }
           //メッセージを送信
           _this.somaliApi.putChatroomMessage(roomId,message,function(err,result){
             if(err){
