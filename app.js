@@ -47,7 +47,9 @@ App.STATUS = {
   REC_STOP:9,
   ACCELERATION_START:10,
   VOICE_MAGIC_START:11,
-  OTA:12
+  OTA:12,
+  GROUP_INIT:13,
+  GROUP_JOIN:14,
 };
 
 App.prototype.status = App.STATUS.DEFAULT;
@@ -137,6 +139,12 @@ App.prototype.setStatus = function(status){
     case App.STATUS.OTA:
       this.ota();
       break;
+    case App.STATUS.GROUP_INIT:
+      this.groupInit();
+      break;
+    case App.STATUS.GROUP_JOIN:
+      this.groupJoin();
+      break;
   }
   this.status = status;
 };
@@ -206,12 +214,11 @@ App.prototype.init = function(){
   //モード スイッチ INT_EDGE_BOTH 両方
   this.wpi.pinMode(this.configDevice.MODE_SWITCH,this.wpi.INPUT);
   this.wpi.wiringPiISR(this.configDevice.MODE_SWITCH, this.wpi.INT_EDGE_BOTH, function(v) {
-    var value = _this.wpi.digitalRead(_this.configDevice.MODE_SWITCH);
-    console.log("MODE_SWITCH " + value);
     //通常モード,グループモード トグル切り替え
-    _this.mode = (value == _this.wpi.HIGH)?App.MODE.SINGLE:App.MODE.GROUP;
-    console.log((_this.mode == App.MODE.GROUP)?"GROUP":"SINGLE");
+    _this.setModeSwitch();
   });
+  //通常モード,グループモード の初期値を設定
+  _this.setModeSwitch();
 
   //ネットワークが繋がっているか確認する
   this.somaliApi.getIntonations(function(err,response){
@@ -226,9 +233,23 @@ App.prototype.init = function(){
   });
 };
 
+//通常モード,グループモード トグル切り替え
+App.prototype.setModeSwitch = function(){
+  const _this = this;
+  var value = this.wpi.digitalRead(this.configDevice.MODE_SWITCH);
+  console.log("MODE_SWITCH " + value);
+  //通常モード,グループモード トグル切り替え
+  this.mode = (value == this.wpi.HIGH)?App.MODE.SINGLE:App.MODE.GROUP;
+  console.log((this.mode == App.MODE.GROUP)?"GROUP":"SINGLE");
+  if(this.mode == App.MODE.GROUP){
+    //グループ初期設定を開始
+    this.setStatus(App.STATUS.GROUP_INIT);
+  }
+};
+
 //WPS処理
 App.prototype.wps = function(){
-  var _this = this;
+  const _this = this;
   this.setStatusLed(true);
   //WPSしてからネットワークに接続
   this.wpa_cli.execute(function(err, stdout, stderr){
@@ -331,6 +352,7 @@ App.prototype.register = function(){
             //APIへの接続をして初期設定等を読み出す
             _this.setStatus(App.STATUS.API_INIT);
           });
+
         });
       }
       else{
@@ -535,7 +557,13 @@ App.prototype.monitoringBroadcastMessages = function(){
 //APIへの接続をして初期設定等を読み出す
 App.prototype.apiInit = function(){
   console.log("apiInit");
-  var _this = this;
+  const _this = this;
+
+  //Voice Magic 認識を開始する
+  if(this.mode == App.MODE.GROUP){
+    //グループへ追加する処理を実行する
+    this.setStatus(App.STATUS.GROUP_JOIN);
+  }
 
   try{
     //保存済みのメッセージ一覧を取得
@@ -895,6 +923,22 @@ App.prototype.ota = function(){
           });
       });
   });
+};
+
+//グループ設定を開始
+App.prototype.groupInit(){
+  console.log("group_init");
+  const _this = this;
+  this.dgram.init(function(message, remote){
+    //UDPからデータを受信したとき
+    console.log('onMessage');
+  });
+};
+
+//グループに追加
+App.prototype.groupJoin = function(){
+  console.log("group_join");
+  const _this = this;
 };
 
 var app = new App();
