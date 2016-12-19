@@ -70,6 +70,7 @@ App.prototype.defaultChatRoom = null;
 App.prototype.KEY_STORE = "SOMALI";
 App.prototype.KEY_DEVICE_ID = "/device_id";
 App.prototype.KEY_DEFAULT_CHAT_ROOM_ID = "/default_chat_room_id";
+App.prototype.KEY_GROUP_CHAT_ROOM_ID = "/group_chat_room_id";
 App.prototype.KEY_CHAT_ROOM_MESSAGES = "/chat_room_messages";
 App.prototype.KEY_BROADCAST_MESSAGES = "/broadcast_messages";
 
@@ -933,13 +934,52 @@ App.prototype.groupInit = function(){
   this.dgram.init(function(message, remote){
     //UDPからデータを受信したとき
     console.log('onMessage');
-    console.log(message);
+    //console.log(message);
     const msg = _this.SomaliGroupJoinMessage.parse(message);
-    console.log("serialCode "+msg.serialCode);
-    //TODO: JOINメッセージを受信したとき
-    //TODO: シリアルコードが自分じゃなかった場合
-    //TODO: 新規でチャットグループを作成する
+    //console.log("serialCode "+msg.serialCode);
+    if(msg.serialCode != _this.config.SERIAL_CODE){
+      //シリアルコードが自分じゃなかった場合
+      //新規でチャットグループを作成する
+      _this.creteGroupChatRoom(msg.serialCode);
+    }
   });
+};
+
+//新規でグループそ作成
+App.prototype.creteGroupChatRoom = function(joinSerialCode){
+  const _this = this;
+  //TODO: joinSerialCode のデバイス情報を取得する
+  this.somaliApi.getDeviceForSerialCode(joinSerialCode,function(err,response){
+    if(err){
+      console.log("err getDevice");
+      _this.lastErr = err;
+      _this.setStatus(App.STATUS.ERROR);
+      return;
+    }
+    console.log("device");
+    const joinDevice = response.data;
+    console.log(device);
+
+    //チャットルーム作成
+    const chatRoomName = "GROUP";
+    const members = [_this.device,joinDevice];
+    _this.somaliApi.postChatRoom(chatRoomName,members,[],function(err,response){
+      if(err){
+        console.log("err postChatRoom");
+        _this.lastErr = err;
+        _this.setStatus(App.STATUS.ERROR);
+        return;
+      }
+      //console.log("postChatRoom");
+      //console.log(response);
+      _this.groupChatRoom = response.data;
+      const groupChatRoomId = _this.groupChatRoom._id;
+      //ローカルストア に グループルームIDを保存
+      _this.jsonDB.push(_this.KEY_GROUP_CHAT_ROOM_ID,groupChatRoomId);
+    });
+
+  });
+
 };
 
 //グループに追加

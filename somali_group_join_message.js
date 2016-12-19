@@ -13,11 +13,7 @@ GroupJoinMessage.prototype.create = function(serialCode){
 };
 
 GroupJoinMessage.prototype.parse = function(buffer){
-  console.log("GroupJoinMessage parse");
-  console.log(buffer);
   const json = JSON.parse(buffer.toString('UTF-8'));
-  console.log(json);
-
   var result = new GroupJoinMessage();
   result.serialCode = json['serialCode'];
   result.createdAt = json['createdAt'];

@@ -50,6 +50,19 @@ SomaliApi.prototype.getDevices = function(callback){
   });
 };
 
+//デバイス一覧を取得
+SomaliApi.prototype.getDeviceForSerialCode = function(serialCode,callback){
+  var options = {url: this.API_HOST+this.API_DEVICES+"/serial_code/"+serialCode};
+  this.request.get(options,function(err,response){
+    if(err){
+      callback(err);
+      return;
+    }
+    var result = JSON.parse(response.body);
+    callback(null,result);
+  });
+};
+
 //デバイスを登録
 SomaliApi.prototype.postDevice = function(serialCode,name,callback){
   //var createdAt = (new Date()).toISOString();
