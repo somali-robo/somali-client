@@ -955,11 +955,28 @@ App.prototype.groupInit = function(){
     //console.log(message);
     const msg = _this.SomaliGroupJoinMessage.parse(message);
     //console.log("serialCode "+msg.serialCode);
-    //if(msg.serialCode != _this.config.SERIAL_CODE)
-    {
-      //シリアルコードが自分じゃなかった場合
-      //新規でチャットグループを作成する
-      _this.creteGroupChatRoom(msg.serialCode);
+    if(msg.mode == _this.SomaliGroupJoinMessage.MODE_JOIN){
+      //if(msg.serialCode != _this.config.SERIAL_CODE)
+      {
+        //シリアルコードが自分じゃなかった場合
+        //新規でチャットグループを作成する
+        _this.creteGroupChatRoom(msg.serialCode);
+      }
+    }
+    else if(msg.mode == _this.SomaliGroupJoinMessage.MODE_CREATE_GROUP){
+      //TODO: リモートで作成されたグループを取得
+      _this.somaliApi.getChatRoom(msg.groupChatRoomId,function(err,response){
+        if(err){
+          console.log("err getDevice");
+          _this.lastErr = err;
+          _this.setStatus(App.STATUS.ERROR);
+          return;
+        }
+        _this.groupChatRoom = response.data;
+        const groupChatRoomId = _this.groupChatRoom._id;
+        //ローカルストア に グループルームIDを保存
+        _this.jsonDB.push(_this.KEY_GROUP_CHAT_ROOM_ID,groupChatRoomId);
+      });
     }
   });
 };
@@ -967,7 +984,7 @@ App.prototype.groupInit = function(){
 //新規でグループそ作成
 App.prototype.creteGroupChatRoom = function(joinSerialCode){
   const _this = this;
-  //TODO: joinSerialCode のデバイス情報を取得する
+  //joinSerialCode のデバイス情報を取得する
   this.somaliApi.getDeviceForSerialCode(joinSerialCode,function(err,response){
     if(err){
       console.log("err getDevice");
@@ -995,6 +1012,9 @@ App.prototype.creteGroupChatRoom = function(joinSerialCode){
       const groupChatRoomId = _this.groupChatRoom._id;
       //ローカルストア に グループルームIDを保存
       _this.jsonDB.push(_this.KEY_GROUP_CHAT_ROOM_ID,groupChatRoomId);
+      //作成成功したので ルームID を broadcastして通知する
+      const msg = _this.SomaliGroupJoinMessage.create(_this.config.SERIAL_CODE,_this.SomaliGroupJoinMessage.MODE_JOIN,groupChatRoomId);
+      _this.dgram.broadcast(new Buffer( JSON.stringify(msg) ));
     });
 
   });
@@ -1006,10 +1026,8 @@ App.prototype.groupJoin = function(){
   console.log("groupJoin");
   const _this = this;
   //JOINメッセージをブロードキャスト送信する
-  const msg = this.SomaliGroupJoinMessage.create(this.config.SERIAL_CODE,this.SomaliGroupJoinMessage.MODE_JOIN);
-  const json = JSON.stringify(msg);
-  console.log(json);
-  this.dgram.broadcast(new Buffer(json));
+  const msg = this.SomaliGroupJoinMessage.create(this.config.SERIAL_CODE,this.SomaliGroupJoinMessage.MODE_JOIN,"");
+  this.dgram.broadcast(new Buffer( JSON.stringify(msg) ));
 };
 
 //通常モード開始
