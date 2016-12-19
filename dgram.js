@@ -13,7 +13,7 @@ SomaliDgram.prototype.init = function(callback){
   const _this = this;
   if(!this.bindCallback){
     //既に初期化済み
-    this.close();
+    return;
   }
   this.bindCallback = callback;
 

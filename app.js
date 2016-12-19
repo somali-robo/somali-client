@@ -50,6 +50,7 @@ App.STATUS = {
   OTA:12,
   GROUP_INIT:13,
   GROUP_JOIN:14,
+  SINGLE_INIT:15
 };
 
 App.prototype.status = App.STATUS.DEFAULT;
@@ -119,8 +120,8 @@ App.prototype.setStatus = function(status){
       this.register();
       break;
     case App.STATUS.API_INIT:
-        this.apiInit();
-        break;
+      this.apiInit();
+      break;
     case App.STATUS.MODE_GROUP:
       this.modeGroup();
       break;
@@ -144,6 +145,9 @@ App.prototype.setStatus = function(status){
       break;
     case App.STATUS.GROUP_JOIN:
       this.groupJoin();
+      break;
+    case App.STATUS.SINGLE_INIT:
+      this.singleInit();
       break;
   }
   this.status = status;
@@ -241,7 +245,11 @@ App.prototype.setModeSwitch = function(){
   //通常モード,グループモード トグル切り替え
   this.mode = (value == this.wpi.HIGH)?App.MODE.SINGLE:App.MODE.GROUP;
   console.log((this.mode == App.MODE.GROUP)?"GROUP":"SINGLE");
-  if(this.mode == App.MODE.GROUP){
+  if(this.mode == App.MODE.SINGLE){
+    //通常モード
+    this.setStatus(App.STATUS.SINGLE_INIT);
+  }
+  else{
     //グループ初期設定を開始
     this.setStatus(App.STATUS.GROUP_INIT);
   }
@@ -939,6 +947,12 @@ App.prototype.groupInit = function(){
 App.prototype.groupJoin = function(){
   console.log("group_join");
   const _this = this;
+};
+
+//通常モード開始
+this.singleInit = function(){
+  //UDPからの受信を停止
+  this.dgram.close();
 };
 
 var app = new App();
