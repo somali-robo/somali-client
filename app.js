@@ -43,7 +43,6 @@ App.STATUS = {
   CONNECTED:4,
   REGISTER:5,
   API_INIT:6,
-  MODE_GROUP:7,
   REC_START:8,
   REC_STOP:9,
   ACCELERATION_START:10,
@@ -122,9 +121,6 @@ App.prototype.setStatus = function(status){
       break;
     case App.STATUS.API_INIT:
       this.apiInit();
-      break;
-    case App.STATUS.MODE_GROUP:
-      this.modeGroup();
       break;
     case App.STATUS.REC_START:
       this.recStart();
@@ -255,6 +251,7 @@ App.prototype.setModeSwitch = function(){
   }
 };
 
+//TODO: テスト中コードあとで削除
 App.prototype.wps = function(){
   this.setStatus(App.STATUS.GROUP_JOIN);
 };
@@ -607,15 +604,6 @@ App.prototype.apiInit = function(){
   this.setStatus(App.STATUS.VOICE_MAGIC_START);
 };
 
-//同じルータにあるロボットにシリアルコードを通知する
-App.prototype.modeGroup = function(){
-  var _this = this;
-  console.log("modeGroup");
-  //TODO: シリアルコードをUDPブロードキャストする
-  //TODO: UDPからシリアルコードを受け取る
-  //TODO: 共通のチャットルーム作成
-};
-
 //アクテイブなルームのIDを取得する
 App.prototype.getActiveRoomId = function(){
   //TODO: モードスイッチ状態によって事前に取得したチャットルームを切り替える
@@ -945,6 +933,9 @@ App.prototype.groupInit = function(){
   this.dgram.init(function(message, remote){
     //UDPからデータを受信したとき
     console.log('onMessage');
+    console.log(message);
+    const msg = this.GroupJoinMessage.parse(message);
+    console.log("serialCode "+msg.serialCode);
     //TODO: JOINメッセージを受信したとき
     //TODO: シリアルコードが自分じゃなかった場合
     //TODO: 新規でチャットグループを作成する
