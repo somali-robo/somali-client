@@ -253,13 +253,15 @@ App.prototype.setModeSwitch = function(){
   }
 };
 
+/*
 //TODO: テスト中コードあとで削除
 App.prototype.wps = function(){
   this.setStatus(App.STATUS.GROUP_JOIN);
 };
+*/
 
 //WPS処理
-App.prototype._wps = function(){
+App.prototype.wps = function(){
   const _this = this;
   if(this.status == App.STATUS.WPS_INIT) return;
 
@@ -1014,7 +1016,7 @@ App.prototype.creteGroupChatRoom = function(joinSerialCode){
       //ローカルストア に グループルームIDを保存
       _this.jsonDB.push(_this.KEY_GROUP_CHAT_ROOM_ID,groupChatRoomId);
       //作成成功したので ルームID を broadcastして通知する
-      const code = "ABCDEFG"; //_this.config.SERIAL_CODE;
+      const code = _this.config.SERIAL_CODE;
       const msg = _this.SomaliGroupJoinMessage.create(code,_this.SomaliGroupJoinMessage.MODE_JOIN,groupChatRoomId);
       _this.dgram.broadcast(new Buffer( JSON.stringify(msg) ));
     });
@@ -1028,7 +1030,7 @@ App.prototype.groupJoin = function(){
   console.log("groupJoin");
   const _this = this;
   //JOINメッセージをブロードキャスト送信する
-  const code = "ABCDEFG"; //_this.config.SERIAL_CODE
+  const code = _this.config.SERIAL_CODE;
   const msg = this.SomaliGroupJoinMessage.create(code,this.SomaliGroupJoinMessage.MODE_JOIN,"");
   this.dgram.broadcast(new Buffer( JSON.stringify(msg) ));
 };
