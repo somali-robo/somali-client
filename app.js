@@ -61,8 +61,10 @@ App.prototype.chatRoomMessages = {};
 App.prototype.broadcastMessages = {};
 App.prototype.lastMessage = null;
 
-//録音したファイル
+//録音したWAVファイル
 App.prototype.wavFilePath = "./tmp/rec.wav";
+//ダウンロードしたWAVファイル
+App.prototype.downloadWavFilePath = "./tmp/download.wav";
 
 //デフォルトのチャット ルーム
 App.prototype.device = null;
@@ -440,12 +442,34 @@ App.prototype.runNewMessage = function(roomId,message){
       _this.wavPlay(path);
     });
   }
-  else if (message.type == this.SomaliMessage.TYPE_TEXT){
+  else if (message.type == this.SomaliMessage.TYPE_WAV){
     //TODO: WAV の場合 Downloadして再生
+    const fileName = message.value;
+    _this.downloadPlay(fileName);
   }
 
   //最後に再生したメッセージを保存する
   this.lastMessage = message;
+};
+
+//WAVファイルをダウンロードして再生する
+App.prototype.downloadPlay = function(fileName){
+  const _this = this;
+  this.dropbox.download(this.downloadWavFilePath,fileName,function(err, res, body, file) {
+    if (err != null){
+      console.log("download err");
+      console.log(err);
+      return;
+    }
+    console.log("download success");
+
+    //ダウンロードしたファイルのサイズを表示してみる
+    _this.fs.readFile(downloadLocalPath, 'binary', (err, data) => {
+      console.log("data length "+data.length);
+    });
+    //ダウンロードしたファイルを再生
+    _this.wavPlay(downloadWavFilePath);
+  });
 };
 
 //感情にあわせて返事を再生する

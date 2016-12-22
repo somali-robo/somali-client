@@ -12,7 +12,6 @@ App.prototype.init = function(){
   //Dropbox APIへのアクセスの為 初期化
   this.dropbox.init(this.config.DROPBOX_ACCESS_TOKEN);
 
-
   //アップロード テスト
   const uploadLocalPath = "../tmp/a.wav";
   const uploadRemotePath = "test_dropbox.wav";
@@ -35,7 +34,7 @@ App.prototype.init = function(){
         return;
       }
       console.log("download success");
-      
+
       //ダウンロードしたファイルのサイズを表示してみる
       _this.fs.readFile(downloadLocalPath, 'binary', (err, data) => {
         console.log("data length "+data.length);
