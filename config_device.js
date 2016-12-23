@@ -3,6 +3,12 @@
 */
 var ConfigDevice = function(){};
 
+//マイク ボリューム
+ConfigDevice.prototype.MIC_VOLUME = 100;
+
+//スピーカー ボリューム
+ConfigDevice.prototype.SPEAKER_VOLUME = 100;
+
 //ステータス LED
 ConfigDevice.prototype.STATUS_LED = 4;
 

@@ -175,8 +175,11 @@ App.prototype.init = function(){
   this.wpi.pinMode(this.configDevice.SPEAKER_AMP_POWER,this.wpi.OUTPUT);
   //this.speakerAmpPower(this.wpi.HIGH);
 
-  //音量変更
-  this.amixer.pcmVolume(100);
+  //マイク音量変更
+  this.amixer.micVolume(this.configDevice.MIC_VOLUME);
+
+  //スピーカー音量変更
+  this.amixer.pcmVolume(this.configDevice.SPEAKER_VOLUME);
 
   //OTAモードに入るかの確認
   this.wpi.pinMode(this.configDevice.WPS_BUTTON,this.wpi.INPUT);
