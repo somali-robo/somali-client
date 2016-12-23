@@ -645,7 +645,7 @@ App.prototype.getActiveRoomId = function(){
     roomId = (this.mode == App.MODE.SINGLE)?this.jsonDB.getData(this.KEY_SINGLE_CHAT_ROOM_ID):this.jsonDB.getData(this.KEY_GROUP_CHAT_ROOM_ID);
   }
   catch(e){
-    console.log("err "+e);
+    //console.log("err "+e);
   }
   return roomId;
 };
