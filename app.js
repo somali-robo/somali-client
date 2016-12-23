@@ -287,9 +287,9 @@ App.prototype.wps = function(){
     //console.log('stdout '+stdout);
     _this.setStatusLed(true);
 
-    if(this.mode == App.MODE.GROUP){
+    if(_this.mode == App.MODE.GROUP){
       //グループへ追加する処理を実行する
-      this.setStatus(App.STATUS.GROUP_JOIN);
+      _this.setStatus(App.STATUS.GROUP_JOIN);
     }
 
     //接続されたら、App.STATUS.CONNECTED の処理をする
