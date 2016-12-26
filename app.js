@@ -1053,12 +1053,13 @@ App.prototype.creteGroupChatRoom = function(joinSerialCode){
 
 //ブロードキャストの為のタイマー
 App.prototype.broadcastRetryTimer = null;
+App.prototype.BROADCAST_RETRY_COUNT = 3;
 
 //グループに追加
 App.prototype.groupJoin = function(){
   console.log("groupJoin");
   const _this = this;
-  var i = 10;
+  var i = this.BROADCAST_RETRY_COUNT;
   this.broadcastRetryTimer = setInterval(function(){
     //JOINメッセージをブロードキャスト送信する
     _this.broadcastGroupJoin();
