@@ -1065,7 +1065,7 @@ App.prototype.groupJoin = function(){
     _this.broadcastGroupJoin();
     i--;
     if(i < 0){
-      crearInterval(_this.broadcastRetryTimer);
+      clearInterval(_this.broadcastRetryTimer);
     }
   },3*1000);
 };
