@@ -258,15 +258,14 @@ App.prototype.setModeSwitch = function(){
   }
 };
 
-/*
+
 //TODO: テスト中コードあとで削除
 App.prototype.wps = function(){
   this.setStatus(App.STATUS.GROUP_JOIN);
 };
-*/
 
 //WPS処理
-App.prototype.wps = function(){
+App.prototype._wps = function(){
   const _this = this;
   if(this.status == App.STATUS.WPS_INIT) return;
 
@@ -1011,7 +1010,7 @@ App.prototype.groupInit = function(){
   });
 };
 
-//新規でグループそ作成
+//新規でグループ作成
 App.prototype.creteGroupChatRoom = function(joinSerialCode){
   const _this = this;
   //joinSerialCode のデバイス情報を取得する
