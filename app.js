@@ -1051,9 +1051,27 @@ App.prototype.creteGroupChatRoom = function(joinSerialCode){
 
 };
 
+//ブロードキャストの為のタイマー
+App.prototype.broadcastRetryTimer = null;
+
 //グループに追加
 App.prototype.groupJoin = function(){
   console.log("groupJoin");
+  const _this = this;
+  var i = 10;
+  this.broadcastRetryTimer = setInterval(function(){
+    //JOINメッセージをブロードキャスト送信する
+    _this.broadcastGroupJoin();
+    i--;
+    if(i < 0){
+      _this.broadcastRetryTimer.crearInterval();
+    }
+  },3*1000);
+};
+
+//JOINメッセージをブロードキャスト送信する
+App.prototype.broadcastGroupJoin = function(){
+  console.log("broadcastGroupJoin");
   const _this = this;
   //JOINメッセージをブロードキャスト送信する
   const code = _this.config.SERIAL_CODE;
