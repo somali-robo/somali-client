@@ -52,9 +52,9 @@ SomaliApi.prototype.getDevices = function(callback){
 
 //デバイス一覧を取得
 SomaliApi.prototype.getDeviceForSerialCode = function(serialCode,callback){
-  console.log("getDeviceForSerialCode");
+  //console.log("getDeviceForSerialCode");
   var options = {url: this.API_HOST+this.API_DEVICES+"/serial_code/"+serialCode};
-  console.log(options);
+  //console.log(options);
   this.request.get(options,function(err,response){
     if(err){
       callback(err);
@@ -114,9 +114,9 @@ SomaliApi.prototype.postChatRoom = function(name,members,messages,callback){
 //チャットルームにメッセージ追加
 SomaliApi.prototype.putChatroomMessage = function(id,message,callback){
   console.log("putChatroomMessage");
-  console.log(message);
+  //console.log(message);
   var options = {url: this.API_HOST+this.API_CHAT_ROOMS+"/"+id+"/messages",form:{"message":message}};
-  console.log(options);
+  //console.log(options);
   this.request.put(options,function(err,response){
     if(err){
       callback(err);
@@ -131,7 +131,7 @@ SomaliApi.prototype.putChatroomMessage = function(id,message,callback){
 SomaliApi.prototype.getChatroomMessages = function(id,callback){
   //console.log("getChatroomMessage");
   var options = {url: this.API_HOST+this.API_CHAT_ROOMS+"/"+id+"/messages"};
-  console.log(options);
+  //console.log(options);
   this.request.get(options,function(err,response){
     if(err){
       callback(err);

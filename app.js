@@ -1057,7 +1057,7 @@ App.prototype.BROADCAST_RETRY_COUNT = 3;
 
 //グループに追加
 App.prototype.groupJoin = function(){
-  console.log("groupJoin");
+  console.log("groupJoin start");
   const _this = this;
   var i = this.BROADCAST_RETRY_COUNT;
   this.broadcastRetryTimer = setInterval(function(){
@@ -1065,6 +1065,7 @@ App.prototype.groupJoin = function(){
     _this.broadcastGroupJoin();
     i--;
     if(i < 0){
+      console.log("groupJoin end");
       clearInterval(_this.broadcastRetryTimer);
     }
   },3*1000);
