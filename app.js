@@ -1066,7 +1066,10 @@ App.prototype.groupJoin = function(){
     i--;
     if(i < 0){
       console.log("groupJoin end");
-      clearInterval(_this.broadcastRetryTimer);
+      if(_this.broadcastRetryTimer != null){
+        clearInterval(_this.broadcastRetryTimer);
+        _this.broadcastRetryTimer = null;
+      }
     }
   },3*1000);
 };
@@ -1084,6 +1087,13 @@ App.prototype.broadcastGroupJoin = function(){
 //通常モード開始
 App.prototype.singleInit = function(){
   console.log("singleInit");
+  
+  //ブロードキャスト 再送タイマーが動いていたら停止
+  if(this.broadcastRetryTimer != null){
+    clearInterval(this.broadcastRetryTimer);
+    this.broadcastRetryTimer = null;
+  }
+
   //UDPからの受信を停止
   this.dgram.close();
 };
