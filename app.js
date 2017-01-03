@@ -1022,6 +1022,17 @@ App.prototype.groupInit = function(){
         const groupChatRoomId = _this.groupChatRoom._id;
         //ローカルストア に グループルームIDを保存
         _this.jsonDB.push(_this.KEY_GROUP_CHAT_ROOM_ID,groupChatRoomId);
+
+        const msg = "こんにちは";
+        _this.textToSpeech(msg,_this.hoya.SPEAKER_HIKARI,function(path, err){
+          if (err != null){
+            console.log("err");
+            return;
+          }
+          console.log("success");
+          _this.wavPlay(path,function(){
+          });
+        });
       });
     }
   });
@@ -1061,6 +1072,17 @@ App.prototype.creteGroupChatRoom = function(joinSerialCode){
     console.log("device");
     const joinDevice = response.data;
     console.log(joinDevice);
+
+    const msg = "友達が遊びに来たよ";
+    _this.textToSpeech(msg,_this.hoya.SPEAKER_HIKARI,function(path, err){
+      if (err != null){
+        console.log("err");
+        return;
+      }
+      console.log("success");
+      _this.wavPlay(path,function(){
+      });
+    });
 
     //チャットルーム作成
     const chatRoomName = "GROUP";
@@ -1113,19 +1135,15 @@ App.prototype.groupJoin = function(){
 
       const roomId = _this.getGroupChatRoomId();
       if(roomId == null){
-        //TODO: 再送が終わったのに グループルームIDが未設定だった
-        var msg = "友達が見つからなかったよ";
+        //再送が終わったのに グループルームIDが未設定だった
+        const msg = "友達が見つからなかったよ";
         _this.textToSpeech(msg,_this.hoya.SPEAKER_HIKARI,function(path, err){
           if (err != null){
             console.log("err");
-            //シェイクステータスをリセット
-            _this.isShaken = false;
             return;
           }
           console.log("success");
           _this.wavPlay(path,function(){
-            //シェイクステータスをリセット
-            _this.isShaken = false;
           });
         });
       }
