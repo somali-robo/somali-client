@@ -1027,16 +1027,22 @@ App.prototype.groupInit = function(){
   });
 };
 
-//新規でグループ作成
-App.prototype.creteGroupChatRoom = function(joinSerialCode){
-  const _this = this;
-
+//グループルームIDを取得する
+App.prototype.getGroupChatRoomId = function(){
   var roomId = null;
   try{
     roomId = this.jsonDB.getData(this.KEY_GROUP_CHAT_ROOM_ID);
   }catch(e){
     console.log(e);
   }
+  return roomId;
+};
+
+//新規でグループ作成
+App.prototype.creteGroupChatRoom = function(joinSerialCode){
+  const _this = this;
+
+  var roomId = this.getGroupChatRoomId();
   console.log("roomId "+roomId);
   if(roomId != null){
     console.log("creteGroupChatRoom roomId is not null");
@@ -1102,6 +1108,25 @@ App.prototype.groupJoin = function(){
       if(_this.broadcastRetryTimer != null){
         clearInterval(_this.broadcastRetryTimer);
         _this.broadcastRetryTimer = null;
+      }
+
+      const roomId = _this.getGroupChatRoomId();
+      if(roomId == null){
+        //TODO: 再送が終わったのに グループルームIDが未設定だった
+        var msg = "友達が見つからなかったよ";
+        _this.textToSpeech(msg,_this.hoya.SPEAKER_HIKARI,function(path, err){
+          if (err != null){
+            console.log("err");
+            //シェイクステータスをリセット
+            _this.isShaken = false;
+            return;
+          }
+          console.log("success");
+          _this.wavPlay(path,function(){
+            //シェイクステータスをリセット
+            _this.isShaken = false;
+          });
+        });
       }
     }
   },10*1000);
