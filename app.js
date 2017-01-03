@@ -1006,7 +1006,7 @@ App.prototype.groupInit = function(){
     //シリアルコードが自分じゃなかった場合
     if(msg.mode == _this.SomaliGroupJoinMessage.MODE_JOIN){
         //新規でチャットグループを作成する
-        _this.creteGroupChatRoom(msg.serialCode);        
+        _this.creteGroupChatRoom(msg.serialCode);
     }
     else if(msg.mode == _this.SomaliGroupJoinMessage.MODE_CREATE_GROUP){
       //リモートで作成されたグループを取得
@@ -1036,11 +1036,12 @@ App.prototype.creteGroupChatRoom = function(joinSerialCode){
   }catch(e){
     console.log(e);
   }
-  if(roomId == null){
-    console.log("creteGroupChatRoom roomId is null");
+  if(roomId != null){
+    console.log("creteGroupChatRoom roomId is not null");
     return;
   }
-
+  //roomId 未設定の場合だけ新規作成する
+  
   //joinSerialCode のデバイス情報を取得する
   this.somaliApi.getDeviceForSerialCode(joinSerialCode,function(err,response){
     if(err){
