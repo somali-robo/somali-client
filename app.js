@@ -96,10 +96,13 @@ App.prototype.helpWavFilePath = "./resources/help.wav";
 //error発生時の処理
 App.prototype.onError = function(){
   const _this = this;
-  if((this.oldLastErr != null)&&(this.oldLastErr === this.lastErr)){
+  if((this.oldLastErr != null)&&(this.oldLastErr == this.lastErr)){
     return;
   }
+  console.log("----");
   console.log(this.lastErr);
+  console.log("----");
+  console.log(this.oldLastErr);
   try{
     console.log("play start.");
     this.wavPlay(this.errWavFilePath);
