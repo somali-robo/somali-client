@@ -56,6 +56,7 @@ App.STATUS = {
 App.prototype.status = App.STATUS.DEFAULT;
 App.prototype.mode = App.MODE.SINGLE;
 App.prototype.lastErr = null;
+App.prototype.oldLastErr = null;
 App.prototype.intonations = null;
 App.prototype.chatRoomMessages = {};
 App.prototype.broadcastMessages = {};
@@ -94,10 +95,15 @@ App.prototype.helpWavFilePath = "./resources/help.wav";
 //error発生時の処理
 App.prototype.onError = function(){
   const _this = this;
+  if(this.oldLastErr == this.lastErr){
+    return;
+  }
   console.log(this.lastErr);
   try{
     console.log("play start.");
     this.wavPlay(this.errWavFilePath);
+
+    this.oldLastErr = this.lastErr;
   }
   catch(e){
     console.log(e);
