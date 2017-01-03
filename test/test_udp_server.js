@@ -1,6 +1,7 @@
 const App = function(){};
 
 App.prototype.dgram = require('../dgram.js');
+App.prototype.SomaliGroupJoinMessage = require('../somali_group_join_message.js');
 
 //初期化
 App.prototype.init = function(){
