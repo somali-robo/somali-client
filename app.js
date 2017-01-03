@@ -424,8 +424,8 @@ App.prototype.register = function(){
 //ローカルに保存されたデータを削除
 App.prototype.localDBClear = function(){
   console.log("localDBClear");
-  this.jsonDB.push(this.KEY_CHAT_ROOM_MESSAGES,null);
-  this.jsonDB.push(this.KEY_BROADCAST_MESSAGES,null);
+  this.jsonDB.push(this.KEY_CHAT_ROOM_MESSAGES,[]);
+  this.jsonDB.push(this.KEY_BROADCAST_MESSAGES,[]);
   this.jsonDB.push(this.KEY_GROUP_CHAT_ROOM_ID,null);
   this.jsonDB.push(this.KEY_SINGLE_CHAT_ROOM_ID,null);
   this.jsonDB.push(this.KEY_DEVICE_ID,null);
