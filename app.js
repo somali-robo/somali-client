@@ -1036,12 +1036,13 @@ App.prototype.creteGroupChatRoom = function(joinSerialCode){
   }catch(e){
     console.log(e);
   }
+  console.log("roomId "+roomId);
   if(roomId != null){
     console.log("creteGroupChatRoom roomId is not null");
     return;
   }
   //roomId 未設定の場合だけ新規作成する
-  
+
   //joinSerialCode のデバイス情報を取得する
   this.somaliApi.getDeviceForSerialCode(joinSerialCode,function(err,response){
     if(err){
