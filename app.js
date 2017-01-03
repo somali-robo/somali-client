@@ -992,7 +992,17 @@ App.prototype.groupInit = function(){
     //シリアルコードが自分じゃなかった場合
     if(msg.mode == _this.SomaliGroupJoinMessage.MODE_JOIN){
         //新規でチャットグループを作成する
-        _this.creteGroupChatRoom(msg.serialCode);
+        var roomId = null;
+        try{
+          roomId = _this.jsonDB.getData(_this.KEY_GROUP_CHAT_ROOM_ID);
+        }catch(e){
+            console.log("e "+e);
+        }
+        console.log("MODE_JOIN roomId:"+roomId);
+        if(roomId == null){
+          //未設定の場合だけ新規作成する
+          _this.creteGroupChatRoom(msg.serialCode);
+        }
     }
     else if(msg.mode == _this.SomaliGroupJoinMessage.MODE_CREATE_GROUP){
       //リモートで作成されたグループを取得
