@@ -99,14 +99,14 @@ App.prototype.onError = function(){
   if((this.oldLastErr != null)&&(this.oldLastErr == this.lastErr)){
     return;
   }
-  console.log("lastErr "+(this.oldLastErr == this.lastErr));
+  console.log("err "+(this.oldLastErr == this.lastErr));
   console.log("lastErr "+(this.lastErr));
   console.log("oldLastErr "+(this.oldLastErr));
   try{
     console.log("play start.");
     this.wavPlay(this.errWavFilePath);
 
-    this.oldLastErr = this.lastErr;
+    this.oldLastErr = Object.assign({},this.lastErr);
   }
   catch(e){
     console.log(e);
