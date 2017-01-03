@@ -385,17 +385,6 @@ App.prototype.register = function(){
             //ローカルストア に デフォルトルームIDを保存
             _this.jsonDB.push(_this.KEY_SINGLE_CHAT_ROOM_ID,singleChatRoomId);
 
-            const msg = "起動したよ";
-            _this.textToSpeech(msg,_this.hoya.SPEAKER_HIKARI,function(path, err){
-              if (err != null){
-                console.log("err");
-                return;
-              }
-              console.log("success");
-              _this.wavPlay(path,function(){
-              });
-            });
-            
             //APIへの接続をして初期設定等を読み出す
             _this.setStatus(App.STATUS.API_INIT);
           });
@@ -432,17 +421,6 @@ App.prototype.register = function(){
             //console.log(response);
 
             _this.singleChatRoom = response.data;
-
-            const msg = "起動したよ";
-            _this.textToSpeech(msg,_this.hoya.SPEAKER_HIKARI,function(path, err){
-              if (err != null){
-                console.log("err");
-                return;
-              }
-              console.log("success");
-              _this.wavPlay(path,function(){
-              });
-            });
 
             //APIへの接続をして初期設定等を読み出す
             _this.setStatus(App.STATUS.API_INIT);
@@ -652,6 +630,17 @@ App.prototype.monitoringBroadcastMessages = function(){
 App.prototype.apiInit = function(){
   console.log("apiInit");
   const _this = this;
+
+  const msg = "起動したよ";
+  this.textToSpeech(msg,this.hoya.SPEAKER_HIKARI,function(path, err){
+    if (err != null){
+      console.log("err");
+      return;
+    }
+    console.log("success");
+    _this.wavPlay(path,function(){
+    });
+  });
 
   try{
     //保存済みのメッセージ一覧を取得
