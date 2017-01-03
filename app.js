@@ -1100,6 +1100,7 @@ App.prototype.groupJoin = function(){
   //JOINメッセージをブロードキャスト送信する
   _this.broadcastGroupJoin();
   this.broadcastRetryTimer = setInterval(function(){
+    console.log("BROADCAST_RETRY_COUNT "+i);
     //JOINメッセージをブロードキャスト送信する
     _this.broadcastGroupJoin();
     i--;
