@@ -341,7 +341,11 @@ App.prototype.register = function(){
       });
 
       if(exists == false){
-        //未登録なら追加
+        //未登録
+        //ローカルに保存されたデータを削除
+        _this.localDBClear();
+
+        //追加
         var name = _this.uuid.v4();
         _this.somaliApi.postDevice(_this.config.SERIAL_CODE,name,function(err,response){
           if(err){
@@ -415,6 +419,16 @@ App.prototype.register = function(){
           });
       }
     });
+};
+
+//ローカルに保存されたデータを削除
+App.prototype.localDBClear = function(){
+  console.log("localDBClear");
+  this.jsonDB.push(this.KEY_CHAT_ROOM_MESSAGES,null);
+  this.jsonDB.push(this.KEY_BROADCAST_MESSAGES,null);
+  this.jsonDB.push(this.KEY_GROUP_CHAT_ROOM_ID,null);
+  this.jsonDB.push(this.KEY_SINGLE_CHAT_ROOM_ID,null);
+  this.jsonDB.push(this.KEY_DEVICE_ID,null);
 };
 
 //新規メッセージか確認
