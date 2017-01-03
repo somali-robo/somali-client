@@ -157,6 +157,8 @@ App.prototype.setStatus = function(status){
 //初期化
 App.prototype.init = function(){
   console.log("init");
+  console.log("SERIAL_CODE "+this.config.SERIAL_CODE);
+
   const _this = this;
 
   this.jsonDB = new this.JsonDB(this.KEY_STORE,true,false);
@@ -1024,7 +1026,7 @@ App.prototype.creteGroupChatRoom = function(joinSerialCode){
     console.log("creteGroupChatRoom roomId is null");
     return;
   }
-  
+
   //joinSerialCode のデバイス情報を取得する
   this.somaliApi.getDeviceForSerialCode(joinSerialCode,function(err,response){
     if(err){
@@ -1091,7 +1093,7 @@ App.prototype.broadcastGroupJoin = function(){
   console.log("broadcastGroupJoin");
   const _this = this;
   //JOINメッセージをブロードキャスト送信する
-  const code = _this.config.SERIAL_CODE;
+  const code = this.config.SERIAL_CODE;
   const msg = this.SomaliGroupJoinMessage.create(code,this.SomaliGroupJoinMessage.MODE_JOIN,"");
   this.dgram.broadcast(new Buffer( JSON.stringify(msg) ));
 };
