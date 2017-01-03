@@ -489,11 +489,11 @@ App.prototype.downloadPlay = function(fileName){
     console.log("download success");
 
     //ダウンロードしたファイルのサイズを表示してみる
-    _this.fs.readFile(downloadLocalPath, 'binary', (err, data) => {
+    _this.fs.readFile(_this.downloadWavFilePath, 'binary', (err, data) => {
       console.log("data length "+data.length);
     });
     //ダウンロードしたファイルを再生
-    _this.wavPlay(downloadWavFilePath);
+    _this.wavPlay(_this.downloadWavFilePath);
   });
 };
 
