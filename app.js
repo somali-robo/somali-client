@@ -1091,6 +1091,8 @@ App.prototype.groupJoin = function(){
   console.log("groupJoin start");
   const _this = this;
   var i = this.BROADCAST_RETRY_COUNT;
+  //JOINメッセージをブロードキャスト送信する
+  _this.broadcastGroupJoin();
   this.broadcastRetryTimer = setInterval(function(){
     //JOINメッセージをブロードキャスト送信する
     _this.broadcastGroupJoin();
@@ -1102,7 +1104,7 @@ App.prototype.groupJoin = function(){
         _this.broadcastRetryTimer = null;
       }
     }
-  },3*1000);
+  },10*1000);
 };
 
 //JOINメッセージをブロードキャスト送信する
