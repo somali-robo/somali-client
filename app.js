@@ -100,6 +100,8 @@ App.prototype.onError = function(){
     return;
   }
   console.log("lastErr "+(this.oldLastErr == this.lastErr));
+  console.log("lastErr "+(this.lastErr));
+  console.log("oldLastErr "+(this.oldLastErr));
   try{
     console.log("play start.");
     this.wavPlay(this.errWavFilePath);
