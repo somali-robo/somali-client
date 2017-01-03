@@ -57,7 +57,6 @@ App.STATUS = {
 App.prototype.status = App.STATUS.DEFAULT;
 App.prototype.mode = App.MODE.SINGLE;
 App.prototype.lastErr = null;
-App.prototype.oldLastErr = null;
 App.prototype.intonations = null;
 App.prototype.chatRoomMessages = {};
 App.prototype.broadcastMessages = {};
@@ -96,17 +95,9 @@ App.prototype.helpWavFilePath = "./resources/help.wav";
 //error発生時の処理
 App.prototype.onError = function(){
   const _this = this;
-  if((this.oldLastErr != null)&&(this.oldLastErr.toString() == this.lastErr.toString())){
-    return;
-  }
-  console.log("err "+(this.oldLastErr == this.lastErr));
-  console.log("lastErr "+(this.lastErr));
-  console.log("oldLastErr "+(this.oldLastErr));
   try{
     console.log("play start.");
     this.wavPlay(this.errWavFilePath);
-
-    this.oldLastErr = this.lastErr.toString();
   }
   catch(e){
     console.log(e);
@@ -549,8 +540,8 @@ App.prototype.monitoringChatroomMessages = function(){
     _this.somaliApi.getChatroomMessages(roomId,function(err,response){
       if(err){
         console.log("err getChatroomMessages");
-        _this.lastErr = err;
-        _this.setStatus(App.STATUS.ERROR);
+        //_this.lastErr = err;
+        //_this.setStatus(App.STATUS.ERROR);
         return;
       }
       //console.log("getChatroomMessages");
@@ -596,7 +587,7 @@ App.prototype.monitoringBroadcastMessages = function(){
   setInterval(function(){
     _this.somaliApi.getBroadcastMessages(function(err,response){
       if (err != null){
-        console.log("err");
+        console.log("err monitoringBroadcastMessages");
         return;
       }
       const last = response.data[response.data.length-1];
