@@ -631,6 +631,17 @@ App.prototype.apiInit = function(){
   console.log("apiInit");
   const _this = this;
 
+  const msg = "起動したよ";
+  _this.textToSpeech(msg,_this.hoya.SPEAKER_HIKARI,function(path, err){
+    if (err != null){
+      console.log("err");
+      return;
+    }
+    console.log("success");
+    _this.wavPlay(path,function(){
+    });
+  });
+
   try{
     //保存済みのメッセージ一覧を取得
     this.chatRoomMessages = this.jsonDB.getData(this.KEY_CHAT_ROOM_MESSAGES);
