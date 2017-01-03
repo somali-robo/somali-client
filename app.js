@@ -1148,7 +1148,7 @@ App.prototype.groupJoin = function(){
         });
       }
     }
-  },10*1000);
+  },5*1000);
 };
 
 //JOINメッセージをブロードキャスト送信する
