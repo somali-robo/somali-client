@@ -1013,6 +1013,18 @@ App.prototype.groupInit = function(){
 //新規でグループ作成
 App.prototype.creteGroupChatRoom = function(joinSerialCode){
   const _this = this;
+
+  var roomId = null;
+  try{
+    roomId = this.jsonDB.getData(this.KEY_GROUP_CHAT_ROOM_ID);
+  }catch(e){
+    console.log(e);
+  }
+  if(roomId == null){
+    console.log("creteGroupChatRoom roomId is null");
+    return;
+  }
+  
   //joinSerialCode のデバイス情報を取得する
   this.somaliApi.getDeviceForSerialCode(joinSerialCode,function(err,response){
     if(err){
@@ -1087,7 +1099,7 @@ App.prototype.broadcastGroupJoin = function(){
 //通常モード開始
 App.prototype.singleInit = function(){
   console.log("singleInit");
-  
+
   //ブロードキャスト 再送タイマーが動いていたら停止
   if(this.broadcastRetryTimer != null){
     clearInterval(this.broadcastRetryTimer);
