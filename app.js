@@ -1016,6 +1016,7 @@ App.prototype.groupInit = function(){
         _this.creteGroupChatRoom(msg.serialCode);
     }
     else if(msg.mode == _this.SomaliGroupJoinMessage.MODE_CREATE_GROUP){
+      console.log("groupChatRoomId "+msg.groupChatRoomId);
       //リモートで作成されたグループを取得
       _this.somaliApi.getChatRoom(msg.groupChatRoomId,function(err,response){
         if(err){
@@ -1108,7 +1109,7 @@ App.prototype.creteGroupChatRoom = function(joinSerialCode){
       _this.jsonDB.push(_this.KEY_GROUP_CHAT_ROOM_ID,groupChatRoomId);
       //作成成功したので ルームID を broadcastして通知する
       const code = _this.config.SERIAL_CODE;
-      const msg = _this.SomaliGroupJoinMessage.create(code,_this.SomaliGroupJoinMessage.MODE_JOIN,groupChatRoomId);
+      const msg = _this.SomaliGroupJoinMessage.create(code,_this.SomaliGroupJoinMessage.MODE_CREATE_GROUP,groupChatRoomId);
       _this.dgram.broadcast(new Buffer( JSON.stringify(msg) ));
     });
 
