@@ -4,6 +4,7 @@ var App = function(){};
 App.prototype.uuid = require('node-uuid');
 App.prototype.dropbox = require("./dropbox.js");
 App.prototype.wpi = require('wiring-pi');
+App.prototype.fs = require("fs");
 App.prototype.JsonDB = require('node-json-db');
 App.prototype.jsonDB = null;
 
