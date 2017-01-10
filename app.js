@@ -260,13 +260,6 @@ App.prototype.setModeSwitch = function(){
   }
 };
 
-/*
-//TODO: テスト中コードあとで削除
-App.prototype.wps = function(){
-  this.setStatus(App.STATUS.GROUP_JOIN);
-};
-*/
-
 //WPS処理
 App.prototype.wps = function(){
   const _this = this;
