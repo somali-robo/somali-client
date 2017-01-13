@@ -581,6 +581,7 @@ App.prototype.monitoringBroadcastMessages = function(){
     _this.somaliApi.getBroadcastMessages(function(err,response){
       if (err != null){
         console.log("err monitoringBroadcastMessages");
+        console.log(err);
         return;
       }
       const last = response.data[response.data.length-1];
