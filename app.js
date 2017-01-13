@@ -92,6 +92,9 @@ App.prototype.errWavFilePath = "./resources/error.wav";
 //警報音
 App.prototype.helpWavFilePath = "./resources/help.wav";
 
+//瞑想音
+App.prototype.meditationWavFilePath = "./resources/meditation.wav";
+
 //error発生時の処理
 App.prototype.onError = function(){
   const _this = this;
@@ -1189,6 +1192,27 @@ App.prototype.singleInit = function(){
 
   //UDPからの受信を停止
   this.dgram.close();
+};
+
+//瞑想音再生リピート
+App.prototype.isRepeatMeditation = true;
+
+//瞑想音 再生
+App.prototype.playMeditation = function(){
+  const _this = this;
+  if(this.isRepeatMeditation == true) return;
+  //meditationWavFilePath
+  const callback = function(){
+    //再起
+    if(_this.isRepeatMeditation == true){
+      _this.playMeditation();
+    }
+  };
+  this.wavPlay(this.meditationWavFilePath,callback);
+};
+//瞑想音 停止
+App.prototype.stopMeditation = function(){
+  this.isRepeatMeditation = false;
 };
 
 var app = new App();
