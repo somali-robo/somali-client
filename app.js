@@ -1213,6 +1213,7 @@ App.prototype.isRepeatMeditation = false;
 App.prototype.playMeditation = function(){
   console.log("playMeditation");
   const _this = this;
+  console.log("this.isRepeatMeditation "+this.isRepeatMeditation);
   if(this.isRepeatMeditation == true) return;
   this.isRepeatMeditation = true;
   //meditationWavFilePath
