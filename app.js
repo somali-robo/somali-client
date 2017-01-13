@@ -1203,8 +1203,8 @@ App.prototype.playMeditation = function(){
   if(this.isRepeatMeditation == true) return;
   //meditationWavFilePath
   const callback = function(){
-    //再起
     if(_this.isRepeatMeditation == true){
+      //リピート
       _this.playMeditation();
     }
   };
