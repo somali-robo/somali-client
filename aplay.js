@@ -22,52 +22,43 @@ Aplay.prototype.play = function(path,callback){
 */
 
 Aplay.prototype.spawn = require('child_process').spawn;
-Aplay.prototype.child = null;
 
 // 再生
 Aplay.prototype.play = function(path,callback){
     console.log('aplay play');
-  if(this.isPlay == true) return;
-  var _this = this;
-  this.exec('aplay',['-D','plughw:1,0',path], function(err, stdout, stderr){
-    _this.isPlay = false;
+  const _this = this;
+  const child = this.exec('aplay',['-D','plughw:1,0',path], function(err, stdout, stderr){
     if(callback){
       callback(err, stdout, stderr);
     }
   });
+  return child;
 };
 
 // 停止
-Aplay.prototype.stop = function(){
+Aplay.prototype.stop = function(child){
   console.log('aplay stop');
-  var _this = this;
-  if(this.child == null) return;
-  this.child.kill();
-  this.isPlay = false;
+  child.kill();
 };
 
 Aplay.prototype.exec = function(cmd,args,callback){
-    if(this.child != null){
-      callback(null,"child is not null.");
-      return;
-    }
     const _this = this;
     console.log('start '+cmd);
-    this.child = this.spawn(cmd,args);
-    this.child.stdout.on('data', function (data) {
+    const child = this.spawn(cmd,args);
+    child.stdout.on('data', function (data) {
       console.log('stdout: ' + data);
     });
 
-    this.child.stderr.on('data', function (err) {
+    child.stderr.on('data', function (err) {
       console.log('stderr: ' + err);
       callback(null,err);
     });
 
-    this.child.on('exit', function (code) {
+    child.on('exit', function (code) {
       console.log('child process exited with code ' + code);
-      _this.child = null;
       callback(code,null);
     });
+    return child;
 };
 
 module.exports = new Aplay();
