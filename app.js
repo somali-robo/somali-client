@@ -862,7 +862,7 @@ App.prototype.wavPlay = function(path,callback){
   //スピーカーアンプをONにする
   this.speakerAmpPower(this.wpi.HIGH);
   //再生
-  this.aplay.play(path,function(err, stdout, stderr){
+  const child = this.aplay.play(path,function(err, stdout, stderr){
     //アンプをOFFにする
     _this.speakerAmpPower(_this.wpi.LOW);
     if(callback){
@@ -874,6 +874,7 @@ App.prototype.wavPlay = function(path,callback){
     }
     console.log("success");
   });
+  return child;
 };
 
 //よろこぶ
@@ -1209,13 +1210,13 @@ App.prototype.singleInit = function(){
 
 //瞑想音再生リピート
 App.prototype.isRepeatMeditation = true;
+//瞑想音再生中のプロセス
+App.prototype.childMeditation = null;
 
 //瞑想音 再生
 App.prototype.playMeditation = function(){
   console.log("playMeditation");
   const _this = this;
-  console.log("this "+this);
-  //meditationWavFilePath
   const c = function(){
     if(_this.isRepeatMeditation == true){
       //リピート
@@ -1224,12 +1225,13 @@ App.prototype.playMeditation = function(){
     }
   };
   console.log("WavFilePath "+this.meditationWavFilePath);
-  this.wavPlay(this.meditationWavFilePath,c);
+  this.childMeditation = this.wavPlay(this.meditationWavFilePath,c);
 };
 //瞑想音 停止
 App.prototype.stopMeditation = function(){
   console.log("stopMeditation");
-  console.log("this "+this);
+  //瞑想音を停止する
+  this.aplay.stop(this.childMeditation);
   this.isRepeatMeditation = false;
   //アンプをOFFにする
   this.speakerAmpPower(this.wpi.LOW);
