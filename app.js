@@ -1214,7 +1214,7 @@ App.prototype.playMeditation = function(){
   console.log("playMeditation");
   const _this = this;
   if(this.isRepeatMeditation == true) return;
-  _this.isRepeatMeditation = true;
+  this.isRepeatMeditation = true;
   //meditationWavFilePath
   const c = function(){
     if(_this.isRepeatMeditation == true){
