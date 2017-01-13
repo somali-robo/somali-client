@@ -1229,6 +1229,8 @@ App.prototype.playMeditation = function(){
 App.prototype.stopMeditation = function(){
   console.log("stopMeditation");
   this.isRepeatMeditation = false;
+  //アンプをOFFにする
+  this.speakerAmpPower(this.wpi.LOW);
 };
 
 var app = new App();
