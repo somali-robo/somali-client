@@ -816,17 +816,27 @@ App.prototype.playLastMessage = function(){
     return;
   }
 
+  //メッセージタイプ別の処理
+  const type = this.lastMessage.type;
   const value = this.lastMessage.value;
+  if (type == this.SomaliMessage.TYPE_TEXT){
+    //最終メッセージを読み上げる
+    this.textToSpeech(value,this.hoya.SPEAKER_HIKARI,function(path, err){
+      if (err != null){
+        console.log("err");
+        return;
+      }
+      console.log("success");
+      _this.wavPlay(path);
+    });
+  }
+  else if (type == this.SomaliMessage.TYPE_WAV){
+    //WAV の場合 Downloadして再生
+    _this.downloadPlay(value);
+  }
+
   //再生対象にしたので破棄
   this.lastMessage = null;
-  this.textToSpeech(value,this.hoya.SPEAKER_HIKARI,function(path, err){
-    if (err != null){
-      console.log("err");
-      return;
-    }
-    console.log("success");
-    _this.wavPlay(path);
-  });
 };
 
 //wavファイル再生
