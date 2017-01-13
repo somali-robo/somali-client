@@ -1207,15 +1207,13 @@ App.prototype.singleInit = function(){
 };
 
 //瞑想音再生リピート
-App.prototype.isRepeatMeditation = false;
+App.prototype.isRepeatMeditation = true;
 
 //瞑想音 再生
 App.prototype.playMeditation = function(){
   console.log("playMeditation");
   const _this = this;
   console.log("this.isRepeatMeditation "+this.isRepeatMeditation);
-  if(this.isRepeatMeditation == true) return;
-  this.isRepeatMeditation = true;
   //meditationWavFilePath
   const c = function(){
     if(_this.isRepeatMeditation == true){
