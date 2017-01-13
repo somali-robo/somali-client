@@ -447,19 +447,20 @@ App.prototype.isNewMessage = function(messages,lastMessage){
 App.prototype.runNewMessage = function(roomId,message){
   const _this = this;
   if (message.type == this.SomaliMessage.TYPE_TEXT){
+    const value = message.value;
     //瞑想コマンド
-    console.log("value "+message.value);
-    if(message.value == "bgm on"){
+    console.log("value "+value);
+    if(value == "bgm on"){
       //瞑想音 開始
-      this.playMeditation();
+      _this.playMeditation();
     }
-    else if(message.value == "bgm off"){
+    else if(value == "bgm off"){
       //瞑想音 停止
-      this.stopMeditation();
+      _this.stopMeditation();
     }
     else{
       //新規追加されたメッセージを読み上げる
-      this.textToSpeech(message.value,_this.hoya.SPEAKER_HIKARI,function(path, err){
+      this.textToSpeech(value,_this.hoya.SPEAKER_HIKARI,function(path, err){
         if (err != null){
           console.log("err");
           return;
@@ -1213,7 +1214,7 @@ App.prototype.isRepeatMeditation = true;
 App.prototype.playMeditation = function(){
   console.log("playMeditation");
   const _this = this;
-  console.log("this.isRepeatMeditation "+this.isRepeatMeditation);
+  console.log("this "+this);
   //meditationWavFilePath
   const c = function(){
     if(_this.isRepeatMeditation == true){
@@ -1228,6 +1229,7 @@ App.prototype.playMeditation = function(){
 //瞑想音 停止
 App.prototype.stopMeditation = function(){
   console.log("stopMeditation");
+  console.log("this "+this);
   this.isRepeatMeditation = false;
   //アンプをOFFにする
   this.speakerAmpPower(this.wpi.LOW);
