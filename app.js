@@ -447,15 +447,26 @@ App.prototype.isNewMessage = function(messages,lastMessage){
 App.prototype.runNewMessage = function(roomId,message){
   const _this = this;
   if (message.type == this.SomaliMessage.TYPE_TEXT){
-    //新規追加されたメッセージを読み上げる
-    this.textToSpeech(message.value,_this.hoya.SPEAKER_HIKARI,function(path, err){
-      if (err != null){
-        console.log("err");
-        return;
-      }
-      console.log("success");
-      _this.wavPlay(path);
-    });
+    //瞑想コマンド
+    if(message.value == "bgm on"){
+      //瞑想音 開始
+      this.playMeditation();
+    }
+    else if(message.value == "bgm off"){
+      //瞑想音 停止
+      this.stopMeditation();
+    }
+    else{
+      //新規追加されたメッセージを読み上げる
+      this.textToSpeech(message.value,_this.hoya.SPEAKER_HIKARI,function(path, err){
+        if (err != null){
+          console.log("err");
+          return;
+        }
+        console.log("success");
+        _this.wavPlay(path);
+      });
+    }
   }
   else if (message.type == this.SomaliMessage.TYPE_WAV){
     //TODO: WAV の場合 Downloadして再生
