@@ -1215,13 +1215,15 @@ App.prototype.playMeditation = function(){
   const _this = this;
   if(this.isRepeatMeditation == true) return;
   //meditationWavFilePath
-  const callback = function(){
+  const c = function(){
     if(_this.isRepeatMeditation == true){
       //リピート
+      console.log("repeat playMeditation");
       _this.playMeditation();
     }
   };
-  this.wavPlay(this.meditationWavFilePath,callback);
+  console.log("WavFilePath "+this.meditationWavFilePath);
+  this.wavPlay(this.meditationWavFilePath,c);
 };
 //瞑想音 停止
 App.prototype.stopMeditation = function(){
