@@ -243,9 +243,6 @@ App.prototype.init = function(){
       //接続されていたので App.STATUS.CONNECTED の処理をする
       _this.setStatus(App.STATUS.CONNECTED);
   });
-
-  //TODO: BGMテスト
-  this.playMeditation();
 };
 
 //通常モード,グループモード トグル切り替え
