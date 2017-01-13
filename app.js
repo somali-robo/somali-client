@@ -448,6 +448,7 @@ App.prototype.runNewMessage = function(roomId,message){
   const _this = this;
   if (message.type == this.SomaliMessage.TYPE_TEXT){
     //瞑想コマンド
+    console.log("value "+message.value);
     if(message.value == "bgm on"){
       //瞑想音 開始
       this.playMeditation();
