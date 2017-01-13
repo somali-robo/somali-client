@@ -1211,6 +1211,7 @@ App.prototype.isRepeatMeditation = true;
 
 //瞑想音 再生
 App.prototype.playMeditation = function(){
+  console.log("playMeditation");
   const _this = this;
   if(this.isRepeatMeditation == true) return;
   //meditationWavFilePath
@@ -1224,6 +1225,7 @@ App.prototype.playMeditation = function(){
 };
 //瞑想音 停止
 App.prototype.stopMeditation = function(){
+  console.log("stopMeditation");
   this.isRepeatMeditation = false;
 };
 
