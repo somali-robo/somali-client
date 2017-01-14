@@ -1221,6 +1221,7 @@ App.prototype.playMeditation = function(){
   console.log("playMeditation");
   const _this = this;
   const c = function(code,err){
+    console.log("code "+code);
     if(_this.isRepeatMeditation == true){
       //リピート
       console.log("repeat playMeditation");
