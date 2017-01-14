@@ -213,16 +213,24 @@ App.prototype.init = function(){
     console.log("REC_BUTTON " + value);
     //_this.setStatusLed(true);
     if(value == _this.wpi.HIGH){
+      /*
       //録音 開始
       _this.wavPlay(_this.buttonWavFilePath,function(code,err){
         _this.setStatus(App.STATUS.REC_START);
       });
+      */
+      //瞑想音 開始
+      _this.playMeditation();
     }
     else{
+      /*
       //録音 停止
       _this.wavPlay(_this.buttonWavFilePath,function(code,err){
         _this.setStatus(App.STATUS.REC_STOP);
       });
+      */
+       //瞑想音 停止
+      _this.stopMeditation();
     }
   });
 
@@ -453,25 +461,15 @@ App.prototype.runNewMessage = function(roomId,message){
     const value = message.value;
     //瞑想コマンド
     console.log("value "+value);
-    if(value == "bgm on"){
-      //瞑想音 開始
-      _this.playMeditation();
-    }
-    else if(value == "bgm off"){
-      //瞑想音 停止
-      _this.stopMeditation();
-    }
-    else{
-      //新規追加されたメッセージを読み上げる
-      this.textToSpeech(value,_this.hoya.SPEAKER_HIKARI,function(path, err){
-        if (err != null){
-          console.log("err");
-          return;
-        }
-        console.log("success");
-        _this.wavPlay(path);
-      });
-    }
+    //新規追加されたメッセージを読み上げる
+    this.textToSpeech(value,_this.hoya.SPEAKER_HIKARI,function(path, err){
+      if (err != null){
+        console.log("err");
+        return;
+      }
+      console.log("success");
+      _this.wavPlay(path);
+    });
   }
   else if (message.type == this.SomaliMessage.TYPE_WAV){
     //TODO: WAV の場合 Downloadして再生

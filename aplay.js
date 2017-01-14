@@ -35,7 +35,7 @@ Aplay.prototype.exec = function(cmd,args,callback){
     });
 
     child.on('exit', function (code) {
-      console.log('child process exited with code ' + code);
+      //console.log('child process exited with code ' + code);
       callback(code,null);
     });
     return child;
