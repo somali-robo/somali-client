@@ -213,24 +213,16 @@ App.prototype.init = function(){
     console.log("REC_BUTTON " + value);
     //_this.setStatusLed(true);
     if(value == _this.wpi.HIGH){
-      /*
       //録音 開始
       _this.wavPlay(_this.buttonWavFilePath,function(code,err){
         _this.setStatus(App.STATUS.REC_START);
       });
-      */
-      //瞑想音 開始
-      _this.playMeditation();
     }
     else{
-      /*
       //録音 停止
       _this.wavPlay(_this.buttonWavFilePath,function(code,err){
         _this.setStatus(App.STATUS.REC_STOP);
       });
-      */
-       //瞑想音 停止
-      _this.stopMeditation();
     }
   });
 
