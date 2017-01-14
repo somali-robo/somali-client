@@ -214,13 +214,13 @@ App.prototype.init = function(){
     //_this.setStatusLed(true);
     if(value == _this.wpi.HIGH){
       //録音 開始
-      _this.wavPlay(_this.buttonWavFilePath,function(){
+      _this.wavPlay(_this.buttonWavFilePath,function(code,err){
         _this.setStatus(App.STATUS.REC_START);
       });
     }
     else{
       //録音 停止
-      _this.wavPlay(_this.buttonWavFilePath,function(){
+      _this.wavPlay(_this.buttonWavFilePath,function(code,err){
         _this.setStatus(App.STATUS.REC_STOP);
       });
     }
@@ -1066,7 +1066,7 @@ App.prototype.groupInit = function(){
             return;
           }
           console.log("success");
-          _this.wavPlay(path,function(){
+          _this.wavPlay(path,function(code,err){
           });
         });
       });
@@ -1116,7 +1116,7 @@ App.prototype.creteGroupChatRoom = function(joinSerialCode){
         return;
       }
       console.log("success");
-      _this.wavPlay(path,function(){
+      _this.wavPlay(path,function(code,err){
       });
     });
 
@@ -1179,7 +1179,7 @@ App.prototype.groupJoin = function(){
             return;
           }
           console.log("success");
-          _this.wavPlay(path,function(){
+          _this.wavPlay(path,function(code,err){
           });
         });
       }
@@ -1220,7 +1220,7 @@ App.prototype.childMeditation = null;
 App.prototype.playMeditation = function(){
   console.log("playMeditation");
   const _this = this;
-  const c = function(){
+  const c = function(code,err){
     if(_this.isRepeatMeditation == true){
       //リピート
       console.log("repeat playMeditation");

@@ -1,35 +1,15 @@
 /** 音声ファイル再生
 */
 var Aplay = function(){};
-
-/*
-Aplay.prototype.exec = require('child_process').exec;
-Aplay.prototype.isPlay = false;
-
-// 再生
-Aplay.prototype.play = function(path,callback){
-  if(this.isPlay == true) return;
-  var _this = this;
-  var cmd = 'aplay -D plughw:1,0 '+path;
-  console.log('play '+cmd);
-  this.exec(cmd, function(err, stdout, stderr){
-    _this.isPlay = false;
-    if(callback){
-      callback(err, stdout, stderr);
-    }
-  });
-};
-*/
-
 Aplay.prototype.spawn = require('child_process').spawn;
 
 // 再生
 Aplay.prototype.play = function(path,callback){
-    console.log('aplay play');
+  console.log('aplay play');
   const _this = this;
-  const child = this.exec('aplay',['-D','plughw:1,0',path], function(err, stdout, stderr){
+  const child = this.exec('aplay',['-D','plughw:1,0',path], function(code,err){
     if(callback){
-      callback(err, stdout, stderr);
+      callback(code,err);
     }
   });
   return child;
