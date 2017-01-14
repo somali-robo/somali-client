@@ -865,11 +865,11 @@ App.prototype.wavPlay = function(path,callback){
   //スピーカーアンプをONにする
   this.speakerAmpPower(this.wpi.HIGH);
   //再生
-  const child = this.aplay.play(path,function(err, stdout, stderr){
+  const child = this.aplay.play(path,function(code,err){
     //アンプをOFFにする
     _this.speakerAmpPower(_this.wpi.LOW);
     if(callback){
-      callback();
+      callback(code,err);
     }
     if (err != null){
       console.log("err");
