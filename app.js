@@ -85,15 +85,14 @@ App.prototype.isLift = false;
 
 //OTA開始,終了時に再生するファイル
 App.prototype.otaWavFilePath = "./resources/1up.wav";
-
 //ERROR時に再生する音
 App.prototype.errWavFilePath = "./resources/error.wav";
-
 //警報音
 App.prototype.helpWavFilePath = "./resources/help.wav";
-
 //瞑想音
 App.prototype.meditationWavFilePath = "./resources/meditation.wav";
+//ボタン音
+App.prototype.buttonWavFilePath = "./resources/button.wav";
 
 //error発生時の処理
 App.prototype.onError = function(){
@@ -215,11 +214,15 @@ App.prototype.init = function(){
     //_this.setStatusLed(true);
     if(value == _this.wpi.HIGH){
       //録音 開始
-      _this.setStatus(App.STATUS.REC_START);
+      _this.wavPlay(_this.buttonWavFilePath,function(){
+        _this.setStatus(App.STATUS.REC_START);
+      });
     }
     else{
       //録音 停止
-      _this.setStatus(App.STATUS.REC_STOP);
+      _this.wavPlay(_this.buttonWavFilePath,function(){
+        _this.setStatus(App.STATUS.REC_STOP);
+      });
     }
   });
 
