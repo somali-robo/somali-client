@@ -602,7 +602,8 @@ App.prototype.monitoringChatroomMessages = function(data){
 App.prototype.monitoringBroadcastMessages = function(data){
   console.log("monitoringBroadcastMessages");
   console.log(data);
-  
+  console.log("this "+this);
+
   const _this = this;
 
   this.somaliApi.getBroadcastMessages(function(err,response){
@@ -679,8 +680,8 @@ App.prototype.apiInit = function(){
         console.log(error);
         return;
       }
-      //console.log("name:"+name);
-      //console.log(data);
+      console.log("name:"+name);
+      console.log(data);
       if(name == 'chat_rooms'){
         //チャットルームの新規メッセージを監視する
         _this.monitoringChatroomMessages(data);
