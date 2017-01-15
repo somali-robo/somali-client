@@ -602,7 +602,6 @@ App.prototype.monitoringChatroomMessages = function(data){
 App.prototype.monitoringBroadcastMessages = function(data){
   console.log("monitoringBroadcastMessages");
   console.log(data);
-  console.log("this "+this);
 
   const _this = this;
 
