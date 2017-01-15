@@ -609,6 +609,8 @@ App.prototype.monitoringBroadcastMessages = function(data){
       console.log(err);
       return;
     }
+    console.log(response);
+
     const last = response.data[response.data.length-1];
     if(last == undefined){
       //console.log("last is null");
