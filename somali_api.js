@@ -144,7 +144,9 @@ SomaliApi.prototype.getChatroomMessages = function(id,callback){
 
 //ブロードキャスト メッセージを取得
 SomaliApi.prototype.getBroadcastMessages = function(callback){
+  console.log("getBroadcastMessages");
   var options = {url: this.API_HOST+this.API_BROADCAST_MESSAGES};
+  console.log(options);
   this.request.get(options,function(err,response){
     if(err){
       callback(err);

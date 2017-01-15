@@ -601,9 +601,11 @@ App.prototype.monitoringChatroomMessages = function(data){
 //一斉送信メッセージの監視
 App.prototype.monitoringBroadcastMessages = function(data){
   console.log("monitoringBroadcastMessages");
+  console.log(data);
+  
   const _this = this;
 
-  _this.somaliApi.getBroadcastMessages(function(err,response){
+  this.somaliApi.getBroadcastMessages(function(err,response){
     if (err != null){
       console.log("err monitoringBroadcastMessages");
       console.log(err);
