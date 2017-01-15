@@ -1239,8 +1239,8 @@ App.prototype.playBgm = function(){
     console.log("code "+code);
     if(_this.isRepeatBgm == true){
       //リピート
-      console.log("repeat playBgm");
-      _this.playBgm();
+      //console.log("repeat playBgm");
+      //_this.playBgm();
     }
   };
   console.log("WavFilePath "+this.bgmWavFilePath);
