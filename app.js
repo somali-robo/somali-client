@@ -386,7 +386,7 @@ App.prototype.register = function(){
           });
 
           //TODO: 初期のGROUPを作成
-          _this.creteGroupChatRoom(_this.config.SERIAL_CODE);
+          _this.creteGroupChatRoom(_this.config.SERIAL_CODE,false);
         });
       }
       else{
@@ -1062,7 +1062,7 @@ App.prototype.groupInit = function(){
     //シリアルコードが自分じゃなかった場合
     if(msg.mode == _this.SomaliGroupJoinMessage.MODE_JOIN){
         //新規でチャットグループを作成する
-        _this.creteGroupChatRoom(msg.serialCode);
+        _this.creteGroupChatRoom(msg.serialCode,true);
     }
     else if(msg.mode == _this.SomaliGroupJoinMessage.MODE_CREATE_GROUP){
       console.log("groupChatRoomId "+msg.groupChatRoomId);
@@ -1106,7 +1106,7 @@ App.prototype.getGroupChatRoomId = function(){
 };
 
 //新規でグループ作成
-App.prototype.creteGroupChatRoom = function(joinSerialCode){
+App.prototype.creteGroupChatRoom = function(joinSerialCode,isSpeech){
   const _this = this;
 
   var roomId = this.getGroupChatRoomId();
@@ -1129,16 +1129,18 @@ App.prototype.creteGroupChatRoom = function(joinSerialCode){
     const joinDevice = response.data;
     console.log(joinDevice);
 
-    const msg = "友達が遊びに来たよ";
-    _this.textToSpeech(msg,_this.SPEAKER_TYPE,function(path, err){
-      if (err != null){
-        console.log("err");
-        return;
-      }
-      console.log("success");
-      _this.wavPlay(path,function(code,err){
+    if(!isSpeech){
+      const msg = "友達が遊びに来たよ";
+      _this.textToSpeech(msg,_this.SPEAKER_TYPE,function(path, err){
+        if (err != null){
+          console.log("err");
+          return;
+        }
+        console.log("success");
+        _this.wavPlay(path,function(code,err){
+        });
       });
-    });
+    }
 
     //チャットルーム作成
     const chatRoomName = "GROUP";
