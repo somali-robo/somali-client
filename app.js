@@ -19,6 +19,7 @@ App.prototype.amixer = require('./amixer.js');
 App.prototype.mpu6050 = require('./mpu6050.js');
 App.prototype.voiceMagic   = require('./voice_magic.js');
 App.prototype.dgram = require('./dgram.js');
+App.prototype.ddp = require('./ddp.js');
 
 App.prototype.SomaliMessage = require('./somali_message.js');
 App.prototype.SomaliGroupJoinMessage = require('./somali_group_join_message.js');
@@ -529,97 +530,94 @@ App.prototype.runEmpath = function(message){
 };
 
 //チャットルームの新規メッセージを監視する
-App.prototype.monitoringChatroomMessages = function(){
+App.prototype.monitoringChatroomMessages = function(data){
   const _this = this;
-  //チャットルームのメッセージを監視
-  setInterval(function(){
-    //アクテイブルームIDを取得する
-    const roomId = _this.getActiveRoomId();
-    if(roomId == null){
-      console.log("roomId is null.");
+
+  //アクテイブルームIDを取得する
+  const roomId = _this.getActiveRoomId();
+  if(roomId == null){
+    console.log("roomId is null.");
+    return;
+  }
+  _this.somaliApi.getChatroomMessages(roomId,function(err,response){
+    if(err){
+      console.log("err getChatroomMessages");
+      //_this.lastErr = err;
+      //_this.setStatus(App.STATUS.ERROR);
       return;
     }
-    _this.somaliApi.getChatroomMessages(roomId,function(err,response){
-      if(err){
-        console.log("err getChatroomMessages");
-        //_this.lastErr = err;
-        //_this.setStatus(App.STATUS.ERROR);
-        return;
-      }
-      //console.log("getChatroomMessages");
-      //console.log(response.data);
-      try{
-        //最新メッセージを取得する
-        const message = response.data.messages[response.data.messages.length-1];
-        //console.log("lastMessage");
-        //console.log(_this.lastMessage);
-        if(!_this.chatRoomMessages[roomId]) _this.chatRoomMessages[roomId] = [];
-        if(_this.isNewMessage(_this.chatRoomMessages[roomId],message)){
-          //console.log("isNewMessage true");
-          //console.log(message);
+    //console.log("getChatroomMessages");
+    //console.log(response.data);
+    try{
+      //最新メッセージを取得する
+      const message = response.data.messages[response.data.messages.length-1];
+      //console.log("lastMessage");
+      //console.log(_this.lastMessage);
+      if(!_this.chatRoomMessages[roomId]) _this.chatRoomMessages[roomId] = [];
+      if(_this.isNewMessage(_this.chatRoomMessages[roomId],message)){
+        //console.log("isNewMessage true");
+        //console.log(message);
 
-          //前回値として保存
-          _this.chatRoomMessages[roomId] = response.data.messages;
-          _this.jsonDB.push(_this.KEY_CHAT_ROOM_MESSAGES,_this.chatRoomMessages);
+        //前回値として保存
+        _this.chatRoomMessages[roomId] = response.data.messages;
+        _this.jsonDB.push(_this.KEY_CHAT_ROOM_MESSAGES,_this.chatRoomMessages);
 
-          if((message.from.serialCode)&&(message.from.serialCode == _this.config.SERIAL_CODE)){
-            //シングルモード時 シリアルコードを確認して自分だった場合
-            if(_this.mode == App.MODE.SINGLE){
-              //感情にあわせて返事を再生する
-              _this.runEmpath(message);
-            }
-          }
-          else{
-            //それ以外
-            _this.runNewMessage(roomId,message);
+        if((message.from.serialCode)&&(message.from.serialCode == _this.config.SERIAL_CODE)){
+          //シングルモード時 シリアルコードを確認して自分だった場合
+          if(_this.mode == App.MODE.SINGLE){
+            //感情にあわせて返事を再生する
+            _this.runEmpath(message);
           }
         }
+        else{
+          //それ以外
+          _this.runNewMessage(roomId,message);
+        }
       }
-      catch(e){
-        //console.log("getChatroomMessages err");
-        //console.log(e);
-      }
-    });
-  },1*1000);
+    }
+    catch(e){
+      //console.log("getChatroomMessages err");
+      //console.log(e);
+    }
+  });
 };
 
 //一斉送信メッセージの監視
-App.prototype.monitoringBroadcastMessages = function(){
+App.prototype.monitoringBroadcastMessages = function(data){
   const _this = this;
-  setInterval(function(){
-    _this.somaliApi.getBroadcastMessages(function(err,response){
-      if (err != null){
-        console.log("err monitoringBroadcastMessages");
-        console.log(err);
-        return;
-      }
-      const last = response.data[response.data.length-1];
-      if(last == undefined){
-        //console.log("last is null");
-        return;
-      }
-      //console.log("last");
-      //console.log(last);
+
+  _this.somaliApi.getBroadcastMessages(function(err,response){
+    if (err != null){
+      console.log("err monitoringBroadcastMessages");
+      console.log(err);
+      return;
+    }
+    const last = response.data[response.data.length-1];
+    if(last == undefined){
+      //console.log("last is null");
+      return;
+    }
+    //console.log("last");
+    //console.log(last);
+    //console.log(_this.broadcastMessages);
+    if(_this.broadcastMessages[last._id] == undefined){
+      //新規一斉送信メッセージなので再生
+      _this.broadcastMessages[last._id] = last;
       //console.log(_this.broadcastMessages);
-      if(_this.broadcastMessages[last._id] == undefined){
-        //新規一斉送信メッセージなので再生
-        _this.broadcastMessages[last._id] = last;
-        //console.log(_this.broadcastMessages);
 
-        //保存
-        _this.jsonDB.push(_this.KEY_BROADCAST_MESSAGES,_this.broadcastMessages);
+      //保存
+      _this.jsonDB.push(_this.KEY_BROADCAST_MESSAGES,_this.broadcastMessages);
 
-        _this.textToSpeech(last.value,_this.hoya.SPEAKER_HIKARI,function(path, err){
-          if (err != null){
-            console.log("err");
-            return;
-          }
-          console.log("success");
-          _this.wavPlay(path);
-        });
-      }
-    });
-  },1*1000);
+      _this.textToSpeech(last.value,_this.hoya.SPEAKER_HIKARI,function(path, err){
+        if (err != null){
+          console.log("err");
+          return;
+        }
+        console.log("success");
+        _this.wavPlay(path);
+      });
+    }
+  });
 };
 
 //APIへの接続をして初期設定等を読み出す
@@ -654,11 +652,23 @@ App.prototype.apiInit = function(){
   //console.log("this.chatRoomMessages");
   //console.log(this.chatRoomMessages);
 
-  //チャットルームの新規メッセージを監視する
-  this.monitoringChatroomMessages();
-
-  //一斉送信メッセージの監視
-  this.monitoringBroadcastMessages();
+  this.ddp.init(function(error,name,data){
+      if(error){
+        console.log("error");
+        console.log(error);
+        return;
+      }
+      //console.log("name:"+name);
+      //console.log(data);
+      if(name == 'chat_rooms'){
+        //チャットルームの新規メッセージを監視する
+        this.monitoringChatroomMessages(data);
+      }
+      else if(name == 'broadcast_messages'){
+        //一斉送信メッセージの監視
+        this.monitoringBroadcastMessages(data);
+      }
+  });
 
   //加速度センサの監視を開始する
   this.setStatus(App.STATUS.ACCELERATION_START);

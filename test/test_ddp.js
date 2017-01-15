@@ -1,13 +1,13 @@
 /** DDPClient テスト
 */
 const App = function(){};
-App.prototype.DDP = require('../ddp.js');
+App.prototype.ddp = require('../ddp.js');
 
 //初期化
 App.prototype.init = function(){
   console.log("init");
   const _this = this;
-  this.DDP.init(function(error,name,data){
+  this.ddp.init(function(error,name,data){
       if(error){
         console.log("error");
         console.log(error);
