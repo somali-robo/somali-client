@@ -385,6 +385,8 @@ App.prototype.register = function(){
             _this.setStatus(App.STATUS.API_INIT);
           });
 
+          //TODO: 初期のGROUPを作成
+          _this.groupInit();
         });
       }
       else{
@@ -601,8 +603,6 @@ App.prototype.monitoringChatroomMessages = function(data){
 //一斉送信メッセージの監視
 App.prototype.monitoringBroadcastMessages = function(data){
   console.log("monitoringBroadcastMessages");
-  console.log(data);
-
   const _this = this;
 
   this.somaliApi.getBroadcastMessages(function(err,response){
@@ -611,7 +611,7 @@ App.prototype.monitoringBroadcastMessages = function(data){
       console.log(err);
       return;
     }
-    
+
     const last = response.data[response.data.length-1];
     if(last == undefined){
       //console.log("last is null");
