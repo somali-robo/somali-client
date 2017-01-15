@@ -386,7 +386,7 @@ App.prototype.register = function(){
           });
 
           //TODO: 初期のGROUPを作成
-          _this.groupInit();
+          _this.creteGroupChatRoom(_this.config.SERIAL_CODE);
         });
       }
       else{
