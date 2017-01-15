@@ -546,6 +546,7 @@ App.prototype.runEmpath = function(message){
 
 //チャットルームの新規メッセージを監視する
 App.prototype.monitoringChatroomMessages = function(data){
+  console.log("monitoringChatroomMessages");
   const _this = this;
 
   //アクテイブルームIDを取得する
@@ -599,6 +600,7 @@ App.prototype.monitoringChatroomMessages = function(data){
 
 //一斉送信メッセージの監視
 App.prototype.monitoringBroadcastMessages = function(data){
+  console.log("monitoringBroadcastMessages");
   const _this = this;
 
   _this.somaliApi.getBroadcastMessages(function(err,response){
