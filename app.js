@@ -474,6 +474,7 @@ App.prototype.runNewMessage = function(roomId,message){
   }
   else if (message.type == this.SomaliMessage.TYPE_BGM){
     const value = message.value;
+    console.log("BGM "+value);
     if(value == 'on'){
       //BGM再生
       _this.playBgm();
