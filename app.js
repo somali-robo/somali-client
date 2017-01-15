@@ -673,11 +673,11 @@ App.prototype.apiInit = function(){
       //console.log(data);
       if(name == 'chat_rooms'){
         //チャットルームの新規メッセージを監視する
-        this.monitoringChatroomMessages(data);
+        _this.monitoringChatroomMessages(data);
       }
       else if(name == 'broadcast_messages'){
         //一斉送信メッセージの監視
-        this.monitoringBroadcastMessages(data);
+        _this.monitoringBroadcastMessages(data);
       }
   });
 
