@@ -60,7 +60,7 @@ VoiceMagic.prototype.power = function(isOn){
 //ハードウェア仕様 P35
 VoiceMagic.prototype.recognitionInit = function(){
   var tmp = null;
-  console.log("recognition ADDR:"+this.config.VOICE_MAGIC_I2C_ADDR);
+  //console.log("recognition ADDR:"+this.config.VOICE_MAGIC_I2C_ADDR);
 
   //i2c アドレス 0x2b
   this.fd = this.wpi.wiringPiI2CSetup(this.config.VOICE_MAGIC_I2C_ADDR);
@@ -72,13 +72,13 @@ VoiceMagic.prototype.recognitionInit = function(){
 
   //レジスター SCENE
   if((this.wpi.wiringPiI2CWriteReg8(this.fd,this.REGISTER_SCENE_ADDR,0x00))<0){
-    console.log("write error register "+this.REGISTER_SCENE_ADDR);
+    //console.log("write error register "+this.REGISTER_SCENE_ADDR);
   }
 
   //レジスター SRREG RCG_EN = 1
   //console.log("SRREG RCG_EN = 1");
   if((this.wpi.wiringPiI2CWriteReg8(this.fd,this.REGISTER_SRREG_ADDR,0x03))<0){
-    console.log("write error register "+this.REGISTER_SRREG_ADDR);
+    //console.log("write error register "+this.REGISTER_SRREG_ADDR);
   }
 }
 
@@ -88,8 +88,8 @@ VoiceMagic.prototype.recognition = function(callback){
   var rcgEn = this.wpi.wiringPiI2CReadReg8(this.fd,this.REGISTER_SRREG_ADDR);
   if (rcgEn == 0x02) return false;
 
-  console.log("READ REGISTER_SRREG_ADDR");
-  console.dir(rcgEn);
+  //console.log("READ REGISTER_SRREG_ADDR");
+  //console.dir(rcgEn);
 
   //判定結果の確認 レジスターSTATUS
   var status = this.wpi.wiringPiI2CReadReg8(this.fd,this.REGISTER_STATUS_ADDR);
