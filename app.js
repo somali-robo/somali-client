@@ -208,7 +208,9 @@ App.prototype.init = function(){
     console.log("WPS_BUTTON " + v);
     var value = _this.wpi.digitalRead(_this.configDevice.WPS_BUTTON);
     //console.log("_this " + _this);
-    _this.setStatus(App.STATUS.WPS_INIT);
+    _this.wavPlay(_this.buttonWavFilePath,function(code,err){
+      _this.setStatus(App.STATUS.WPS_INIT);
+    });
   });
 
   //REC ボタン (赤色)
@@ -1209,7 +1211,7 @@ App.prototype.groupJoin = function(){
           _this.wavPlay(path,function(code,err){
           });
         });
-        //TODO GROUP名を初期のものに戻す
+        // GROUP名を初期のものに戻す
         _this.jsonDB.push(_this.KEY_GROUP_CHAT_ROOM_ID,_this.oldGroupChatRoom);
       }
     }
