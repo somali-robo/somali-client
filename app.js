@@ -75,6 +75,7 @@ App.prototype.downloadWavFilePath = "./tmp/download.wav";
 App.prototype.device = null;
 App.prototype.singleChatRoom = null;
 App.prototype.groupChatRoom = null;
+App.prototype.oldGroupChatRoom = null;
 App.prototype.KEY_STORE = "SOMALI";
 App.prototype.KEY_DEVICE_ID = "/device_id";
 App.prototype.KEY_SINGLE_CHAT_ROOM_ID = "/single_chat_room_id";
@@ -293,6 +294,10 @@ App.prototype.wps = function(){
     _this.setStatusLed(true);
 
     if(_this.mode == App.MODE.GROUP){
+      //一時的にグループIDを保存する
+      _this.oldGroupChatRoom = _this.getGroupChatRoomId();
+      _this.jsonDB.push(_this.KEY_GROUP_CHAT_ROOM_ID,null);
+
       //グループへ追加する処理を実行する
       _this.setStatus(App.STATUS.GROUP_JOIN);
     }
@@ -1204,6 +1209,8 @@ App.prototype.groupJoin = function(){
           _this.wavPlay(path,function(code,err){
           });
         });
+        //TODO GROUP名を初期のものに戻す
+        _this.jsonDB.push(_this.KEY_GROUP_CHAT_ROOM_ID,_this.oldGroupChatRoom);
       }
     }
   },5*1000);
