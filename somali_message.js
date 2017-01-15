@@ -12,6 +12,7 @@ Message.prototype.createdAt = "";
 Message.prototype.TYPE_TEXT = "text";
 Message.prototype.TYPE_WAV  = "wav";
 Message.prototype.TYPE_ALERT = "alert";
+Message.prototype.TYPE_BGM = "bgm";
 
 Message.prototype.create = function(from,type,value){
   var result = new Message();

@@ -90,8 +90,8 @@ App.prototype.otaWavFilePath = "./resources/1up.wav";
 App.prototype.errWavFilePath = "./resources/error.wav";
 //警報音
 App.prototype.helpWavFilePath = "./resources/help.wav";
-//瞑想音
-App.prototype.meditationWavFilePath = "./resources/meditation.wav";
+//BGM音
+App.prototype.bgmWavFilePath = "./resources/bgm.wav";
 //ボタン音
 App.prototype.buttonWavFilePath = "./resources/button.wav";
 
@@ -465,9 +465,20 @@ App.prototype.runNewMessage = function(roomId,message){
     });
   }
   else if (message.type == this.SomaliMessage.TYPE_WAV){
-    //TODO: WAV の場合 Downloadして再生
+    //WAV の場合 Downloadして再生
     const fileName = message.value;
     _this.downloadPlay(fileName);
+  }
+  else if (message.type == this.SomaliMessage.TYPE_BGM){
+    const value = message.value;
+    if(value == 'on'){
+      //BGM再生
+      _this.playBgm();
+    }
+    else if(value == 'off'){
+      //BGM停止
+      _this.stopBgm();
+    }
   }
 
   //最後に再生したメッセージを保存する
@@ -1212,31 +1223,31 @@ App.prototype.singleInit = function(){
 };
 
 //瞑想音再生リピート
-App.prototype.isRepeatMeditation = true;
+App.prototype.isRepeatBgm = true;
 //瞑想音再生中のプロセス
-App.prototype.childMeditation = null;
+App.prototype.childBgm = null;
 
 //瞑想音 再生
-App.prototype.playMeditation = function(){
-  console.log("playMeditation");
+App.prototype.playBgm = function(){
+  console.log("playBgm");
   const _this = this;
   const c = function(code,err){
     console.log("code "+code);
-    if(_this.isRepeatMeditation == true){
+    if(_this.isRepeatBgm == true){
       //リピート
-      console.log("repeat playMeditation");
-      _this.playMeditation();
+      console.log("repeat playBgm");
+      _this.playBgm();
     }
   };
-  console.log("WavFilePath "+this.meditationWavFilePath);
-  this.childMeditation = this.wavPlay(this.meditationWavFilePath,c);
+  console.log("WavFilePath "+this.bgmWavFilePath);
+  this.childBgm = this.wavPlay(this.bgmWavFilePath,c);
 };
 //瞑想音 停止
-App.prototype.stopMeditation = function(){
-  console.log("stopMeditation");
+App.prototype.stopBgm = function(){
+  console.log("stopBgm");
   //瞑想音を停止する
-  this.aplay.stop(this.childMeditation);
-  this.isRepeatMeditation = false;
+  this.aplay.stop(this.childBgm);
+  this.isRepeatBgm = false;
   //アンプをOFFにする
   this.speakerAmpPower(this.wpi.LOW);
 };
