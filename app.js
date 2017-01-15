@@ -26,6 +26,9 @@ App.prototype.SomaliGroupJoinMessage = require('./somali_group_join_message.js')
 App.prototype.somaliApi = require('./somali_api.js');
 App.prototype.somaliOta = require('./somali_ota.js');
 
+//音声合成キャラクター
+App.prototype.SPEAKER_TYPE = App.prototype.hoya.SPEAKER_HIKARI;
+
 //録音 最小 時間
 App.prototype.REC_MINIMUM_SEC = 5;
 
@@ -455,7 +458,7 @@ App.prototype.runNewMessage = function(roomId,message){
     //瞑想コマンド
     console.log("value "+value);
     //新規追加されたメッセージを読み上げる
-    this.textToSpeech(value,_this.hoya.SPEAKER_HIKARI,function(path, err){
+    this.textToSpeech(value,_this.SPEAKER_TYPE,function(path, err){
       if (err != null){
         console.log("err");
         return;
@@ -528,7 +531,7 @@ App.prototype.runEmpath = function(message){
     console.log(value);
 
     //再生させる
-    _this.textToSpeech(value,_this.hoya.SPEAKER_HIKARI,function(path, err){
+    _this.textToSpeech(value,_this.SPEAKER_TYPE,function(path, err){
       if (err != null){
         console.log("err");
         return;
@@ -619,7 +622,7 @@ App.prototype.monitoringBroadcastMessages = function(data){
       //保存
       _this.jsonDB.push(_this.KEY_BROADCAST_MESSAGES,_this.broadcastMessages);
 
-      _this.textToSpeech(last.value,_this.hoya.SPEAKER_HIKARI,function(path, err){
+      _this.textToSpeech(last.value,_this.SPEAKER_TYPE,function(path, err){
         if (err != null){
           console.log("err");
           return;
@@ -637,7 +640,7 @@ App.prototype.apiInit = function(){
   const _this = this;
 
   const msg = "起動したよ";
-  this.textToSpeech(msg,this.hoya.SPEAKER_HIKARI,function(path, err){
+  this.textToSpeech(msg,this.SPEAKER_TYPE,function(path, err){
     if (err != null){
       console.log("err");
       return;
@@ -821,7 +824,7 @@ App.prototype.runShaken = function(data){
     this.isShaken = true;
     //閾値を超えたら固定メッセージを再生
     var msg = "ゆらさないで";
-    this.textToSpeech(msg,this.hoya.SPEAKER_HIKARI,function(path, err){
+    this.textToSpeech(msg,this.SPEAKER_TYPE,function(path, err){
       if (err != null){
         console.log("err");
         //シェイクステータスをリセット
@@ -852,7 +855,7 @@ App.prototype.playLastMessage = function(){
   const value = this.lastMessage.value;
   if (type == this.SomaliMessage.TYPE_TEXT){
     //最終メッセージを読み上げる
-    this.textToSpeech(value,this.hoya.SPEAKER_HIKARI,function(path, err){
+    this.textToSpeech(value,this.SPEAKER_TYPE,function(path, err){
       if (err != null){
         console.log("err");
         return;
@@ -895,7 +898,7 @@ App.prototype.wavPlay = function(path,callback){
 App.prototype.playPleased = function(){
   const _this = this;
   const value = "遊ぼう！";
-  this.textToSpeech(value,this.hoya.SPEAKER_HIKARI,function(path, err){
+  this.textToSpeech(value,this.SPEAKER_TYPE,function(path, err){
     if (err != null){
       console.log("err");
       return;
@@ -1071,7 +1074,7 @@ App.prototype.groupInit = function(){
         _this.jsonDB.push(_this.KEY_GROUP_CHAT_ROOM_ID,groupChatRoomId);
 
         const msg = "こんにちは";
-        _this.textToSpeech(msg,_this.hoya.SPEAKER_HIKARI,function(path, err){
+        _this.textToSpeech(msg,_this.SPEAKER_TYPE,function(path, err){
           if (err != null){
             console.log("err");
             return;
@@ -1121,7 +1124,7 @@ App.prototype.creteGroupChatRoom = function(joinSerialCode){
     console.log(joinDevice);
 
     const msg = "友達が遊びに来たよ";
-    _this.textToSpeech(msg,_this.hoya.SPEAKER_HIKARI,function(path, err){
+    _this.textToSpeech(msg,_this.SPEAKER_TYPE,function(path, err){
       if (err != null){
         console.log("err");
         return;
@@ -1184,7 +1187,7 @@ App.prototype.groupJoin = function(){
       if(roomId == null){
         //再送が終わったのに グループルームIDが未設定だった
         const msg = "友達が見つからなかったよ";
-        _this.textToSpeech(msg,_this.hoya.SPEAKER_HIKARI,function(path, err){
+        _this.textToSpeech(msg,_this.SPEAKER_TYPE,function(path, err){
           if (err != null){
             console.log("err");
             return;
