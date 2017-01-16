@@ -21,7 +21,14 @@ App.prototype.init = function(){
   this.wpi.pinMode(this.configDevice.SPEAKER_AMP_POWER,this.wpi.OUTPUT);
   this.speakerAmpPower(this.wpi.LOW);
 
-  this.wavPlay(this.bgmWavFilePath);
+  const c = function(code,err){
+    if (err != null){
+      console.log("err");
+      return;
+    }
+    this.wavPlay(this.bgmWavFilePath,c);
+  };
+  this.wavPlay(this.bgmWavFilePath,c);
 };
 
 //スピーカー・アンプ ON,OFF
