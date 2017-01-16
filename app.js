@@ -112,7 +112,10 @@ App.prototype.onError = function(){
   const _this = this;
   try{
     console.log("play start.");
-    this.wavPlay(this.errWavFilePath);
+    //OTA中はerror音を流さない
+    if(this.isOTA == false){
+      this.wavPlay(this.errWavFilePath);
+    }
   }
   catch(e){
     console.log(e);
@@ -1215,7 +1218,7 @@ App.prototype.creteGroupChatRoom = function(joinSerialCode,isSpeech){
     console.log("device");
     const joinDevice = response.data;
     console.log(joinDevice);
-    
+
 /*
     if(!isSpeech){
       const msg = "友達が遊びに来たよ";
