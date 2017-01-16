@@ -1168,6 +1168,8 @@ App.prototype.getGroupChatRoomId = function(){
   return roomId;
 };
 
+App.prototype.isCreteGroupChatRoom = false;
+
 //新規でグループ作成
 App.prototype.creteGroupChatRoom = function(joinSerialCode,isSpeech){
   const _this = this;
@@ -1176,16 +1178,21 @@ App.prototype.creteGroupChatRoom = function(joinSerialCode,isSpeech){
   console.log("roomId "+roomId);
   if(roomId != null){
     console.log("creteGroupChatRoom roomId is not null");
-
-    _this.textToSpeech("友達が遊びに来たよ",_this.SPEAKER_TYPE,function(path, err){
-      if (err != null){
-        console.log("err");
-        return;
-      }
-      console.log("success");
-      _this.wavPlay(path,function(code,err){
+    if(this.isCreteGroupChatRoom == false){
+      _this.textToSpeech("友達が遊びに来たよ",_this.SPEAKER_TYPE,function(path, err){
+        if (err != null){
+          console.log("err");
+          return;
+        }
+        console.log("success");
+        _this.wavPlay(path,function(code,err){
+        });
       });
-    });
+      setTimeout(function(){
+        console.log("isCreteGroupChatRoom = false");
+        _this.isCreteGroupChatRoom = false;
+      },5*1000);
+    }
 
     //既に作成済みなので ルームID を broadcastして通知する
     const code = _this.config.SERIAL_CODE;
