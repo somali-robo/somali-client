@@ -92,7 +92,9 @@ App.prototype.isShaken = false;
 App.prototype.isLift = false;
 
 //OTA開始,終了時に再生するファイル
-App.prototype.otaWavFilePath = "./resources/1up.wav";
+App.prototype.otaStartWavFilePath = "./resources/button.wav";
+App.prototype.otaSuccessWavFilePath = "./resources/1up.wav";
+
 //ERROR時に再生する音
 App.prototype.errWavFilePath = "./resources/error.wav";
 //警報音
@@ -1045,7 +1047,7 @@ App.prototype.ota = function(){
   this.speakerAmpPower(this.wpi.HIGH);
 
   //OTA開始時に音を鳴らす
-  this.aplay.play(this.otaWavFilePath,function(err, stdout, stderr){
+  this.aplay.play(this.otaStartWavFilePath,function(err, stdout, stderr){
       if (err != null){
         console.log("err");
         return;
@@ -1059,7 +1061,7 @@ App.prototype.ota = function(){
             return;
           }
           //OTA 終了時に音を鳴らす
-          _this.aplay.play(_this.otaWavFilePath,function(err, stdout, stderr){
+          _this.aplay.play(_this.otaSuccessWavFilePath,function(err, stdout, stderr){
               //アンプをOFFにする
               _this.speakerAmpPower(_this.wpi.LOW);
           });
