@@ -20,6 +20,8 @@ App.prototype.init = function(){
   //スピーカー・アンプ
   this.wpi.pinMode(this.configDevice.SPEAKER_AMP_POWER,this.wpi.OUTPUT);
   this.speakerAmpPower(this.wpi.LOW);
+
+  this.wavPlay(this.bgmWavFilePath);
 };
 
 //スピーカー・アンプ ON,OFF
