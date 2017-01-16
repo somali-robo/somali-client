@@ -21,15 +21,7 @@ App.prototype.init = function(){
   this.wpi.pinMode(this.configDevice.SPEAKER_AMP_POWER,this.wpi.OUTPUT);
   this.speakerAmpPower(this.wpi.LOW);
 
-  const c = function(code,err){
-    if (err != null){
-      console.log("err");
-      console.log(err);
-      return;
-    }
-    _this.wavPlay(_this.bgmWavFilePath,c);
-  };
-  this.wavPlay(this.bgmWavFilePath,c);
+  this.playBgm();
 };
 
 //スピーカー・アンプ ON,OFF
@@ -74,6 +66,11 @@ App.prototype.playBgm = function(){
   const _this = this;
   const c = function(code,err){
     console.log("code "+code);
+    if (err != null){
+      console.log("err");
+      console.log(err);
+      return;
+    }
     if(_this.isRepeatBgm == true){
       //リピート
       //console.log("repeat playBgm");
