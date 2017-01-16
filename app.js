@@ -1192,7 +1192,7 @@ App.prototype.creteGroupChatRoom = function(joinSerialCode,isSpeech){
       setTimeout(function(){
         console.log("isCreteGroupChatRoom = false");
         _this.isCreteGroupChatRoom = false;
-      },5*1000);
+      },10*1000);
     }
 
     //既に作成済みなので ルームID を broadcastして通知する
