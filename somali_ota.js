@@ -5,6 +5,7 @@ var SomaliOta = function(){};
 
 SomaliOta.prototype.spawn = require('child_process').spawn;
 SomaliOta.prototype.child = null;
+SomaliOta.prototype.URL_ZIP_FILE = "https://github.com/somali-robo/somali-client/archive/master.zip";
 
 //git fetch originを実行
 SomaliOta.prototype.exec = function(cmd,args,callback){
@@ -39,15 +40,15 @@ SomaliOta.prototype.start = function(callback){
     }
     const _this = this;
 
-    //git fetch origin
-    _this.exec('git',['fetch','origin'],function(code,err){
+    //wget URL -P /tmp
+    _this.exec('wget',[this.URL_ZIP_FILE,'-P','/tmp'],function(code,err){
       if(err){
         //OTA 何らかのエラー
         callback(null,err);
         return;
       }
-      //git reset --hard origin/master
-      _this.exec('git',['reset','--hard','origin/master'],function(code,err){
+      //unzip -d ../somali-client/ /tmp/master.zip
+      _this.exec('unzip',['-d','../somali-client/','/tmp/master.zip'],function(code,err){
         if(err){
           //OTA 何らかのエラー
           callback(null,err);
