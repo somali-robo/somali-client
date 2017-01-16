@@ -73,8 +73,8 @@ App.prototype.playBgm = function(){
     }
     if(_this.isRepeatBgm == true){
       //リピート
-      //console.log("repeat playBgm");
-      //_this.playBgm();
+      console.log("repeat playBgm");
+      _this.playBgm();
     }
   };
   console.log("WavFilePath "+this.bgmWavFilePath);
