@@ -83,6 +83,9 @@ App.prototype.KEY_GROUP_CHAT_ROOM_ID = "/group_chat_room_id";
 App.prototype.KEY_CHAT_ROOM_MESSAGES = "/chat_room_messages";
 App.prototype.KEY_BROADCAST_MESSAGES = "/broadcast_messages";
 
+//OTA実行の状態確認
+App.prototype.isOTA = false;
+
 //揺らされた
 App.prototype.isShaken = false;
 //持ち上げた時
@@ -197,6 +200,8 @@ App.prototype.init = function(){
     //WPSボタン押したまま起動した場合 OTAを実行する
     if(_this.status == App.STATUS.DEFAULT){
       console.log("ota mode.");
+      if(_this.isOTA == true) return;
+      _this.isOTA = true;
       _this.setStatus(App.STATUS.OTA);
       return;
     }
