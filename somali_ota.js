@@ -41,7 +41,7 @@ SomaliOta.prototype.start = function(callback){
     const _this = this;
 
     //wget URL -P /tmp
-    _this.exec('wget',[this.URL_ZIP_FILE,'-P','/tmp'],function(code,err){
+    _this.exec('wget',[this.URL_ZIP_FILE,'-N','-P','/tmp'],function(code,err){
       if(err){
         //OTA 何らかのエラー
         callback(null,err);
