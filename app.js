@@ -302,6 +302,7 @@ App.prototype.wps = function(){
     _this.setStatusLed(true);
 
     if(_this.mode == App.MODE.GROUP){
+      _this.isGroupMode = true;
       //一時的にグループIDを保存する
       _this.oldGroupChatRoom = _this.getGroupChatRoomId();
       _this.jsonDB.push(_this.KEY_GROUP_CHAT_ROOM_ID,null);
@@ -1252,6 +1253,7 @@ App.prototype.groupJoin = function(){
 
       const roomId = _this.getGroupChatRoomId();
       if(roomId == null){
+        _this.isGroupMode = false;
         //再送が終わったのに グループルームIDが未設定だった
         const msg = "友達が見つからなかったよ";
         _this.textToSpeech(msg,_this.SPEAKER_TYPE,function(path, err){
