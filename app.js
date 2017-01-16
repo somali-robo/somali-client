@@ -229,12 +229,22 @@ App.prototype.init = function(){
     if(value == _this.wpi.HIGH){
       //録音 開始
       _this.wavPlay(_this.buttonWavFilePath,function(code,err){
+        if (err != null){
+          console.log("err");
+          console.log(err);
+          return;
+        }
         _this.setStatus(App.STATUS.REC_START);
       });
     }
     else{
       //録音 停止
       _this.wavPlay(_this.buttonWavFilePath,function(code,err){
+        if (err != null){
+          console.log("err");
+          console.log(err);
+          return;
+        }
         _this.setStatus(App.STATUS.REC_STOP);
       });
     }
