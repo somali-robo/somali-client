@@ -1179,6 +1179,7 @@ App.prototype.creteGroupChatRoom = function(joinSerialCode,isSpeech){
   if(roomId != null){
     console.log("creteGroupChatRoom roomId is not null");
     if(this.isCreteGroupChatRoom == false){
+      this.isCreteGroupChatRoom = true;
       _this.textToSpeech("友達が遊びに来たよ",_this.SPEAKER_TYPE,function(path, err){
         if (err != null){
           console.log("err");
