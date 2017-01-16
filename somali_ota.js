@@ -47,7 +47,7 @@ SomaliOta.prototype.start = function(callback){
         return;
       }
       //git reset --hard origin/master
-      this.exec('git',['reset','--hard','origin/master'],function(code,err){
+      _this.exec('git',['reset','--hard','origin/master'],function(code,err){
         callback(code,err);
       });
     });
