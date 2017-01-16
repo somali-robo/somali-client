@@ -784,7 +784,17 @@ App.prototype.recStop = function(){
 
 //スピーカー・アンプ ON,OFF
 App.prototype.speakerAmpPower = function(v){
-  this.wpi.digitalWrite(this.configDevice.SPEAKER_AMP_POWER,v);
+  const _this = this;
+  if(v == _this.wpi.HIGH){
+    //ONは直ぐに実行
+    this.wpi.digitalWrite(this.configDevice.SPEAKER_AMP_POWER,v);
+  }
+  else{
+    //delay後にOFFする
+    setTimeout(function(){
+      _this.wpi.digitalWrite(_this.configDevice.SPEAKER_AMP_POWER,v);
+    },1*1000);
+  }
 };
 
 //ステータスLEDを点灯 一定時間後に消灯
