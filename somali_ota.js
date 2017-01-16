@@ -6,28 +6,6 @@ var SomaliOta = function(){};
 SomaliOta.prototype.spawn = require('child_process').spawn;
 SomaliOta.prototype.child = null;
 
-//開始
-SomaliOta.prototype.start = function(callback){
-    if(this.child != null){
-      callback(null,"child is not null.");
-      return;
-    }
-    const _this = this;
-    //git fetch origin
-    this.exec('git',['fetch','origin'],function(code,err){
-      if(err){
-        //OTA 何らかのエラー
-        _this.lastErr = err;
-        _this.setStatus(App.STATUS.ERROR);
-        return;
-      }
-      //git reset --hard origin/master
-      this.exec('git',['reset','--hard','origin/master'],function(code,err){
-        callback(code,err);
-      });
-    });
-};
-
 //git fetch originを実行
 SomaliOta.prototype.exec = function(cmd,args,callback){
     if(this.child != null){
@@ -50,6 +28,28 @@ SomaliOta.prototype.exec = function(cmd,args,callback){
       console.log('child process exited with code ' + code);
       _this.child = null;
       callback(code,null);
+    });
+};
+
+//開始
+SomaliOta.prototype.start = function(callback){
+    if(this.child != null){
+      callback(null,"child is not null.");
+      return;
+    }
+    const _this = this;
+    //git fetch origin
+    this.exec('git',['fetch','origin'],function(code,err){
+      if(err){
+        //OTA 何らかのエラー
+        _this.lastErr = err;
+        _this.setStatus(App.STATUS.ERROR);
+        return;
+      }
+      //git reset --hard origin/master
+      this.exec('git',['reset','--hard','origin/master'],function(code,err){
+        callback(code,err);
+      });
     });
 };
 
