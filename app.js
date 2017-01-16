@@ -800,11 +800,10 @@ App.prototype.speakerAmpPower = function(v){
     this.wpi.digitalWrite(this.configDevice.SPEAKER_AMP_POWER,v);
   }
   else{
-    //スピーカー音量変更
-    this.amixer.pcmVolume(0);
-
     //delay後にOFFする
     setTimeout(function(){
+      //スピーカー音量変更
+      _this.amixer.pcmVolume(0);
       _this.wpi.digitalWrite(_this.configDevice.SPEAKER_AMP_POWER,v);
     },3*1000);
   }
