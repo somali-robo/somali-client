@@ -48,7 +48,7 @@ SomaliOta.prototype.start = function(callback){
         return;
       }
 
-      const path = __dirname+'/';
+      const path = __dirname+'/../';
       //console.log("path "+path);
 
       //unzip -d ../somali-client/ /tmp/master.zip
