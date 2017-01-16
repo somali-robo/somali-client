@@ -47,6 +47,8 @@ SomaliOta.prototype.start = function(callback){
         callback(null,err);
         return;
       }
+      console.log("__dirname "+__dirname);
+      /*
       //unzip -d ../somali-client/ /tmp/master.zip
       _this.exec('unzip',['-d','../somali-client/','/tmp/master.zip'],function(code,err){
         if(err){
@@ -56,6 +58,7 @@ SomaliOta.prototype.start = function(callback){
         }
         callback(code,err);
       });
+      */
     });
 };
 
