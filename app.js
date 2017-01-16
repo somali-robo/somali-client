@@ -234,7 +234,7 @@ App.prototype.init = function(){
           console.log(err);
           return;
         }
-        //効果音が聞こえてしまうのでディレイ追加
+        //効果音が録音されてしまうのでディレイ追加
         setTimeout(function(){
           _this.setStatus(App.STATUS.REC_START);
         },1000);
@@ -242,17 +242,11 @@ App.prototype.init = function(){
     }
     else{
       //録音 停止
-      _this.wavPlay(_this.buttonWavFilePath,function(code,err){
-        if (err != null){
-          console.log("err");
-          console.log(err);
-          return;
-        }
-        //効果音が聞こえてしまうのでディレイ追加
-        setTimeout(function(){
-          _this.setStatus(App.STATUS.REC_STOP);
-        },1000);
-      });
+      _this.setStatus(App.STATUS.REC_STOP);
+      //録音停止後に効果音を再生
+      setTimeout(function(){
+        _this.wavPlay(_this.buttonWavFilePath,function(code,err){});
+      },(this.REC_SEC*1000+500));
     }
   });
 
