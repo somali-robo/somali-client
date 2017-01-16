@@ -1168,15 +1168,19 @@ App.prototype.getGroupChatRoomId = function(){
 //新規でグループ作成
 App.prototype.creteGroupChatRoom = function(joinSerialCode,isSpeech){
   const _this = this;
-/*
+
   var roomId = this.getGroupChatRoomId();
   console.log("roomId "+roomId);
   if(roomId != null){
     console.log("creteGroupChatRoom roomId is not null");
+    //既に作成済みなので ルームID を broadcastして通知する
+    const code = _this.config.SERIAL_CODE;
+    const msg = _this.SomaliGroupJoinMessage.create(code,_this.SomaliGroupJoinMessage.MODE_CREATE_GROUP,roomId);
+    _this.dgram.broadcast(new Buffer( JSON.stringify(msg) ));
     return;
   }
   //roomId 未設定の場合だけ新規作成する
-*/
+
   //joinSerialCode のデバイス情報を取得する
   this.somaliApi.getDeviceForSerialCode(joinSerialCode,function(err,response){
     if(err){
