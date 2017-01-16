@@ -799,6 +799,7 @@ App.prototype.recStop = function(){
   console.log("recStop");
   const _this = this;
   this._recStop(function(){
+      console.log("_recStop callback");
       //効果音再生
       _this.wavPlay(_this.buttonWavFilePath,function(code,err){
         if (err != null){
