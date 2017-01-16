@@ -693,7 +693,7 @@ App.prototype.apiInit = function(){
         return;
       }
       console.log("name:"+name);
-      console.log(data);
+      //console.log(data);
       if(name == 'chat_rooms'){
         //チャットルームの新規メッセージを監視する
         _this.monitoringChatroomMessages(data);
