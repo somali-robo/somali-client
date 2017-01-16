@@ -743,7 +743,7 @@ App.prototype._recStart = function(){
 
   //録音タイムアウトタイマーを開始
   setTimeout(function(){
-    console.log("recStart timeout.");
+    console.log("recStart timeout. "+_this.status);
     if(_this.status == App.STATUS.REC_START){
       //REC_SEC秒 ステータスが変更されていなかった場合,録音停止
       _this.setStatus(App.STATUS.REC_STOP);
@@ -804,7 +804,7 @@ App.prototype.recStop = function(){
       _this.wavPlay(_this.buttonWavFilePath,function(code,err){
         if (err != null){
           console.log("err");
-          console.log(err);
+          //console.log(err);
           return;
         }
       });
