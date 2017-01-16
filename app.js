@@ -86,6 +86,9 @@ App.prototype.KEY_BROADCAST_MESSAGES = "/broadcast_messages";
 //OTA実行の状態確認
 App.prototype.isOTA = false;
 
+//グループ実行の状態確認
+App.prototype.isGroupMode = false;
+
 //揺らされた
 App.prototype.isShaken = false;
 //持ち上げた時
@@ -655,16 +658,18 @@ App.prototype.apiInit = function(){
   console.log("apiInit");
   const _this = this;
 
-  const msg = "起動したよ";
-  this.textToSpeech(msg,this.SPEAKER_TYPE,function(path, err){
-    if (err != null){
-      console.log("err");
-      return;
-    }
-    console.log("success");
-    _this.wavPlay(path,function(){
+  if(this.isGroupMode == false){
+    const msg = "起動したよ";
+    this.textToSpeech(msg,this.SPEAKER_TYPE,function(path, err){
+      if (err != null){
+        console.log("err");
+        return;
+      }
+      console.log("success");
+      _this.wavPlay(path,function(){
+      });
     });
-  });
+  }
 
   try{
     //保存済みのメッセージ一覧を取得
