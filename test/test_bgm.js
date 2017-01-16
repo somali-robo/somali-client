@@ -22,6 +22,21 @@ App.prototype.init = function(){
   this.speakerAmpPower(this.wpi.LOW);
 };
 
+//スピーカー・アンプ ON,OFF
+App.prototype.speakerAmpPower = function(v){
+  const _this = this;
+  if(v == this.wpi.HIGH){
+    //ONは直ぐに実行
+    this.wpi.digitalWrite(this.configDevice.SPEAKER_AMP_POWER,v);
+  }
+  else{
+    //delay後にOFFする
+    setTimeout(function(){
+      _this.wpi.digitalWrite(_this.configDevice.SPEAKER_AMP_POWER,v);
+    },3*1000);
+  }
+};
+
 //wavファイル再生
 App.prototype.wavPlay = function(path,callback){
   const _this = this;
