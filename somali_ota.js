@@ -42,8 +42,7 @@ SomaliOta.prototype.start = function(callback){
     this.exec('git',['fetch','origin'],function(code,err){
       if(err){
         //OTA 何らかのエラー
-        _this.lastErr = err;
-        _this.setStatus(App.STATUS.ERROR);
+        callback(null,err);
         return;
       }
       //git reset --hard origin/master
