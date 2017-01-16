@@ -793,7 +793,7 @@ App.prototype.speakerAmpPower = function(v){
     //delay後にOFFする
     setTimeout(function(){
       _this.wpi.digitalWrite(_this.configDevice.SPEAKER_AMP_POWER,v);
-    },1*1000);
+    },3*1000);
   }
 };
 
