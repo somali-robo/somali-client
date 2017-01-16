@@ -1215,7 +1215,8 @@ App.prototype.creteGroupChatRoom = function(joinSerialCode,isSpeech){
     console.log("device");
     const joinDevice = response.data;
     console.log(joinDevice);
-
+    
+/*
     if(!isSpeech){
       const msg = "友達が遊びに来たよ";
       _this.textToSpeech(msg,_this.SPEAKER_TYPE,function(path, err){
@@ -1228,7 +1229,7 @@ App.prototype.creteGroupChatRoom = function(joinSerialCode,isSpeech){
         });
       });
     }
-
+*/
     //チャットルーム作成
     const chatRoomName = "GROUP";
     const members = [_this.device,joinDevice];
