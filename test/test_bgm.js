@@ -22,6 +22,10 @@ App.prototype.init = function(){
   this.speakerAmpPower(this.wpi.LOW);
 
   this.playBgm();
+
+  setTimeout(function(){
+      _this.stopBgm();
+  },3*1000);
 };
 
 //スピーカー・アンプ ON,OFF
