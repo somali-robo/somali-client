@@ -1302,7 +1302,7 @@ App.prototype.playBgm = function(){
     console.log("code "+code);
     if (err != null){
       console.log("err");
-      console.log(err);
+      //console.log(err);
       return;
     }
     if(_this.isRepeatBgm == true){
