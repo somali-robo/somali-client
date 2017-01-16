@@ -24,9 +24,10 @@ App.prototype.init = function(){
   const c = function(code,err){
     if (err != null){
       console.log("err");
+      console.log(err);
       return;
     }
-    this.wavPlay(this.bgmWavFilePath,c);
+    _this.wavPlay(_this.bgmWavFilePath,c);
   };
   this.wavPlay(this.bgmWavFilePath,c);
 };

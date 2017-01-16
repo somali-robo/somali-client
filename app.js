@@ -1270,10 +1270,15 @@ App.prototype.playBgm = function(){
   const _this = this;
   const c = function(code,err){
     console.log("code "+code);
+    if (err != null){
+      console.log("err");
+      console.log(err);
+      return;
+    }
     if(_this.isRepeatBgm == true){
       //リピート
-      //console.log("repeat playBgm");
-      //_this.playBgm();
+      console.log("repeat playBgm");
+      _this.playBgm();
     }
   };
   console.log("WavFilePath "+this.bgmWavFilePath);
