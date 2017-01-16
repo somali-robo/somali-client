@@ -41,11 +41,6 @@ SomaliOta.prototype.start = function(callback){
 
     //sudo forever stopall
     this.exec('sudo',['forever','stopall'],function(code,err){
-      if(err){
-        //OTA 何らかのエラー
-        callback(null,err);
-        return;
-      }
       //git fetch origin
       _this.exec('git',['fetch','origin'],function(code,err){
         if(err){
