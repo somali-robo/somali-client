@@ -40,7 +40,7 @@ SomaliOta.prototype.start = function(callback){
     const _this = this;
 
     //sudo forever stopall
-    this.exec('forever',['stopall'],function(code,err){
+    this.exec('sudo',['forever','stopall'],function(code,err){
       if(err){
         //OTA 何らかのエラー
         callback(null,err);
