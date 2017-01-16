@@ -793,17 +793,12 @@ App.prototype.recStop = function(){
 App.prototype.speakerAmpPower = function(v){
   const _this = this;
   if(v == this.wpi.HIGH){
-    //スピーカー音量変更
-    this.amixer.pcmVolume(this.configDevice.SPEAKER_VOLUME);
-
     //ONは直ぐに実行
     this.wpi.digitalWrite(this.configDevice.SPEAKER_AMP_POWER,v);
   }
   else{
     //delay後にOFFする
     setTimeout(function(){
-      //スピーカー音量変更
-      _this.amixer.pcmVolume(0);
       _this.wpi.digitalWrite(_this.configDevice.SPEAKER_AMP_POWER,v);
     },3*1000);
   }
