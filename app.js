@@ -743,9 +743,11 @@ App.prototype._recStart = function(){
 
   //録音タイムアウトタイマーを開始
   setTimeout(function(){
-    if(_this.status != App.STATUS.REC_START) return;
-    //REC_SEC秒 ステータスが変更されていなかった場合,録音停止
-    _this.setStatus(App.STATUS.REC_STOP);
+    console.log("recStart timeout.");
+    if(_this.status == App.STATUS.REC_START){
+      //REC_SEC秒 ステータスが変更されていなかった場合,録音停止
+      _this.setStatus(App.STATUS.REC_STOP);
+    }
   },this.REC_SEC*1000);
 
   //録音する
@@ -794,6 +796,7 @@ App.prototype._recStart = function(){
 
 //録音停止
 App.prototype.recStop = function(){
+  console.log("recStop");
   const _this = this;
   this._recStop(function(){
       //効果音再生
@@ -809,7 +812,7 @@ App.prototype.recStop = function(){
 
 App.prototype._recStop = function(callback){
   var _this = this;
-  console.log("recStop");
+  console.log("_recStop");
   setTimeout(function(){
     _this.arecord.stop();
     callback();
