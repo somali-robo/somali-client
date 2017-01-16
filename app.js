@@ -660,7 +660,7 @@ App.prototype.apiInit = function(){
   const _this = this;
 
   if(this.isGroupMode == false){
-    const msg = "起動したよ";
+    const msg = "起動したよ "+this.config.SERIAL_CODE;
     this.textToSpeech(msg,this.SPEAKER_TYPE,function(path, err){
       if (err != null){
         console.log("err");
