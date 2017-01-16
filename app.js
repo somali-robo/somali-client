@@ -234,7 +234,10 @@ App.prototype.init = function(){
           console.log(err);
           return;
         }
-        _this.setStatus(App.STATUS.REC_START);
+        //効果音が聞こえてしまうのでディレイ追加
+        setTimeout(function(){
+          _this.setStatus(App.STATUS.REC_START);
+        },1000);
       });
     }
     else{
@@ -245,7 +248,10 @@ App.prototype.init = function(){
           console.log(err);
           return;
         }
-        _this.setStatus(App.STATUS.REC_STOP);
+        //効果音が聞こえてしまうのでディレイ追加
+        setTimeout(function(){
+          _this.setStatus(App.STATUS.REC_STOP);
+        },1000);
       });
     }
   });
