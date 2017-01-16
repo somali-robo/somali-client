@@ -30,7 +30,7 @@ App.prototype.somaliOta = require('./somali_ota.js');
 App.prototype.SPEAKER_TYPE = App.prototype.hoya.SPEAKER_HIKARI;
 
 //録音 最小 時間
-App.prototype.REC_MINIMUM_SEC = 5;
+App.prototype.REC_MINIMUM_SEC = 4;
 
 //録音 時間
 App.prototype.REC_SEC = (30 - App.prototype.REC_MINIMUM_SEC);
