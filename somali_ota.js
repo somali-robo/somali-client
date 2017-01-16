@@ -48,11 +48,11 @@ SomaliOta.prototype.start = function(callback){
         return;
       }
 
-      const path = __dirname+'/../';
+      const path = __dirname+'/';
       //console.log("path "+path);
 
       //unzip -d ../somali-client/ /tmp/master.zip
-      _this.exec('unzip',['-d',path,'/tmp/master.zip'],function(code,err){
+      _this.exec('unzip',['-d',path,'-j','-o','/tmp/master.zip'],function(code,err){
         if(err){
           //OTA 何らかのエラー
           callback(null,err);
