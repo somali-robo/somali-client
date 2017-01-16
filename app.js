@@ -1248,7 +1248,7 @@ App.prototype.creteGroupChatRoom = function(joinSerialCode,isSpeech){
 
 //ブロードキャストの為のタイマー
 App.prototype.broadcastRetryTimer = null;
-App.prototype.BROADCAST_RETRY_COUNT = 3;
+App.prototype.BROADCAST_RETRY_COUNT = 4;
 
 //グループに追加
 App.prototype.groupJoin = function(){
