@@ -42,7 +42,7 @@ SomaliOta.prototype.start = function(callback){
     //sudo forever stopall
     this.exec('sudo',['forever','stopall'],function(code,err){
       if(err){
-        if(err.indexOf('SIGKILL') != -1){
+        if(err.indexOf('SIGKILL') == -1){
           //OTA 何らかのエラー
           callback(null,err);
           return;
