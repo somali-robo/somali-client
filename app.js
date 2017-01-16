@@ -722,24 +722,23 @@ App.prototype.getActiveRoomId = function(){
 
 //録音開始
 App.prototype.recStart = function(){
+  console.log("recStart");
   const _this = this;
   //効果音
-  _this.wavPlay(_this.buttonWavFilePath,function(code,err){
+  this.wavPlay(_this.buttonWavFilePath,function(code,err){
     if (err != null){
       console.log("err");
-      console.log(err);
+      //console.log(err);
       return;
     }
-    //効果音が録音されてしまうのでディレイ追加
-    setTimeout(function(){
-      _this._recStart();
-    },1000);
+    //効果音が録音されてしまうので再生後に実行
+    _this._recStart();
   });
 };
 
 App.prototype._recStart = function(){
   var _this = this;
-  console.log("recStart");
+  console.log("_recStart");
 
   //録音タイムアウトタイマーを開始
   setTimeout(function(){
