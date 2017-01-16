@@ -38,16 +38,30 @@ SomaliOta.prototype.start = function(callback){
       return;
     }
     const _this = this;
-    //git fetch origin
-    this.exec('git',['fetch','origin'],function(code,err){
+
+    //sudo forever stopall
+    this.exec('sudo',['forever','stopall'],function(code,err){
       if(err){
         //OTA 何らかのエラー
         callback(null,err);
         return;
       }
-      //git reset --hard origin/master
-      _this.exec('git',['reset','--hard','origin/master'],function(code,err){
-        callback(code,err);
+      //git fetch origin
+      _this.exec('git',['fetch','origin'],function(code,err){
+        if(err){
+          //OTA 何らかのエラー
+          callback(null,err);
+          return;
+        }
+        //git reset --hard origin/master
+        _this.exec('git',['reset','--hard','origin/master'],function(code,err){
+          if(err){
+            //OTA 何らかのエラー
+            callback(null,err);
+            return;
+          }
+          callback(code,err);
+        });
       });
     });
 };
