@@ -228,25 +228,11 @@ App.prototype.init = function(){
     //_this.setStatusLed(true);
     if(value == _this.wpi.HIGH){
       //録音 開始
-      _this.wavPlay(_this.buttonWavFilePath,function(code,err){
-        if (err != null){
-          console.log("err");
-          console.log(err);
-          return;
-        }
-        //効果音が録音されてしまうのでディレイ追加
-        setTimeout(function(){
-          _this.setStatus(App.STATUS.REC_START);
-        },1000);
-      });
+      _this.setStatus(App.STATUS.REC_START);
     }
     else{
       //録音 停止
       _this.setStatus(App.STATUS.REC_STOP);
-      //録音停止後に効果音を再生
-      setTimeout(function(){
-        _this.wavPlay(_this.buttonWavFilePath,function(code,err){});
-      },(this.REC_SEC*1000+500));
     }
   });
 
@@ -736,6 +722,22 @@ App.prototype.getActiveRoomId = function(){
 
 //録音開始
 App.prototype.recStart = function(){
+  const _this = this;
+  //効果音
+  _this.wavPlay(_this.buttonWavFilePath,function(code,err){
+    if (err != null){
+      console.log("err");
+      console.log(err);
+      return;
+    }
+    //効果音が録音されてしまうのでディレイ追加
+    setTimeout(function(){
+      _this._recStart();
+    },1000);
+  });
+};
+
+App.prototype._recStart = function(){
   var _this = this;
   console.log("recStart");
 
@@ -792,10 +794,25 @@ App.prototype.recStart = function(){
 
 //録音停止
 App.prototype.recStop = function(){
+  const _this = this;
+  this._recStop(function(){
+      //効果音再生
+      _this.wavPlay(_this.buttonWavFilePath,function(code,err){
+        if (err != null){
+          console.log("err");
+          console.log(err);
+          return;
+        }
+      });
+  });
+};
+
+App.prototype._recStop = function(callback){
   var _this = this;
   console.log("recStop");
   setTimeout(function(){
     _this.arecord.stop();
+    callback();
   },this.REC_MINIMUM_SEC*1000);
 };
 
