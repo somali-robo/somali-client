@@ -660,7 +660,7 @@ App.prototype.apiInit = function(){
   const _this = this;
 
   if(this.isGroupMode == false){
-    const msg = "起動したよ。シリアルコードは"+this.config.SERIAL_CODE+"です。";
+    const msg = "起動したよ。シリアルコードは"+this.config.SERIAL_CODE.split()..join(' ')+"です。";
     console.log(msg);
     this.textToSpeech(msg,this.SPEAKER_TYPE,function(path, err){
       if (err != null){
