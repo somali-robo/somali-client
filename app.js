@@ -103,7 +103,7 @@ App.prototype.errWavFilePath = "./resources/error.wav";
 //警報音
 App.prototype.helpWavFilePath = "./resources/help.wav";
 //BGM音
-App.prototype.bgmWavFilePath = "./resources/bgm.wav";
+App.prototype.bgmWavDirPath = "./tmp";
 //ボタン音
 App.prototype.buttonWavFilePath = "./resources/button.wav";
 
@@ -496,7 +496,18 @@ App.prototype.runNewMessage = function(roomId,message){
     console.log("BGM "+value);
     if(value == 'on'){
       //BGM再生
-      _this.playBgm();
+      const fileName = message.fileName;
+      const filePath = this.bgmWavDirPath+"/"+fileName;
+      this.dropbox.download(filePath,fileName,function(err, res, body, file) {
+        if (err != null){
+          console.log("download err");
+          console.log(err);
+          return;
+        }
+        console.log("download success");
+        console.log("filePath "+filePath);
+        _this.playBgm(filePath);
+      });
     }
     else if(value == 'off'){
       //BGM停止
@@ -1333,7 +1344,7 @@ App.prototype.isRepeatBgm = true;
 App.prototype.childBgm = null;
 
 //瞑想音 再生
-App.prototype.playBgm = function(){
+App.prototype.playBgm = function(path){
   console.log("playBgm");
   const _this = this;
   const c = function(code,err){
@@ -1346,11 +1357,11 @@ App.prototype.playBgm = function(){
     if(_this.isRepeatBgm == true){
       //リピート
       console.log("repeat playBgm");
-      _this.playBgm();
+      _this.playBgm(path);
     }
   };
-  console.log("WavFilePath "+this.bgmWavFilePath);
-  this.childBgm = this.wavPlay(this.bgmWavFilePath,c);
+  console.log("WavFilePath "+path);
+  this.childBgm = this.wavPlay(path,c);
 };
 //瞑想音 停止
 App.prototype.stopBgm = function(){
