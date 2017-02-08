@@ -495,9 +495,13 @@ App.prototype.runNewMessage = function(roomId,message){
     const value = message.value;
     console.log("BGM "+value);
     if(value == 'on'){
+      //BGM停止してから再生
+      _this.stopBgm();
+
       //BGM再生
       const fileName = message.fileName;
       const filePath = this.bgmWavDirPath+"/"+fileName;
+      console.log("filePath "+filePath);
       this.dropbox.download(filePath,fileName,function(err, res, body, file) {
         if (err != null){
           console.log("download err");
@@ -505,7 +509,6 @@ App.prototype.runNewMessage = function(roomId,message){
           return;
         }
         console.log("download success");
-        console.log("filePath "+filePath);
         _this.playBgm(filePath);
       });
     }
