@@ -1379,7 +1379,7 @@ App.prototype.playBgm = function(path){
   };
   console.log("WavFilePath "+path);
   console.log("this.childBgm "+this.childBgm);
-  //再生中なら停止
+  //再生
   this.childBgm = this.wavPlay(path,c);
 };
 //瞑想音 停止
