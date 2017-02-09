@@ -1380,12 +1380,10 @@ App.prototype.playBgm = function(path){
   console.log("WavFilePath "+path);
   console.log("this.childBgm "+this.childBgm);
   //再生中なら停止
-  this.stopBgm();
-  //停止処理を待ってから再生
-  setTimeout(function(){
-    console.log("wavPlay");
-    _this.childBgm = _this.wavPlay(path,c);
-  },3000);
+  if(this.childBgm != null){
+    this.aplay.stop(this.childBgm);
+  }
+  this.childBgm = this.wavPlay(path,c);
 };
 //瞑想音 停止
 App.prototype.stopBgm = function(){
