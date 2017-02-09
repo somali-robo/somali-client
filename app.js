@@ -1378,28 +1378,26 @@ App.prototype.playBgm = function(path){
     }
   };
   console.log("WavFilePath "+path);
-  if(this.childBgm != null){
-    //再生中なら停止
-    this.stopBgm();
-    //停止処理を待ってから再生
-    setInterval(function(){
-      _this.childBgm = _this.wavPlay(path,c);
-    },1000);
-  }
-  else{
-    this.childBgm = _this.wavPlay(path,c);
-  }
+  console.log("this.childBgm "+this.childBgm);
+  //再生中なら停止
+  this.stopBgm();
+  //停止処理を待ってから再生
+  setInterval(function(){
+    _this.childBgm = _this.wavPlay(path,c);
+  },1000);
 };
 //瞑想音 停止
 App.prototype.stopBgm = function(){
   console.log("stopBgm");
+  this.isRepeatBgm = false;
+
   //瞑想音を停止する
   this.aplay.stop(this.childBgm);
-  this.isRepeatBgm = false;
+
   //アンプをOFFにする
   this.speakerAmpPower(this.wpi.LOW);
 
-  this.childBgm = null;
+  //this.childBgm = null;
 };
 
 var app = new App();
