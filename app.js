@@ -497,7 +497,7 @@ App.prototype.runNewMessage = function(roomId,message){
     console.log("BGM "+value);
     if(value != ''){
       //BGM停止してから再生
-      //_this.stopBgm();
+      _this.stopBgm();
 
       //BGM再生
       const filePath = this.bgmWavDirPath+"/"+value;
