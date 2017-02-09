@@ -1382,7 +1382,7 @@ App.prototype.playBgm = function(path){
   //再生中なら停止
   this.stopBgm();
   //停止処理を待ってから再生
-  setInterval(function(){
+  setTimeout(function(){
     console.log("wavPlay");
     _this.childBgm = _this.wavPlay(path,c);
   },3000);
