@@ -493,10 +493,11 @@ App.prototype.runNewMessage = function(roomId,message){
   }
   else if (message.type == this.SomaliMessage.TYPE_BGM){
     const value = message.value;
+    console.log(message);
     console.log("BGM "+value);
     if(value == 'on'){
       //BGM停止してから再生
-      _this.stopBgm();
+      //_this.stopBgm();
 
       //BGM再生
       const fileName = message.fileName;
