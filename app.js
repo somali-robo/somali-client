@@ -1381,11 +1381,14 @@ App.prototype.playBgm = function(path){
   if(this.childBgm != null){
     //再生中なら停止
     this.stopBgm();
+    //停止処理を待ってから再生
     setInterval(function(){
       _this.childBgm = _this.wavPlay(path,c);
     },1000);
   }
-  this.childBgm = _this.wavPlay(path,c);
+  else{
+    this.childBgm = _this.wavPlay(path,c);
+  }
 };
 //瞑想音 停止
 App.prototype.stopBgm = function(){
