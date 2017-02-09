@@ -508,7 +508,7 @@ App.prototype.runNewMessage = function(roomId,message){
       //BGM再生
       const filePath = this.bgmWavDirPath+"/"+value;
       console.log("filePath "+filePath);
-      if(this.isExistFile()){
+      if(this.isExistFile(filePath)){
         console.log("bgm cached");
         //ファイルが既にcacheされていた場合、それを再生
         this.playBgm(filePath);
