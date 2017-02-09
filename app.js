@@ -1383,7 +1383,9 @@ App.prototype.playBgm = function(path){
   if(this.childBgm != null){
     this.aplay.stop(this.childBgm);
   }
-  this.childBgm = this.wavPlay(path,c);
+  setTimeout(function(){
+    _this.childBgm = _this.wavPlay(path,c);    
+  },1000);
 };
 //瞑想音 停止
 App.prototype.stopBgm = function(){
