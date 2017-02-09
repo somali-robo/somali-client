@@ -469,6 +469,15 @@ App.prototype.isNewMessage = function(messages,lastMessage){
   return result;
 };
 
+//ファイルの有無 確認
+App.prototype.isExistFile = function(file) {
+  try {
+    this.fs.statSync(file);
+    return true
+  } catch(err) {
+    if(err.code === 'ENOENT') return false
+  }
+}
 
 App.prototype.runNewMessage = function(roomId,message){
   const _this = this;
@@ -499,15 +508,23 @@ App.prototype.runNewMessage = function(roomId,message){
       //BGM再生
       const filePath = this.bgmWavDirPath+"/"+value;
       console.log("filePath "+filePath);
-      this.dropbox.download(filePath,value,function(err, res, body, file) {
-        if (err != null){
-          console.log("download err");
-          console.log(err);
-          return;
-        }
-        console.log("download success");
-        _this.playBgm(filePath);
-      });
+      if(this.isExistFile()){
+        console.log("bgm cached");
+        //ファイルが既にcacheされていた場合、それを再生
+        this.playBgm(filePath);
+      }
+      else{
+        console.log("bgm download");
+        this.dropbox.download(filePath,value,function(err, res, body, file) {
+          if (err != null){
+            console.log("download err");
+            console.log(err);
+            return;
+          }
+          console.log("download success");
+          _this.playBgm(filePath);
+        });
+      }
     }
     else {
       //BGM停止
