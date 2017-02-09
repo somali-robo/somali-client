@@ -496,9 +496,6 @@ App.prototype.runNewMessage = function(roomId,message){
     console.log(message);
     console.log("BGM "+value);
     if(value != ''){
-      //BGM停止してから再生
-      _this.stopBgm();
-
       //BGM再生
       const filePath = this.bgmWavDirPath+"/"+value;
       console.log("filePath "+filePath);
@@ -1364,6 +1361,10 @@ App.prototype.playBgm = function(path){
     }
   };
   console.log("WavFilePath "+path);
+  if(this.childBgm != null){
+    //再生中なら停止
+    this.stopBgm();
+  }
   this.childBgm = this.wavPlay(path,c);
 };
 //瞑想音 停止
@@ -1374,6 +1375,8 @@ App.prototype.stopBgm = function(){
   this.isRepeatBgm = false;
   //アンプをOFFにする
   this.speakerAmpPower(this.wpi.LOW);
+
+  this.childBgm = null;
 };
 
 var app = new App();
