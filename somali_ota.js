@@ -85,7 +85,7 @@ SomaliOta.prototype.start = function(callback){
             }
 
             // カレントを移動して npm install を実行する必要がある
-            _this.exec('cd',[destPath],function(code,err){
+            _this.exec('cd',['"'+destPath+'"'],function(code,err){
               if(err){
                 //OTA 何らかのエラー
                 callback(null,err);
