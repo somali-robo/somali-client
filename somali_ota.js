@@ -82,28 +82,27 @@ SomaliOta.prototype.start = function(callback){
               return;
             }
 
-            //シンボリックリンク貼り直し
-            //ln -s destPath srcPath
-            const srcPath = __dirname+'/../somali-client-last';
-            console.log("srcPath "+srcPath);
-            _this.exec('ln',['-s','-f','-n',destPath,srcPath],function(code,err){
+            const srcNodeModulesPath = __dirname+'/node_modules/';
+            const destNodeModulesPath = destPath+"/somali-client-master/";
+            _this.exec('cp',['-r',srcNodeModulesPath,destNodeModulesPath],function(code,err){
               if(err){
                 //OTA 何らかのエラー
                 callback(null,err);
                 return;
               }
 
-              // カレントを移動して npm install を実行する必要がある
-              const exec = require('child_process').exec;
-              console.log('cd '+destPath+'/somali-client-master');
-              exec('cd '+destPath+'/somali-client-master;npm install',function (err, stdout, stderr) {
+              //シンボリックリンク貼り直し
+              //ln -s destPath srcPath
+              const srcPath = __dirname+'/../somali-client-last';
+              console.log("srcPath "+srcPath);
+              _this.exec('ln',['-s','-f','-n',destPath,srcPath],function(code,err){
                 if(err){
                   //OTA 何らかのエラー
                   callback(null,err);
                   return;
                 }
-                callback(code,err);
               });
+
             });
           });
         });
