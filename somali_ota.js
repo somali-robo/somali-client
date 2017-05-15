@@ -91,7 +91,8 @@ SomaliOta.prototype.start = function(callback){
                 callback(null,err);
                 return;
               }
-
+              console.log(stdout);
+              console.log(stderr);
               // npm install を実行する必要がある
               _this.exec('npm',['install'],function(code,err){
                 if(err){
