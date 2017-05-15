@@ -91,25 +91,16 @@ SomaliOta.prototype.start = function(callback){
                 return;
               }
 
-              // mv somali-client-master/* .
-              console.log('cp -rfT '+destPath+'/somali-client-master/ .');
-              _this.exec('cp',['-rfT',destPath+'/somali-client-master/','.'],function(code,err){
+              // npm install を実行する必要がある
+              _this.exec('npm',['install'],function(code,err){
                 if(err){
                   //OTA 何らかのエラー
                   callback(null,err);
                   return;
                 }
-
-                // npm install を実行する必要がある
-                _this.exec('npm',['install'],function(code,err){
-                  if(err){
-                    //OTA 何らかのエラー
-                    callback(null,err);
-                    return;
-                  }
-                  callback(code,err);
-                });
+                callback(code,err);
               });
+                            
             });
 
           });
