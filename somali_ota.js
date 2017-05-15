@@ -49,7 +49,7 @@ SomaliOta.prototype.start = function(callback){
         return;
       }
 
-      const yymmddhhmmss = this.moment().format("YYYYMMDDHHmmss");
+      const yymmddhhmmss = _this.moment().format("YYYYMMDDHHmmss");
       const destPath = __dirname+'/../somali-client-'+yymmddhhmmss;
       //const path = __dirname+'/';
       console.log("destPath "+destPath);
