@@ -10,6 +10,7 @@
     "ddp": "^0.12.1",
     "dgram": "^1.0.1",
     "events": "^1.1.1",
+    "moment": "^2.18.1",
     "mpu6050-wiringpi": "^0.0.2",
     "node-dropbox": "^0.1.8",
     "node-json-db": "^0.7.3",

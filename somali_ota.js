@@ -4,6 +4,7 @@
 var SomaliOta = function(){};
 
 SomaliOta.prototype.spawn = require('child_process').spawn;
+SomaliOta.prototype.moment = require("moment");
 SomaliOta.prototype.child = null;
 SomaliOta.prototype.URL_ZIP_FILE = "https://github.com/somali-robo/somali-client/archive/master.zip";
 
@@ -48,17 +49,31 @@ SomaliOta.prototype.start = function(callback){
         return;
       }
 
-      const path = __dirname+'/';
-      //console.log("path "+path);
+      const yymmddhhmmss = this.moment().format("YYYYMMDDHHmmss");
+      const destPath = __dirname+'/../somali-client-'+yymmddhhmmss;
+      //const path = __dirname+'/';
+      console.log("destPath "+destPath);
 
-      //unzip -d ../somali-client/ -j -o /tmp/master.zip
-      _this.exec('unzip',['-d',path,'-j','-o','/tmp/master.zip'],function(code,err){
+      //unzip -d destPath -j -o /tmp/master.zip
+      _this.exec('unzip',['-d',destPath,'-j','-o','/tmp/master.zip'],function(code,err){
         if(err){
           //OTA 何らかのエラー
           callback(null,err);
           return;
         }
-        callback(code,err);
+        //callback(code,err);
+        //TODO シンボリックリンク貼り直し
+        //ln -s destPath srcPath
+        const srcPath = __dirname+'/../somali-client-last';
+        console.log("srcPath "+srcPath);
+        _this.exec('ln',['-s','-n',destPath,srcPath],function(code,err){
+          if(err){
+            //OTA 何らかのエラー
+            callback(null,err);
+            return;
+          }
+          callback(code,err);
+        });
       });
     });
 };
