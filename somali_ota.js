@@ -92,13 +92,13 @@ SomaliOta.prototype.start = function(callback){
               }
 
               // mv somali-client-master/* .
-              exec('mv somali-client-master/* .',function (err, stdout, stderr) {
+              _this.exec('mv',['somali-client-master/*','.'],function(code,err){
                 if(err){
                   //OTA 何らかのエラー
                   callback(null,err);
                   return;
                 }
-                
+
                 // npm install を実行する必要がある
                 _this.exec('npm',['install'],function(code,err){
                   if(err){
