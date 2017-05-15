@@ -55,7 +55,7 @@ SomaliOta.prototype.start = function(callback){
       console.log("destPath "+destPath);
 
       //unzip -d destPath -j -o /tmp/master.zip
-      _this.exec('unzip',['-d',destPath,'-j','-o','/tmp/master.zip'],function(code,err){
+      _this.exec('unzip',['-d',destPath,'-o','/tmp/master.zip'],function(code,err){
         if(err){
           //OTA 何らかのエラー
           callback(null,err);
