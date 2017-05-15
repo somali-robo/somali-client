@@ -64,7 +64,7 @@ SomaliOta.prototype.start = function(callback){
 
         //config.js をコピーする
         const srcConfigPath = __dirname+'/config.js';
-        const destConfigPath = destPath+"/config.js";
+        const destConfigPath = destPath+"/somali-client-master/config.js";
         _this.exec('cp',[srcConfigPath,destConfigPath],function(code,err){
           if(err){
             //OTA 何らかのエラー
