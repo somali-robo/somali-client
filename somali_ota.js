@@ -73,9 +73,9 @@ SomaliOta.prototype.start = function(callback){
           }
 
           //SOMALI.json をコピーする
-          const srcConfigPath = __dirname+'/SOMALI.json';
-          const destConfigPath = destPath+"/somali-client-master/SOMALI.json";
-          _this.exec('cp',[srcConfigPath,destConfigPath],function(code,err){
+          const srcSomaliJsonPath = __dirname+'/SOMALI.json';
+          const destSomaliJsonPath = destPath+"/somali-client-master/SOMALI.json";
+          _this.exec('cp',[srcSomaliJsonPath,destSomaliJsonPath],function(code,err){
             if(err){
               //OTA 何らかのエラー
               callback(null,err);
