@@ -77,7 +77,7 @@ SomaliOta.prototype.start = function(callback){
           //ln -s destPath srcPath
           const srcPath = __dirname+'/../somali-client-last';
           console.log("srcPath "+srcPath);
-          _this.exec('ln',['-s','-n',destPath,srcPath],function(code,err){
+          _this.exec('ln',['-s','-f','-n',destPath,srcPath],function(code,err){
             if(err){
               //OTA 何らかのエラー
               callback(null,err);
