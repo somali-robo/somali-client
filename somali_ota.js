@@ -84,7 +84,8 @@ SomaliOta.prototype.start = function(callback){
 
             // カレントを移動して npm install を実行する必要がある
             const exec = require('child_process').exec;
-            exec('cd '+destPath+'/somali-client-master/',function (err, stdout, stderr) {
+            console.log('cd '+destPath+'/somali-client-master');
+            exec('cd '+destPath+'/somali-client-master',function (err, stdout, stderr) {
               if(err){
                 //OTA 何らかのエラー
                 callback(null,err);
