@@ -71,31 +71,32 @@ SomaliOta.prototype.start = function(callback){
             callback(null,err);
             return;
           }
-          //シンボリックリンク貼り直し
-          //ln -s destPath srcPath
-          const srcPath = __dirname+'/../somali-client-last';
-          console.log("srcPath "+srcPath);
-          _this.exec('ln',['-s','-f','-n',destPath,srcPath],function(code,err){
+
+          //SOMALI.json をコピーする
+          const srcConfigPath = __dirname+'/SOMALI.json';
+          const destConfigPath = destPath+"/somali-client-master/SOMALI.json";
+          _this.exec('cp',[srcConfigPath,destConfigPath],function(code,err){
             if(err){
               //OTA 何らかのエラー
               callback(null,err);
               return;
             }
 
-            // カレントを移動して npm install を実行する必要がある
-            const exec = require('child_process').exec;
-            console.log('cd '+destPath+'/somali-client-master');
-            exec('cd '+destPath+'/somali-client-master;npm install',function (err, stdout, stderr) {
+            //シンボリックリンク貼り直し
+            //ln -s destPath srcPath
+            const srcPath = __dirname+'/../somali-client-last';
+            console.log("srcPath "+srcPath);
+            _this.exec('ln',['-s','-f','-n',destPath,srcPath],function(code,err){
               if(err){
                 //OTA 何らかのエラー
                 callback(null,err);
                 return;
               }
-              console.log(stdout);
-              console.log(stderr);
-              /*
-              // npm install を実行する必要がある
-              _this.exec('npm',['install'],function(code,err){
+
+              // カレントを移動して npm install を実行する必要がある
+              const exec = require('child_process').exec;
+              console.log('cd '+destPath+'/somali-client-master');
+              exec('cd '+destPath+'/somali-client-master;npm install',function (err, stdout, stderr) {
                 if(err){
                   //OTA 何らかのエラー
                   callback(null,err);
@@ -103,10 +104,7 @@ SomaliOta.prototype.start = function(callback){
                 }
                 callback(code,err);
               });
-              */
-              callback(code,err);
             });
-
           });
         });
       });
