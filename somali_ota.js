@@ -83,8 +83,16 @@ SomaliOta.prototype.start = function(callback){
               callback(null,err);
               return;
             }
-            //TODO npm install を実行する必要がある
-            callback(code,err);
+            
+            // npm install を実行する必要がある
+            _this.exec('npm',['install'],function(code,err){
+              if(err){
+                //OTA 何らかのエラー
+                callback(null,err);
+                return;
+              }
+              callback(code,err);
+            });
           });
         });
       });
