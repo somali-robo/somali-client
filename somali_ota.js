@@ -85,7 +85,7 @@ SomaliOta.prototype.start = function(callback){
             // カレントを移動して npm install を実行する必要がある
             const exec = require('child_process').exec;
             console.log('cd '+destPath+'/somali-client-master');
-            exec('cd '+destPath+'/somali-client-master',function (err, stdout, stderr) {
+            exec('cd '+destPath+'/somali-client-master;npm install',function (err, stdout, stderr) {
               if(err){
                 //OTA 何らかのエラー
                 callback(null,err);
@@ -93,6 +93,7 @@ SomaliOta.prototype.start = function(callback){
               }
               console.log(stdout);
               console.log(stderr);
+              /*
               // npm install を実行する必要がある
               _this.exec('npm',['install'],function(code,err){
                 if(err){
@@ -102,7 +103,8 @@ SomaliOta.prototype.start = function(callback){
                 }
                 callback(code,err);
               });
-
+              */
+              callback(code,err);
             });
 
           });
