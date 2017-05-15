@@ -92,7 +92,7 @@ SomaliOta.prototype.start = function(callback){
               }
 
               // mv somali-client-master/* .
-              _this.exec('cp',['-rf',destPath+'/somali-client-master/*','.'],function(code,err){
+              _this.exec('cp',['-rfT',destPath+'/somali-client-master/','.'],function(code,err){
                 if(err){
                   //OTA 何らかのエラー
                   callback(null,err);
