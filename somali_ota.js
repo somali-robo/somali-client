@@ -61,7 +61,6 @@ SomaliOta.prototype.start = function(callback){
           callback(null,err);
           return;
         }
-        //callback(code,err);
 
         //config.js をコピーする
         const srcConfigPath = __dirname+'/config.js';
@@ -72,7 +71,6 @@ SomaliOta.prototype.start = function(callback){
             callback(null,err);
             return;
           }
-
           //シンボリックリンク貼り直し
           //ln -s destPath srcPath
           const srcPath = __dirname+'/../somali-client-last';
@@ -93,14 +91,23 @@ SomaliOta.prototype.start = function(callback){
                 return;
               }
 
-              // npm install を実行する必要がある
-              _this.exec('npm',['install'],function(code,err){
+              // mv somali-client-master/* .
+              exec('mv somali-client-master/* .',function (err, stdout, stderr) {
                 if(err){
                   //OTA 何らかのエラー
                   callback(null,err);
                   return;
                 }
-                callback(code,err);
+                
+                // npm install を実行する必要がある
+                _this.exec('npm',['install'],function(code,err){
+                  if(err){
+                    //OTA 何らかのエラー
+                    callback(null,err);
+                    return;
+                  }
+                  callback(code,err);
+                });
               });
             });
 
