@@ -726,6 +726,7 @@ App.prototype.apiInit = function(){
         console.log(error);
         return;
       }
+      console.log("this.status "+_this.status);
       console.log("name:"+name);
       //console.log(data);
       if(name == 'chat_rooms'){
