@@ -48,6 +48,7 @@ App.STATUS = {
   CONNECTED:4,
   REGISTER:5,
   API_INIT:6,
+  STARTUP_COMPLETE:7,
   REC_START:8,
   REC_STOP:9,
   ACCELERATION_START:10,
@@ -143,6 +144,8 @@ App.prototype.setStatus = function(status){
       break;
     case App.STATUS.API_INIT:
       this.apiInit();
+      break;
+    case App.STATUS.STARTUP_COMPLETE:
       break;
     case App.STATUS.REC_START:
       this.recStart();
@@ -746,6 +749,11 @@ App.prototype.apiInit = function(){
 
   //Voice Magic 認識を開始する
   this.setStatus(App.STATUS.VOICE_MAGIC_START);
+
+  setTimeout(function(){
+    console.log("STARTUP_COMPLETE");
+    _this.setStatus(App.STATUS.STARTUP_COMPLETE);
+  },10*1000);
 };
 
 //アクテイブなルームのIDを取得する
