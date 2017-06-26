@@ -726,6 +726,9 @@ App.prototype.apiInit = function(){
         console.log(error);
         return;
       }
+      //API_INIT 中は無視
+      if(_this.status == App.STATUS.API_INIT) return;
+
       console.log("this.status "+_this.status);
       console.log("name:"+name);
       //console.log(data);
