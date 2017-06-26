@@ -55,7 +55,12 @@ DDP.prototype.init = function(callback){
       console.log("removed chat_rooms");
     });
 
-  this.ddpclient.observe("broadcast_messages",function(id) {
+    var observer = this.ddpclient.observe("broadcast_messages");
+    observer.added = function(id) {
+      console.log("added broadcast_messages");
+    };
+    /*
+    this.ddpclient.observe("broadcast_messages",function(id) {
       console.log("added broadcast_messages");
       //ブロードキャストメッセージ追加をコールバック通知
       _this.callback(null,"broadcast_messages",id);
@@ -65,6 +70,7 @@ DDP.prototype.init = function(callback){
     },function(){
       console.log("removed broadcast_messages");
     });
+    */
 };
 
 module.exports = new DDP();
