@@ -11,7 +11,8 @@ Arecord.prototype.start = function(path,callback){
   var _this = this;
   //var cmd = 'arecord -D plughw:1,0 -d '+sec+' -f U8 -c 1 '+path;
   var cmd = 'arecord';
-  var args = ['-D','plughw:1,0','-f','U8','-c','1',path];
+  //var args = ['-D','plughw:1,0','-f','U8','-c','1',path];
+  var args = ['-D','plughw:1,0','-f','S16_LE','-c','1',path];
   console.log('arecord '+cmd);
   this.child = this.spawn(cmd,args);
   this.child.stdout.on('data', function (data) {
